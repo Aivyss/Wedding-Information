@@ -1,53 +1,52 @@
 package bucket;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import vo.Product;
 
 public class Bucket<K> {
-	ArrayList<K> productBarCode;
-	ArrayList<Integer> productCount;
+	public Map<K, Integer> box;
 	public String bucketBarCode;
-	public final int STORAGE = 10;
-	public int storageCount;
+	// public final int STORAGE = 10; 아주 나중에 구현
+	// public int storageCount; 아주 나중에 구현
 	public boolean lock;
 	
+	/**
+	 * default 생성자
+	 */
+	public Bucket() {
+		
+	}
+	/**
+	 * 생성자 오버로딩
+	 * @param bucketBarCode
+	 */
 	public Bucket(String bucketBarCode) {
-		this.productBarCode = new ArrayList<>();
-		this.productCount = new ArrayList<>();
-		this.bucketBarCode = bucketBarCode;
-		this.storageCount = 0;
+		this.box = new HashMap<>();
+		this.bucketBarCode = bucketBarCode; 
+		//this.storageCount = 0; 아주 나중에 구현
 		this.lock = false;
 	}
 	
 	public boolean add(K productBarCode, int productCount) {
-		boolean flag = false;
-		
-		for (int i=0; i<this.productBarCode.size(); i++) {
-			if (productBarCode.equals(this.productBarCode.get(i))) {
-				this.productCount.set(i, this.productCount.get(i) + productCount);
-				flag = true;
-				break;
-			}
+		if (!lock) {
+			box.put(productBarCode, productCount);
+			lock = true;
+		} else {
+			System.out.println("채울 수 없는 토트입니다.");
 		}
 		
-		return false;
+		return lock;
 	}
 	
 	public Integer getCount(K productBarCode) {
-		int index = 0;
-		
-		for (int i=0; i<this.productBarCode.size(); i++) {
-			if (productBarCode.equals(this.productBarCode.get(i))) {
-				index = i;
-				break;
-			}
-		}
-		
-		int result = this.productCount.get(index);
-		
-		return result;
+		return box.get(productBarCode);
 	}
+	public String getBucketBarCode() {
+		return bucketBarCode;
+	}
+	
+	
 	
 //	public String bucketBarCode;
 //	public final int STORAGE = 10;

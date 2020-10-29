@@ -9,7 +9,6 @@ public class Product {
 	private int weightFactor;
 	private int volumeFactor;
 	private int price;
-	public static int count;
 	
 	/**
 	 * 기본 생성자
@@ -18,14 +17,13 @@ public class Product {
 		
 	}
 	/**
-	 * 특수 생성자
+	 * 생성자 오버로딩
 	 * @param productInfo
 	 */
 	public Product(List<Object> productInfo) {
 		this.barCode= (String) productInfo.get(0);
 		this.name = (String) productInfo.get(1);
 		this.price = (Integer) productInfo.get(2);
-		this.count += (Integer) productInfo.get(3);
 	}
 	
 	// Getters

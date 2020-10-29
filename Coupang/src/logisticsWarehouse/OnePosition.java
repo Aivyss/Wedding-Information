@@ -1,8 +1,11 @@
 package logisticsWarehouse;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import bucket.Bucket;
 import vo.Product;
 
 public class OnePosition {
@@ -11,7 +14,7 @@ public class OnePosition {
 	 */
 	private String placeBarCode; // 그 자리의 좌표를 의미한다.
 	private final int STORAGE = 15;
-	private Map<String, Product> box;
+	private Map<String, Integer> place;
 	private int storageCount; // 남은 용적 카운트를 의미.
 
 	/**
@@ -28,8 +31,8 @@ public class OnePosition {
 	 */
 	public OnePosition(String placeBarCode) {
 		this.placeBarCode = placeBarCode;
-		this.box = new HashMap<>();
-		this.storageCount = this.STORAGE;
+		this.place = new HashMap<>();
+		this.storageCount = 0;
 	}
 
 	/**
@@ -38,17 +41,32 @@ public class OnePosition {
 	 * @param vo
 	 * @return
 	 */
-	public boolean addProduct(Product vo) {
-		boolean flag = true;
+	public Bucket<String> addProduct(Bucket<String> bucket) {
+		Set<String> tmp1 = bucket.box.keySet();
+		String productCode = new ArrayList<>(tmp1).get(0);
 
-		if (storageCount > 0) {
-			this.box.put(vo.getBarCode(), vo);
-			storageCount--;
+		if (storageCount == STORAGE) {
+			System.out.println("이 자리는 꽉 차 있습니다.");
 		} else {
-			flag = false;
+			int productCount = bucket.box.get(productCode); // 토트에 있는 제품의 수량
+			
+			if (productCount >= (STORAGE - storageCount)) {
+				productCount -= (STORAGE - storageCount);
+				
+				if (productCount == 0) {
+					bucket.box.remove(productCode);
+					bucket.lock = false;
+				} else {
+					bucket.box.put(productCode, productCount);
+				}
+				
+				place.put(productCode, STORAGE - storageCount);
+
+				System.out.println("물품을 성공적으로 적재했습니다.");
+			}
 		}
 
-		return flag;
+		return bucket;
 	}
 
 	/**
@@ -61,16 +79,6 @@ public class OnePosition {
 	public boolean getProduct(String barCode) {
 		boolean flag = true;
 
-		if (storageCount <= 0) {
-			flag = false; // 자리가 빈 자리인 경우.
-		} else {
-			Product vo = box.get(barCode);
-
-			if (vo == null) { // 자리가 빈자리는 아니지만 해당 상품이 없는 경우.
-				flag = false;
-			}
-		}
-
 		return flag;
 	}
 
@@ -79,6 +87,10 @@ public class OnePosition {
 	 */
 	public int getStorageCount() {
 		return storageCount;
+	}
+
+	public String getPlaceBarCode() {
+		return placeBarCode;
 	}
 
 }

@@ -20,14 +20,14 @@ public class Warehouse {
 		this.localCode = localCode;
 		String placeBarCode = "";
 		
-		for (int i=0; i<FLOOR; i++) {
-			for (int j=0; j<POSITION; j++) {
-				if (j>10) {
-					placeBarCode = localCode + i + "00" + j;
-				} else if (j>100) {
+		for (int i=1; i<=FLOOR; i++) {
+			for (int j=1; j<=POSITION; j++) {
+				if (j>=100) {
+					placeBarCode = localCode + i + j;
+				} else if (j>=10) {
 					placeBarCode = localCode + i + "0" + j;
 				} else {
-					placeBarCode = localCode + i + j;
+					placeBarCode = localCode + i + "00" + j;
 				}
 				
 				warehouse[i][j] = new OnePosition(placeBarCode);
@@ -35,8 +35,9 @@ public class Warehouse {
 		}
 	}
 	
-	int count = 0;
 	public void display() {
+		int count = 0;
+
 		for (int i=0; i<FLOOR; i++) {
 			System.out.println(i + "층 현황");
 			for (int j=0; j<POSITION; j++) {
