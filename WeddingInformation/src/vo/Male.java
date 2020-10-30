@@ -1,5 +1,5 @@
 package vo;
 
-public class Male {
+public class Male extends Human{
 
 }

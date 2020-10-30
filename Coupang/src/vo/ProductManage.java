@@ -68,6 +68,6 @@ public class ProductManage {
 	 * 반출 반영 메소드
 	 */
 	public void updateCount(String productCode, int count) {
-		
+		Product vo = pMap.get(productCode);
 	}
 }
