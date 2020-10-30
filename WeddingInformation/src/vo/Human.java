@@ -20,6 +20,11 @@ public class Human {
 	int LatestEduScore;
 	int SalaryScore;
 	int bodyShapeScore;
+	//충전금액
+	int cash;
+	//매칭 억셉터
+	boolean invited;
+	String matchedId;
 	
 	/**
 	 * 기본 생성자
@@ -61,6 +66,7 @@ public class Human {
 		this.salary = (Integer) humanInfo.get(7);
 	}
 	
+	// setter와 getter
 	public String getName() {
 		return name;
 	}
@@ -119,9 +125,12 @@ public class Human {
 	public void setLatestEdu(String latestEdu) {
 		this.latestEdu = latestEdu;
 	}
-	
-	
 
-	
-	
+	public int getCash() {
+		return cash;
+	}
+
+	public void setCash(int cash) {
+		this.cash = cash;
+	}
 }

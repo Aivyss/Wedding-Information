@@ -10,10 +10,15 @@ import vo.Human;
 import vo.Male;
 
 public class WeddingUI {
+	// UI 클래스의 멤버변수
 	Scanner sc;
 	HumanInfo manage;
 	Human loggedIn;
 	
+	/**
+	 * UI 객체 생성자.
+	 * ui기능의 전반을 담당한다.
+	 */
 	public WeddingUI() {
 		sc = new Scanner(System.in);
 		manage = new HumanInfo();
@@ -39,6 +44,9 @@ public class WeddingUI {
 		}
 	}
 	
+	/**
+	 * 로그인 전의 메뉴화면을 보여주는 메소드
+	 */
 	public void menu1() {
 		System.out.println("[회원가입/로그인]");
 		System.out.println("1. 로그인");
@@ -115,6 +123,11 @@ public class WeddingUI {
 		}
 	}
 	
+	/**
+	 * int 타입의 데이터를 넣기 위해서 사용하는 메소드
+	 * 예외처리 기능을 포함하였다.
+	 * @return 정수형 반환
+	 */
 	public int inputInteger() {
 		int output;
 		
@@ -128,7 +141,11 @@ public class WeddingUI {
 		
 		return output;
 	}
-	
+	/**
+	 * double 타입의 데이터를 넣기 위해서 사용하는 메소드
+	 * 예외처리 기능을 포함하였다.
+	 * @return 실수형 반환
+	 */
 	public double inputDouble() {
 		double output;
 		
@@ -143,6 +160,11 @@ public class WeddingUI {
 		return output;
 	}
 	
+	/**
+	 * String 타입의 데이터를 넣기 위해서 사용하는 메소드
+	 * 예외처리 기능을 포함하였다.
+	 * @return 문자열
+	 */
 	public String inputString() {
 		String str;
 		try {
@@ -154,6 +176,11 @@ public class WeddingUI {
 		return str;
 	}
 	
+	/**
+	 * 성별을 넣기 위해 사용하는 메소드 String값을 boolean으로 변환.
+	 * 사용자 편의성을 위해서 추가함.
+	 * @return 남성이면 true 여성이면 false
+	 */
 	public boolean inputSex() {
 		String str;
 		boolean sex;
