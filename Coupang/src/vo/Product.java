@@ -9,6 +9,7 @@ public class Product {
 	private int weightFactor;
 	private int volumeFactor;
 	private int price;
+	private int count;
 	
 	/**
 	 * 기본 생성자
@@ -42,4 +43,11 @@ public class Product {
 	public int getPrice() {
 		return price;
 	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
 }

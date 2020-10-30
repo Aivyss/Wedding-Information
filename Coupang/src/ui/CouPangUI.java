@@ -1,20 +1,23 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import bucket.Bucket;
 import bucket.BucketManage;
+import logisticsWarehouse.OnePosition;
 import logisticsWarehouse.Warehouse;
 import vo.Product;
 import vo.ProductManage;
 
 public class CouPangUI {
-	Warehouse wh;
 	BucketManage bManage;
 	ProductManage pManage;
+	Warehouse warehouse;
 	Scanner sc = new Scanner(System.in);
 
 	/**
@@ -23,9 +26,9 @@ public class CouPangUI {
 	 * @param localCode
 	 */
 	public CouPangUI(String localCode) {
-		this.wh = new Warehouse(localCode);
 		this.bManage = new BucketManage();
 		this.pManage = new ProductManage();
+		this.warehouse = new Warehouse(localCode);
 
 		while (true) {
 			try {
@@ -33,9 +36,13 @@ public class CouPangUI {
 				int selector = inputInteger();
 
 				if (selector == 1) {
-					InputProductInfo();
+					InputProductInfoUI();
 				} else if (selector == 2) {
-					moveToBucket();
+					waitInBoundUI();
+				} else if (selector == 3) {
+					inBoundUI();
+				} else if (selector == 4) {
+					outBoundUI();
 				}
 			} catch (InputMismatchException e) {
 				e = new InputMismatchException("잘못 입력하셨습니다.");
@@ -48,108 +55,128 @@ public class CouPangUI {
 	 * 주-메뉴부를 출력하는 메소드
 	 */
 	public void printMenu() {
-		System.out.println("1.물품 입고 대기처리");
-		System.out.println("2.토트로 물품 옮기기(입고과정1)");
+		System.out.println("1.물품 정보 입력");
+		System.out.println("2.입고 대기 처리");
+		System.out.println("3.입고 처리");
+		System.out.println("4.출고 처리");
 		System.out.print("메뉴 선택 > ");
 	}
 
 	/**
-	 * 입고과정 1을 수행하는 메소드.
+	 * 물품의 정보를 입력하는 메소드.
+	 * 
+	 * @throws InputMismatchException
 	 */
-	public void moveToBucket() {
-		System.out.print("입고할 물품의 바코드를 찍으세요 : ");
-		String productBarCode = inputString();
+	public void InputProductInfoUI() throws InputMismatchException {
+		System.out.println("=====[물품 정보 입력]=====");
+		List<Object> productInfo = new ArrayList<>();
+		System.out.print("물품의 바코드를 입력하세요: ");
+		productInfo.add(inputString());
 
-		if (pManage.pMap.get(productBarCode) != null) {
-			int productCount = pManage.pMap.get(productBarCode);
-			int count = 0;
-
-			if (productCount == 0) {
-				System.out.println("입고 대기수량이 0입니다.");
-			} else {
-				System.out.print("넣을 물품의 갯수를 입력하시오.");
-				count = inputInteger();
-
-				if (count > productCount) {
-					System.out.println("입고대기중인 수량보다 많습니다.");
-				} else {
-					int index = 0;
-					for (Bucket<String> bucket : bManage.getbList()) {
-						if (!bucket.lock) {
-							bucket.add(productBarCode, count);
-							bManage.bList.set(index, bucket); // 토트에 담음
-							if (productCount - count == 0) { // 입고대기 수량 조정
-								pManage.pMap.remove(productBarCode);
-							} else {
-								pManage.pMap.put(productBarCode, productCount - count);
-							}
-							System.out.println("토트에 물건을 옮겼습니다.");
-							System.out.println("토트 바코드 번호: " + bucket.getBucketBarCode());
-
-							break;
-						}
-
-						index++;
-					}
-				}
-			}
-
+		if (pManage.pMap.get(productInfo.get(0)) != null) {
+			System.out.println("[에러] 이미 존재하는 정보입니다.");
 		} else {
-			System.out.println("해당 물품이 없습니다.");
+			System.out.print("물품의 이름을 입력하세요: ");
+			productInfo.add(inputString());
+			System.out.print("물품의 가격을 입력하세요: ");
+			productInfo.add(inputInteger());
+			Product vo = new Product(productInfo);
+			pManage.pMap.put(vo.getBarCode(), vo);
 		}
 	}
 
 	/**
-	 * 입고과정 2를 진행하는 메소드
+	 * 입고대기를 수행하는 메소드. 입고시킬 수량을 사용자로부터 입력받고 입고를 수행한다.
 	 */
-	public void bucketToWarehouse() {
-		Bucket<String> select = null;
-		System.out.print("토트 바코드를 찍으세요: ");
-		String bucketCode = inputString();
-		
-		// 매니저 객체로부터 토트 탐색
-		int index = 0;
-		for (Bucket<String> bucket : bManage.bList) {
-			if (bucketCode.equals(bucket.getBucketBarCode())){
-				select = bucket;
-				break;
-			}
-			
-			index++;
-		}
-		if (select != null) {
-			if (select.lock) {
-				System.out.print("입고할 위치 바코드를 찍으세요 : ");
-				String placeCode = inputString();
-				bManage.bList.set(index, select);
-				// 이부분 완료 해야함.
+	public void waitInBoundUI() {
+		System.out.println("=====[입고 대기]=====");
+		System.out.print("입고대기시킬 물품의 바코드를 찍으세요: ");
+		String productCode = inputString();
+		Product vo = pManage.searchProduct(productCode);
+
+		if (vo != null) {
+			System.out.print("입고 수량을 입력하세요: ");
+			int count = inputInteger();
+			if (vo.getCount() <= 0) {
+				vo.setCount(count);
 			} else {
-				System.out.println("토트가 비어 있습니다.");
+				vo.setCount(vo.getCount() + count);
 			}
 		} else {
-			System.out.println("바코드를 다시 찍으세요.");
+			System.out.println("[에러] 물품 정보가 입력되어 있지 않으니 물품 정보부터 입력하세요.");
 		}
 	}
 
-	public void InputProductInfo() {
-		List<Object> productInfo = new ArrayList<>();
+	/**
+	 * 입고 프로세스를 수행하는 메소드
+	 */
+	public void inBoundUI() {
+		System.out.println("=====[입고 프로세스]=====");
+		System.out.print("물품의 바코드를 입력하세요: ");
+		String productCode = inputString();
 
-		System.out.print("제품 바코드를 찍으세요: ");
-		productInfo.add(inputString());
-		System.out.print("제품명 입력: ");
-		productInfo.add(inputString());
-		System.out.print("가격 입력: ");
-		productInfo.add(inputInteger());
-		System.out.print("입고할 제품의 갯수: ");
-		int productCount = inputInteger();
+		Product vo = pManage.pMap.get(productCode);
+		if (vo != null && vo.getCount() != 0) {
+			int maxCount = 15;
+			int storageCount = pManage.pMap.get(productCode).getCount();
 
-		Product product = new Product(productInfo);
-		boolean flag = pManage.addProduct(product, productCount);
+			System.out.print("원하는 입고 수량을 결정하세요(최대" + maxCount + "): ");
+			int count = inputInteger();
 
-		if (flag) {
-			System.out.println("대기열에 추가되었습니다.");
+			if (count > maxCount) {
+				System.out.println("[에러] 최대 값을 초과했습니다.");
+			} else {
+				if (count < storageCount) {
+					pManage.updateCount(productCode, count);
+					vo.setCount(storageCount - count);
+					pManage.pMap.put(productCode, vo);
+					System.out.print("위치 바코드 값을 입력하세요: ");
+					String placeCode = inputString();
+					boolean flag = warehouse.inBound(placeCode, productCode, count);
+
+					if (flag) {
+						Product tmp = pManage.pMap.get(productCode);
+						tmp.setCount(tmp.getCount() - count);
+						pManage.pMap.put(productCode, tmp);
+						System.out.println("입고처리가 되었습니다.");
+					} else {
+						System.out.println("[에러] 입고할 공간이 없습니다.");
+					}
+				} else {
+					System.out.println("[에러] 입고 대기 양을 초과했습니다(최대양:" + pManage.pMap.get(productCode).getCount() + "개)입니다.");
+				}
+				
+			}
 		} else {
-			System.out.println("이미 추가된 대기열의 수량을 늘렸습니다.");
+			System.out.println("[에러] 대기중인 물품이 없습니다.");
+		}
+	}
+
+	public void outBoundUI() {
+		List<String> productCodes = new ArrayList<>();
+		List<Integer> counts = new ArrayList<>();
+
+		while (true) {
+			System.out.print("물품의 바코드를 입력하세요: ");
+			productCodes.add(inputString());
+			System.out.print("물품의 수량을 입력하세요: ");
+			counts.add(inputInteger());
+			System.out.print("더 입력하시겠습니까? (Y/N): ");
+			boolean flag = inputBoolean();
+
+			if (!flag) {
+				break;
+			}
+		}
+
+		Map<String, Integer> box = warehouse.outBound(productCodes, counts);
+		for (String bucketCode : bManage.bMap.keySet()) {
+			if (!bManage.bMap.get(bucketCode).lock) {
+				Bucket tmp = new Bucket(bucketCode);
+				tmp.box = box;
+				bManage.bMap.put(bucketCode, tmp);
+				break;
+			}
 		}
 	}
 
@@ -181,5 +208,23 @@ public class CouPangUI {
 
 	public void printWaitInBound() {
 
+	}
+
+	public boolean inputBoolean() {
+		boolean flag;
+
+		try {
+			String str = sc.nextLine();
+
+			if (str.equals("Y")) {
+				flag = true;
+			} else {
+				flag = false;
+			}
+		} catch (InputMismatchException e) {
+			throw e;
+		}
+
+		return flag;
 	}
 }
