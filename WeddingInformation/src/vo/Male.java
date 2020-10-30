@@ -1,5 +1,11 @@
 package vo;
 
-public class Male extends Human{
+import java.util.ArrayList;
+
+public class Male extends Human {
+	
+	public Male(ArrayList<Object> humanInfo) {
+		super(humanInfo);
+	}
 
 }

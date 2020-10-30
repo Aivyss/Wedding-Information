@@ -16,6 +16,7 @@ public class Human {
 	String latestEdu;
 	int salary;
 	// Á¡¼ö
+	int totalScore;
 	int LatestEduScore;
 	int SalaryScore;
 	int bodyShapeScore;
@@ -50,15 +51,14 @@ public class Human {
 	public Human(ArrayList<Object> humanInfo) {
 		this.id = (String) humanInfo.get(0);
 		this.password = (String) humanInfo.get(1);
-		this.level = (String) humanInfo.get(2);
 		
-		this.name = (String) humanInfo.get(3);
-		this.sex = (Boolean) humanInfo.get(4);
-		this.age = (Integer) humanInfo.get(5);
-		this.bmi = (Double) humanInfo.get(6);
+		this.name = (String) humanInfo.get(2);
+		this.sex = (Boolean) humanInfo.get(3);
+		this.age = (Integer) humanInfo.get(4);
+		this.bmi = (Double) humanInfo.get(5);
 		
-		this.latestEdu = (String) humanInfo.get(7);
-		this.salary = (Integer) humanInfo.get(8);
+		this.latestEdu = (String) humanInfo.get(6);
+		this.salary = (Integer) humanInfo.get(7);
 	}
 	
 	public String getName() {
