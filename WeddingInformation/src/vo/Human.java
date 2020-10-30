@@ -17,6 +17,7 @@ public class Human {
 	int salary;
 	// Á¡¼ö
 	int totalScore;
+	double nomalizedTotalScore;
 	int LatestEduScore;
 	int SalaryScore;
 	int bodyShapeScore;
@@ -64,6 +65,8 @@ public class Human {
 		
 		this.latestEdu = (String) humanInfo.get(6);
 		this.salary = (Integer) humanInfo.get(7);
+		
+		this.nomalizedTotalScore = 0;
 	}
 	
 	// setter¿Í getter
@@ -132,5 +135,61 @@ public class Human {
 
 	public void setCash(int cash) {
 		this.cash = cash;
+	}
+
+	public int getTotalScore() {
+		return totalScore;
+	}
+
+	public void setTotalScore(int totalScore) {
+		this.totalScore = totalScore;
+	}
+
+	public double getNomalizedTotalScore() {
+		return nomalizedTotalScore;
+	}
+
+	public void setNomalizedTotalScore(double nomalizedTotalScore) {
+		this.nomalizedTotalScore = nomalizedTotalScore;
+	}
+
+	public int getLatestEduScore() {
+		return LatestEduScore;
+	}
+
+	public void setLatestEduScore(int latestEduScore) {
+		LatestEduScore = latestEduScore;
+	}
+
+	public int getSalaryScore() {
+		return SalaryScore;
+	}
+
+	public void setSalaryScore(int salaryScore) {
+		SalaryScore = salaryScore;
+	}
+
+	public int getBodyShapeScore() {
+		return bodyShapeScore;
+	}
+
+	public void setBodyShapeScore(int bodyShapeScore) {
+		this.bodyShapeScore = bodyShapeScore;
+	}
+
+	public boolean isInvited() {
+		return invited;
+	}
+
+	public void setInvited(boolean invited) {
+		this.invited = invited;
+	}
+
+	public String getMatchedId() {
+		return matchedId;
+	}
+
+	public void setMatchedId(String matchedId) {
+		this.matchedId = matchedId;
 	}
 }
