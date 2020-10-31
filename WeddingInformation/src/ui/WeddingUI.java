@@ -233,35 +233,45 @@ public class WeddingUI {
 		int level = this.loggedIn.getLevel();
 		String grade = this.loggedIn.getGrade()[level];
 		boolean sex = this.loggedIn.isSex();
-
-		System.out.println("===========================");
-		System.out.println("당신의 등급은 " + grade + "입니다.");
-		System.out.print("당신이 매칭을 원하는 등급을 고르세요: ");
 		
-		for (int i=0; i<=level; i++) {
-			if (i <= level) {
-				System.out.print(Integer.toString(i+1)+ ". " + this.loggedIn.getGrade()[i]);
-			}
-		}
-		
-		boolean choice = true;
-		while(choice) {
-			System.out.println(); // 뷰를 위한 처리
-			System.out.println("매칭 선택> ");
-			int selector = inputInteger();
-			selector -= 1;
+		if(loggedIn.isLock()) {
+			System.out.println("[에러] 매칭수락 대기중이거나 수락 여부를 판단할 대상이 있습니다.");
+		} else {
+			System.out.println("===========================");
+			System.out.println("당신의 등급은 " + grade + "입니다.");
+			System.out.print("당신이 매칭을 원하는 등급을 고르세요: ");
 			
-			Human another = manage.searchMatch(selector);
-			System.out.print("선택하시겠습니까(Y/N): ");
-			choice = !inputChoice();
-			
-			if (choice) {
-				System.out.print("더 검색하시겠습니까(Y/N): ");
-				choice = inputChoice();
-				break;
+			for (int i=0; i<=level; i++) {
+				if (i <= level) {
+					System.out.print(Integer.toString(i+1)+ ". " + this.loggedIn.getGrade()[i]);
+				}
 			}
 			
-			
+			boolean choice = true;
+			while(choice) {
+				boolean flag = false;
+				System.out.println(); // 뷰를 위한 처리
+				System.out.println("매칭 선택> ");
+				int selector = inputInteger();
+				selector -= 1;
+				
+				Human another = manage.searchMatch(selector, sex);
+				System.out.print("선택하시겠습니까(Y/N): ");
+				choice = !inputChoice();
+				
+				if (choice) {
+					System.out.print("더 검색하시겠습니까(Y/N): ");
+					choice = inputChoice();
+				} else {
+					flag = manage.match(loggedIn, another);
+				}
+				
+				if (flag) {
+					System.out.println("매칭신청을 보냈습니다.");
+				} else {
+					System.out.println("매칭에 실패했습니다.");
+				}
+			}
 		}
 	}
 	
