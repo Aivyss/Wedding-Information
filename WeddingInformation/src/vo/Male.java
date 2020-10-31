@@ -3,11 +3,11 @@ package vo;
 import java.util.ArrayList;
 
 public class Male extends Human {
-	boolean taco = false;
+	boolean taco;
 	
 	public Male(ArrayList<Object> humanInfo) {
 		super(humanInfo);
-		this.taco = taco;
+		this.taco = (Boolean) humanInfo.get(8);
 	}
 
 	public boolean isTaco() {
