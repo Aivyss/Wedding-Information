@@ -6,7 +6,8 @@ public class Human {
 	// 계정정보
 	String id;
 	String password;
-	String level;
+	String[] grade = new String[7];
+	int level;
 	// 신상정보
 	String name;
 	boolean sex;
@@ -26,28 +27,14 @@ public class Human {
 	//매칭 억셉터
 	boolean invited;
 	String matchedId;
+	//매칭 락
+	boolean lock;
 	
 	/**
 	 * 기본 생성자
 	 */
 	public Human() {
 		
-	}
-	
-	/**
-	 * 생성자 오버로딩 1
-	 */
-	public Human(String name, String id, boolean sex, String latestEdu, String level, String password, int age,
-			int salary, double bmi) {
-		this.name = name;
-		this.id = id;
-		this.sex = sex;
-		this.latestEdu = latestEdu;
-		this.level = level;
-		this.password = password;
-		this.age = age;
-		this.salary = salary;
-		this.bmi = bmi;
 	}
 	
 	/**
@@ -67,6 +54,15 @@ public class Human {
 		this.salary = (Integer) humanInfo.get(7);
 		
 		this.nomalizedTotalScore = 0;
+		this.lock = false;
+		
+		this.grade[0] = "언랭";
+		this.grade[1] = "브론즈";
+		this.grade[2] = "실버";
+		this.grade[3] = "골드";
+		this.grade[4] = "플래티넘";
+		this.grade[5] = "다이아";
+		this.grade[6] = "비브라늄";
 	}
 	
 	// setter와 getter
@@ -88,12 +84,7 @@ public class Human {
 	public void setSex(boolean sex) {
 		this.sex = sex;
 	}
-	public String getLevel() {
-		return level;
-	}
-	public void setLevel(String level) {
-		this.level = level;
-	}
+	
 	public int getAge() {
 		return age;
 	}
@@ -191,5 +182,25 @@ public class Human {
 
 	public void setMatchedId(String matchedId) {
 		this.matchedId = matchedId;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public boolean isLock() {
+		return lock;
+	}
+
+	public void setLock(boolean lock) {
+		this.lock = lock;
+	}
+
+	public String[] getGrade() {
+		return grade;
 	}
 }

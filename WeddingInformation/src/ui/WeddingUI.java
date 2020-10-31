@@ -48,6 +48,7 @@ public class WeddingUI {
 							giveGrade();
 						} else if (selector == 0) {
 							System.out.println("[알림] 전단계로 이동합니다");
+							this.loggedIn = null;
 							break;
 						} else {
 							System.out.println("[에러] 잘못 입력하셨습니다.");
@@ -66,6 +67,7 @@ public class WeddingUI {
 							accept();
 						} else if (selector == 0) {
 							System.out.println("[알림] 전단계로 이동합니다.");
+							this.loggedIn = null;
 							break;
 						} else {
 							System.out.println("[에러] 잘못 입력하셨습니다.");
@@ -211,14 +213,56 @@ public class WeddingUI {
 	 * 캐시를 충전하는 메소드
 	 */
 	public void deposit() {
+		System.out.print("본인 확인을 위한 비밀번호를 입력하세요: ");
+		String pw = inputString();
 		
+		if(pw.equals(loggedIn.getPassword())) {
+			System.out.print("충전할 금액을 입력: ");
+			int cash = inputInteger();
+			
+			manage.deposit(loggedIn, pw, cash);
+		} else {
+			System.out.println("[에러] 비밀번호가 틀렸습니다.");
+		}
 	}
 	
 	/**
 	 * 상대를 매칭하는 메소드
 	 */
 	public void match() {
+		int level = this.loggedIn.getLevel();
+		String grade = this.loggedIn.getGrade()[level];
+		boolean sex = this.loggedIn.isSex();
+
+		System.out.println("===========================");
+		System.out.println("당신의 등급은 " + grade + "입니다.");
+		System.out.print("당신이 매칭을 원하는 등급을 고르세요: ");
 		
+		for (int i=0; i<=level; i++) {
+			if (i <= level) {
+				System.out.print(Integer.toString(i+1)+ ". " + this.loggedIn.getGrade()[i]);
+			}
+		}
+		
+		boolean choice = true;
+		while(choice) {
+			System.out.println(); // 뷰를 위한 처리
+			System.out.println("매칭 선택> ");
+			int selector = inputInteger();
+			selector -= 1;
+			
+			Human another = manage.searchMatch(selector);
+			System.out.print("선택하시겠습니까(Y/N): ");
+			choice = !inputChoice();
+			
+			if (choice) {
+				System.out.print("더 검색하시겠습니까(Y/N): ");
+				choice = inputChoice();
+				break;
+			}
+			
+			
+		}
 	}
 	
 	/**
@@ -302,5 +346,27 @@ public class WeddingUI {
 		}
 		
 		return sex;
+	}
+	
+	/**
+	 * Y/N 선택
+	 * @return yes이면 true, no이면 false
+	 */
+	public boolean inputChoice() {
+		String str;
+		boolean choice;
+		
+		str = sc.nextLine();
+		
+		if (str.equals("Y")) {
+			choice = true;
+		} else if (str.equals("N")) {
+			choice = false;
+		} else {
+			InputMismatchException e = new InputMismatchException();
+			throw e;
+		}
+		
+		return choice;
 	}
 }

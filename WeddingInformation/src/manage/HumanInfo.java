@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import vo.Female;
 import vo.Human;
 
 public class HumanInfo {
+	Random rd;
 	public Map<String, Human> humanMap; // <id, vo>
 	
 	/**
@@ -17,6 +19,7 @@ public class HumanInfo {
 	 */
 	public HumanInfo() {
 		humanMap = new HashMap<>();
+		rd = new Random();
 	}
 	
 	/**
@@ -96,19 +99,19 @@ public class HumanInfo {
 		
 		for(int i=rank.length-1; i>=0; i--) {
 			if ((i*1.0)/(numOfPeople*1.0) > 0.84) {
-				rank[i].setLevel("언랭");
+				rank[i].setLevel(0); // 언랭
 			} else if ((i*1.0)/(numOfPeople*1.0) > 0.7) {
-				rank[i].setLevel("브론즈");
+				rank[i].setLevel(1); // 브론즈
 			} else if ((i*1.0)/(numOfPeople*1.0) > 0.56) {
-				rank[i].setLevel("실버");
+				rank[i].setLevel(2); // 실버
 			} else if ((i*1.0)/(numOfPeople*1.0) > 0.42) {
-				rank[i].setLevel("골드");
+				rank[i].setLevel(3); // 골드
 			} else if ((i*1.0)/(numOfPeople*1.0) > 0.28) {
-				rank[i].setLevel("플래티넘");
+				rank[i].setLevel(4); // 플래티넘
 			} else if ((i*1.0)/(numOfPeople*1.0) > 0.14) {
-				rank[i].setLevel("다이아");
+				rank[i].setLevel(5); // 다이아
 			} else {
-				rank[i].setLevel("비브라늄");
+				rank[i].setLevel(6); // 비브라늄
 			}
 		}
 	}
@@ -145,9 +148,54 @@ public class HumanInfo {
 		humanMap.put(voF.getId(), voF);
 	}
 	
-	public Human match(Human vo) {
-		Human another = null;
+	/**
+	 * 로그인한 고객이 금액을 충전할 수 있도록 수행하는 메소드
+	 * @param vo
+	 * @param pw
+	 * @param cash
+	 * @return
+	 */
+	public boolean deposit(Human vo, String pw, int cash) {
+		boolean flag = false;
+		String id =vo.getId();
 		
-		return another;
+		if (pw.equals(vo.getPassword())) {
+			searchAccount(id).setCash(searchAccount(id).getCash()+cash);
+			flag = true;
+		}
+		
+		return flag;
+	}
+	
+	/**
+	 * 지정한 레벨인 대상자를 랜덤으로 뽑아내는 메소드
+	 * 리스트로 해당자만 담아서 그 안에서 랜덤으로 추출한다.
+	 * @param level
+	 * @return
+	 */
+	public Human searchMatch(int level) {
+		List<Human> list = new ArrayList<>();
+				
+		for (String id: humanMap.keySet()) {
+			if (humanMap.get(id).getLevel() == level) {
+				list.add(humanMap.get(id));
+			}
+		}
+		
+		int index = rd.nextInt(list.size());
+		
+		return list.get(index);
+	}
+	
+	public boolean match(Human me, Human you) {
+		boolean flag = false;
+		
+		if (me != null && you != null) {
+			me.setLock(true);
+			you.setMatchedId(me.getId());
+			you.setInvited(true);
+		}
+		
+		return flag;
 	}
 }
