@@ -227,12 +227,11 @@ public class WeddingUI {
 						choice = inputChoice();
 					} else {
 						flag = manage.match(loggedIn, another);
-					}
-					
-					if (flag) {
-						System.out.println("매칭신청을 보냈습니다.");
-					} else {
-						System.out.println("매칭에 실패했습니다.");
+						if (flag) {
+							System.out.println("매칭신청을 보냈습니다.");
+						} else {
+							System.out.println("매칭에 실패했습니다.");
+						}
 					}
 				}
 			}
