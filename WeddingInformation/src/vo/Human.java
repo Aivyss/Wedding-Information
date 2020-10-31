@@ -90,6 +90,8 @@ public class Human {
 		buf.append(Integer.toString(salary) + ", ");
 		buf.append("BMI");
 		buf.append(Double.toString(bmi));
+		buf.append("충전금: ");
+		buf.append(Integer.toString(cash)+"원");
 		
 		return buf.toString();
 	}

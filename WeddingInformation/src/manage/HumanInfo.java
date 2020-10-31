@@ -16,13 +16,12 @@ public class HumanInfo {
 	public Map<String, Human> humanMap; // <id, vo>
 
 	/**
-	 * 생성자
 	 */
 	public HumanInfo() {
 		humanMap = new HashMap<>();
 		rd = new Random();
 	}
-
+	
 	/**
 	 * 로그인을 수행하는 메소드이다.
 	 * 
@@ -54,6 +53,7 @@ public class HumanInfo {
 
 		if (vo != null) {
 			humanMap.put(vo.getId(), vo);
+			giveScore(vo);
 		} else {
 			flag = false;
 		}
@@ -285,7 +285,13 @@ public class HumanInfo {
 
 		return vo;
 	}
-
+	
+	/**
+	 * 매칭요청을 수행하는 메소드
+	 * @param me
+	 * @param you
+	 * @return
+	 */
 	public boolean match(Human me, Human you) {
 		boolean flag = false;
 		String meId = me.getId();
@@ -332,33 +338,46 @@ public class HumanInfo {
 					you.setInvited(true);
 					you.setSuccess(true);
 					me.setSuccess(true);
+					humanMap.put(me.getId(), me);
+					humanMap.put(you.getId(), you);
 					
 					flagT = true;
 				} else { // 돈이 없어 매칭이 실패
-					me.setMatchedId(null);
-					me.setInvited(false);
-					me.setLock(false);
-					you.setMatchedId(null);
-					you.setInvited(false);
-					you.setLock(false);
-					you.setSuccess(false);
-					me.setSuccess(false);
+					initialize(myId);
 				}
 			} else { // 매칭의사 no
-				me.setMatchedId(null);
-				me.setInvited(false);
-				me.setLock(false);
-				you.setMatchedId(null);
-				you.setInvited(false);
-				you.setLock(false);
-				you.setSuccess(false);
-				me.setSuccess(false);
+				initialize(myId);
 			}
 		}
 		
-		humanMap.put(me.getId(), me);
-		humanMap.put(you.getId(), you);
-		
 		return flagT;
+	}
+	
+	/**
+	 * 매칭 정보를 초기화 해주는 메소드. 다시 만남을 가질 수 있도록 해준다.
+	 * @param id
+	 * @return
+	 */
+	public boolean initialize(String id) {
+		boolean flag = false;
+		Human me = searchAccount(id);
+		Human you = searchAccount(me.getMatchedId());
+		
+		if (me != null && you != null) {
+			me.setMatchedId(null);
+			me.setInvited(false);
+			me.setLock(false);
+			you.setMatchedId(null);
+			you.setInvited(false);
+			you.setLock(false);
+			you.setSuccess(false);
+			me.setSuccess(false);
+			humanMap.put(me.getId(), me);
+			humanMap.put(you.getId(), you);
+			
+			flag = true;
+		}
+		
+		return flag;
 	}
 }

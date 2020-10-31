@@ -22,13 +22,14 @@ public class WeddingUI {
 		sc = new Scanner(System.in);
 		manage = new HumanInfo();
 		this.loggedIn = null;
-		
+
 		while (true) {
 			try {
 				if (this.loggedIn == null) { // 로그인 전
 					menu1();
 					int selector = inputInteger();
-
+					
+					System.out.println("================================");
 					if (selector == 1) {
 						signIn();
 					} else if (selector == 2) {
@@ -42,6 +43,7 @@ public class WeddingUI {
 					while (true) {
 						menu2();
 						int selector = inputInteger();
+						System.out.println("================================");
 
 						if (selector == 1) {
 							deposit();
@@ -51,6 +53,10 @@ public class WeddingUI {
 							accept();
 						} else if (selector == 4) {
 							seeStatus();
+						} else if (selector == 5) {
+							showMyInfo();
+						} else if (selector == 6) {
+							initializeMatch();
 						} else if (selector == 0) {
 							System.out.println("[알림] 전단계로 이동합니다.");
 							this.loggedIn = null;
@@ -60,7 +66,7 @@ public class WeddingUI {
 						}
 					}
 				}
-			} catch(InputMismatchException e) {
+			} catch (InputMismatchException e) {
 				e = new InputMismatchException("[에러] 잘못 입력하셨습니다.");
 				System.out.println(e.getMessage());
 			}
@@ -71,7 +77,7 @@ public class WeddingUI {
 	 * 로그인 전의 메뉴화면을 보여주는 메소드
 	 */
 	public void menu1() {
-		System.out.println("==========================");
+		System.out.println("================================");
 		System.out.println("[회원가입/로그인]");
 		System.out.println("1. 로그인");
 		System.out.println("2. 회원가입");
@@ -83,12 +89,14 @@ public class WeddingUI {
 	 * 일반회원의 로그인 후 화면을 보여주는 메소드
 	 */
 	public void menu2() {
-		System.out.println("==========================");
+		System.out.println("================================");
 		System.out.println("[" + loggedIn.getName() + "회원님 환영합니다.]");
 		System.out.println("1. 캐시 충전하기");
 		System.out.println("2. 상대 매칭하기");
 		System.out.println("3. 상대 매칭 수락하기");
 		System.out.println("4. 매칭 성사 현황");
+		System.out.println("5. 나의 정보 현황 확인");
+		System.out.println("6. 매칭 초기화");
 		System.out.println("0. 로그인 전단계로 이동");
 		System.out.print("메뉴선택> ");
 	}
@@ -97,7 +105,6 @@ public class WeddingUI {
 	 * 로그인을 수행하는 메소드
 	 */
 	public void signIn() {
-		System.out.println("==========================");
 		System.out.print("아이디를 입력하세요: ");
 		String id = inputString();
 		System.out.print("비밀번호를 입력하세요: ");
@@ -117,8 +124,7 @@ public class WeddingUI {
 	public void signUp() {
 		Human vo = null;
 		ArrayList<Object> humanInfo = new ArrayList<>();
-
-		System.out.println("==========================");
+		
 		System.out.print("이용할 아이디 입력: ");
 		String id = inputString();
 
@@ -129,31 +135,31 @@ public class WeddingUI {
 			humanInfo.add(inputString());
 			System.out.print("이름 입력: ");
 			humanInfo.add(inputString());
-			System.out.println("성별 입력(M/F): ");
+			System.out.print("성별 입력(M/F): ");
 			boolean sex = inputSex();
 			humanInfo.add(sex);
-			System.out.println("나이 입력: ");
+			System.out.print("나이 입력: ");
 			humanInfo.add(inputInteger());
-			System.out.println("키 입력: ");
+			System.out.print("키 입력: ");
 			humanInfo.add(inputInteger());
-			System.out.println("BMI 입력: ");
+			System.out.print("BMI 입력: ");
 			humanInfo.add(inputDouble());
-			System.out.println("최종대학 입력: ");
+			System.out.print("최종대학 입력: ");
 			humanInfo.add(inputString());
-			System.out.println("최종학력 분류 1. 아이비리그, 2. 설대, 카이스트, 포공, 3. 연고성 해외대학, 4. 인서울,  5. 인경기,  6.지거국, 7. 지방대");
+			System.out.print("최종학력 분류 1. 아이비리그, 2. 설대, 카이스트, 포공, 3. 연고성 해외대학, 4. 인서울,  5. 인경기,  6.지거국, 7. 지방대: ");
 			humanInfo.add(inputInteger());
-			System.out.println("연봉 입력: ");
+			System.out.print("연봉 입력: ");
 			humanInfo.add(inputInteger());
 
 			boolean flag = false;
 			if (sex) { // 성별이 남성인 경우
-				System.out.println("탈모 여부(Y/N)");
+				System.out.print("탈모 여부(Y/N): ");
 				humanInfo.add(inputChoice());
 
 				vo = new Male(humanInfo);
 				flag = manage.addAccount(vo);
 			} else { // 성별이 여성인 경우
-				System.out.print("시술/성형 여부(1. 얼굴전체성형, 2.양악, 3.단순시술, 4.해당없음: ");
+				System.out.print("시술/성형 여부(1. 얼굴전체성형, 2.양악, 3.단순시술, 4.해당없음): ");
 				humanInfo.add(inputInteger());
 
 				vo = new Female(humanInfo);
@@ -162,7 +168,6 @@ public class WeddingUI {
 
 			if (flag) {
 				System.out.println("[알림] 회원 등록이 완료되었습니다.");
-				manage.giveScore(vo);
 			} else {
 				System.out.println("[알림] 회원 등록이 실패하였습니다.");
 			}
@@ -196,10 +201,10 @@ public class WeddingUI {
 		String grade = this.loggedIn.getGrade();
 		boolean sex = this.loggedIn.isSex();
 
+
 		if (loggedIn.isLock()) {
 			System.out.println("[에러] 매칭수락 대기중이거나 수락 여부를 판단할 대상이 있습니다.");
 		} else {
-			System.out.println("===========================");
 			System.out.println(loggedIn.toString());
 			System.out.println("당신의 등급은 " + grade + "입니다.");
 			System.out.println("6. 비브라늄 5. 다이아 4. 플래티넘 3. 골드 2. 실버 1. 브론즈 0. 언랭");
@@ -208,8 +213,6 @@ public class WeddingUI {
 			boolean choice = true;
 			while (choice) {
 				boolean flag = false;
-				System.out.println(); // 뷰를 위한 처리
-				System.out.print("매칭 선택> ");
 				int selector = inputInteger();
 
 				if (level >= selector) { // 0 > 6
@@ -249,22 +252,21 @@ public class WeddingUI {
 		if (loggedIn.isInvited() && !loggedIn.isSuccess()) {
 			String matchedId = this.loggedIn.getMatchedId();
 			Human vo = manage.searchAccount(matchedId); // 상대의 정보(객체)
-			
-			System.out.println("=====================");
+
 			System.out.println("[매칭신청을 보낸 상대의 정보입니다]");
 			System.out.println(vo.toString());
 			System.out.print("매칭 수락(Y/N): ");
 			boolean flag = inputChoice();
 
-			flag = manage.accept(loggedIn.getId() ,matchedId, flag);
-			
+			flag = manage.accept(loggedIn.getId(), matchedId, flag);
+
 			if (flag) {
 				System.out.println("[알림] 매칭을 수락하였습니다.");
 			} else {
 				System.out.println("[알림] 매칭을 거부하였거나 상대가 돈이 없습니다.");
 			}
 		} else {
-			System.out.println("[에러] 매칭 내역이 없습니다.");		
+			System.out.println("[에러] 매칭 내역이 없습니다.");
 		}
 	}
 
@@ -275,11 +277,29 @@ public class WeddingUI {
 		if (loggedIn.isSuccess()) {
 			Human vo = manage.searchAccount(loggedIn.getMatchedId());
 
-			System.out.println("===============================");
 			System.out.println("[알림] 매칭이 성사되었습니다.");
 			System.out.println(vo.toString());
 		} else {
 			System.out.println("[알림] 매칭 성사된 내역이 없습니다.");
+		}
+	}
+	
+	/**
+	 * 내 정보를 보여주는 메소드
+	 */
+	public void showMyInfo() {
+		System.out.println("[내 정보 현황]");
+		System.out.println(loggedIn.toString());
+	}
+	
+	/**
+	 * 매칭 정보를 초기화하는 메소드. 다시 매칭을 할 수 있도록 해준다.
+	 */
+	public void initializeMatch() {
+		if (manage.initialize(loggedIn.getId())) {
+			System.out.println("[알림] 매칭정보가 초기화 되었습니다. 새로운 만남을 찾으세요!");
+		} else {
+			System.out.println("[알림] 매칭정보가 없는 듯 합니다.");
 		}
 	}
 
@@ -370,8 +390,7 @@ public class WeddingUI {
 		boolean choice;
 
 		str = sc.nextLine();
-		
-		
+
 		if (str.toUpperCase().equals("Y")) {
 			choice = true;
 		} else if (str.toUpperCase().equals("N")) {
