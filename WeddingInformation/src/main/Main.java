@@ -10,12 +10,7 @@ import vo.Human;
 public class Main {
 
 	public static void main(String[] args) {
-		//new WeddingUI();
-		ArrayList<Integer> list = new ArrayList<>();
-		
-		Random rd = new Random();
-		
-		System.out.println(rd.nextInt(1));
+		new WeddingUI();
 	}
 
 }
