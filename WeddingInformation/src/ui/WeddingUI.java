@@ -23,8 +23,6 @@ public class WeddingUI {
 		manage = new HumanInfo();
 		this.loggedIn = null;
 		
-	
-		
 		while (true) {
 			try {
 				if (this.loggedIn == null) { // 로그인 전
