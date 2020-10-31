@@ -206,10 +206,11 @@ public class WeddingUI {
 				System.out.println(); // 뷰를 위한 처리
 				System.out.println("매칭 선택> ");
 				int selector = inputInteger();
-				if (selector < level) {
+				if (level < selector) {
 					System.out.println("[에러] 선택할 수 없는 등급입니다.");
 				} else {
 					Human another = manage.searchMatch(selector, sex);
+					System.out.println(another.toString()); // 상대 정보 출력
 					System.out.print("선택하시겠습니까(Y/N): ");
 					choice = !inputChoice();
 					
@@ -243,11 +244,12 @@ public class WeddingUI {
 		System.out.print("매칭 수락(Y/N): ");
 		boolean flag = inputChoice();
 		
-		boolean onOff = false;
-		if (flag) { // 매칭을 수락한 경우
-			onOff = manage.accept(loggedIn.getId(), matchedId);
-		} else { // 매칭을 수락하지 않은 경우
-			System.out.println("[알림] 매칭을 거부완료 하였습니다.");
+		flag = manage.accept(loggedIn.getId(), matchedId, flag);
+		
+		if (flag) {
+			System.out.println("[알림] 매칭을 수락하였습니다.");
+		} else {
+			System.out.println("[알림] 매칭을 거부하였습니다.");
 		}
 	}
 	

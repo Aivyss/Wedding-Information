@@ -296,10 +296,10 @@ public class HumanInfo {
 	/**
 	 * 상대의 매칭을 수락하는 메소드
 	 */
-	public boolean accept(String myId, String yourId) {
+	public boolean accept(String myId, String yourId, boolean flag) {
 		Human me = humanMap.get(myId);
 		Human you = humanMap.get(yourId);
-		boolean flag = false;
+		boolean flagT = false;
 		
 		int level = me.getLevel();
 		
@@ -310,13 +310,22 @@ public class HumanInfo {
 					(level == 4) ? 5000000 : 
 					(level == 5) ? 7000000 : 10000000;
 		
-		if (you.getCash()-fee >= 0) {
-			you.setCash(you.getCash()-fee);
-			you.setInvited(true);
-			you.setSuccess(true);
-			me.setSuccess(true);
-			
-			flag = true;
+		if(flag) {
+			if (you.getCash()-fee >= 0) {
+				you.setCash(you.getCash()-fee);
+				you.setInvited(true);
+				you.setSuccess(true);
+				me.setSuccess(true);
+				
+				flagT = true;
+			} else {
+				me.setMatchedId(null);
+				me.setInvited(false);
+				me.setLock(false);
+				you.setMatchedId(null);
+				you.setInvited(false);
+				you.setLock(false);
+			}
 		} else {
 			me.setMatchedId(null);
 			me.setInvited(false);
@@ -326,6 +335,7 @@ public class HumanInfo {
 			you.setLock(false);
 		}
 		
-		return flag;
+		
+		return flagT;
 	}
 }
