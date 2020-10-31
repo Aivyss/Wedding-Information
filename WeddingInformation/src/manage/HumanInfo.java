@@ -114,40 +114,59 @@ public class HumanInfo {
 
 		// 남성 랭크 부여
 		for (int i = rankMale.size() - 1; i >= 0; i--) {
-			if ((i * 1.0) / (rankMale.size() * 1.0) > 0.84) {
+			if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.84) {
 				rankMale.get(i).setLevel(0); // 언랭
-			} else if ((i * 1.0) / (rankMale.size() * 1.0) > 0.7) {
+			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.7) {
 				rankMale.get(i).setLevel(1); // 브론즈
-			} else if ((i * 1.0) / (rankMale.size() * 1.0) > 0.56) {
+			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.56) {
 				rankMale.get(i).setLevel(2); // 실버
-			} else if ((i * 1.0) / (rankMale.size() * 1.0) > 0.42) {
+			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.42) {
 				rankMale.get(i).setLevel(3); // 골드
-			} else if ((i * 1.0) / (rankMale.size() * 1.0) > 0.28) {
+			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.28) {
 				rankMale.get(i).setLevel(4); // 플래티넘
-			} else if ((i * 1.0) / (rankMale.size() * 1.0) > 0.14) {
+			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.14) {
 				rankMale.get(i).setLevel(5); // 다이아
 			} else {
 				rankMale.get(i).setLevel(6); // 비브라늄
 			}
+			
+			String grade = (rankMale.get(i).getLevel() == 0) ? "언랭" : 
+				(rankMale.get(i).getLevel() == 1) ? "브론즈" : 
+				(rankMale.get(i).getLevel() == 2) ? "실버" : 
+				(rankMale.get(i).getLevel() == 3) ? "골드" : 
+				(rankMale.get(i).getLevel() == 4) ? "플래티넘" : 
+				(rankMale.get(i).getLevel() == 5 ) ? "다이아" : "비브라늄";
+			
+			rankMale.get(i).setGrade(grade);
 		}
+		
 
 		// 여성 랭크 부여
 		for (int i = rankFemale.size() - 1; i >= 0; i--) {
-			if ((i * 1.0) / (rankFemale.size() * 1.0) > 0.84) {
+			if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.84) {
 				rankFemale.get(i).setLevel(0); // 언랭
-			} else if ((i * 1.0) / (rankFemale.size() * 1.0) > 0.7) {
+			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.7) {
 				rankFemale.get(i).setLevel(1); // 브론즈
-			} else if ((i * 1.0) / (rankFemale.size() * 1.0) > 0.56) {
+			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.56) {
 				rankFemale.get(i).setLevel(2); // 실버
-			} else if ((i * 1.0) / (rankFemale.size() * 1.0) > 0.42) {
+			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.42) {
 				rankFemale.get(i).setLevel(3); // 골드
-			} else if ((i * 1.0) / (rankFemale.size() * 1.0) > 0.28) {
+			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.28) {
 				rankFemale.get(i).setLevel(4); // 플래티넘
-			} else if ((i * 1.0) / (rankFemale.size() * 1.0) > 0.14) {
+			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.14) {
 				rankFemale.get(i).setLevel(5); // 다이아
 			} else {
 				rankFemale.get(i).setLevel(6); // 비브라늄
 			}
+			
+			String grade = (rankFemale.get(i).getLevel() == 0) ? "언랭" : 
+				(rankFemale.get(i).getLevel() == 1) ? "브론즈" : 
+				(rankFemale.get(i).getLevel() == 2) ? "실버" : 
+				(rankFemale.get(i).getLevel() == 3) ? "골드" : 
+				(rankFemale.get(i).getLevel() == 4) ? "플래티넘" : 
+				(rankFemale.get(i).getLevel() == 5 ) ? "다이아" : "비브라늄";
+			
+			rankFemale.get(i).setGrade(grade);
 		}
 		
 		// 남성 업데이트

@@ -63,13 +63,6 @@ public class Human {
 		this.matchedId = null;
 		this.lock = false;
 		this.success = false;
-		
-		this.grade = (level == 0) ? "언랭" : 
-						(level == 1) ? "브론즈" : 
-						(level == 2) ? "실버" : 
-						(level == 3) ? "골드" : 
-						(level == 4) ? "플래티넘" : 
-						(level == 5 ) ? "다이아" : "비브라늄";
 	}
 	
 	/**
@@ -253,8 +246,10 @@ public class Human {
 
 	public void setHeightScore(int heightScore) {
 		this.heightScore = heightScore;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
 	}	
-	
-	
 	
 }

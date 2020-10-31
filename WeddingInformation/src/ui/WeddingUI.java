@@ -14,21 +14,20 @@ public class WeddingUI {
 	Scanner sc;
 	HumanInfo manage;
 	Human loggedIn;
-	
+
 	/**
-	 * UI 객체 생성자.
-	 * ui기능의 전반을 담당한다.
+	 * UI 객체 생성자. ui기능의 전반을 담당한다.
 	 */
 	public WeddingUI() {
 		sc = new Scanner(System.in);
 		manage = new HumanInfo();
 		this.loggedIn = null;
-		
-		while (true) { 
+
+		while (true) {
 			if (this.loggedIn == null) { // 로그인 전
 				menu1();
 				int selector = inputInteger();
-				
+
 				if (selector == 1) {
 					signIn();
 				} else if (selector == 2) {
@@ -42,7 +41,7 @@ public class WeddingUI {
 				while (true) {
 					menu2();
 					int selector = inputInteger();
-					
+
 					if (selector == 1) {
 						deposit();
 					} else if (selector == 2) {
@@ -62,7 +61,7 @@ public class WeddingUI {
 			}
 		} // while end
 	}
-	
+
 	/**
 	 * 로그인 전의 메뉴화면을 보여주는 메소드
 	 */
@@ -74,7 +73,7 @@ public class WeddingUI {
 		System.out.println("3. 프로그램 종료");
 		System.out.print("메뉴선택> ");
 	}
-	
+
 	/**
 	 * 일반회원의 로그인 후 화면을 보여주는 메소드
 	 */
@@ -88,7 +87,7 @@ public class WeddingUI {
 		System.out.println("0. 로그인 전단계로 이동");
 		System.out.print("메뉴선택> ");
 	}
-	
+
 	/**
 	 * 로그인을 수행하는 메소드
 	 */
@@ -99,25 +98,25 @@ public class WeddingUI {
 		System.out.print("비밀번호를 입력하세요: ");
 		String pw = inputString();
 		this.loggedIn = manage.signIn(id, pw);
-		
+
 		if (this.loggedIn != null) {
 			System.out.println("[알림] 로그인 되었습니다.");
-		}  else {
+		} else {
 			System.out.println("[알림] 로그인에 실패했습니다.");
 		}
 	}
-	
+
 	/**
 	 * 회원가입을 수행하는 메소드.
 	 */
 	public void signUp() {
 		Human vo = null;
 		ArrayList<Object> humanInfo = new ArrayList<>();
-		
+
 		System.out.println("==========================");
 		System.out.print("이용할 아이디 입력: ");
 		String id = inputString();
-		
+
 		vo = manage.humanMap.get(id);
 		if (vo == null) {
 			humanInfo.add(id);
@@ -140,22 +139,22 @@ public class WeddingUI {
 			humanInfo.add(inputInteger());
 			System.out.println("연봉 입력: ");
 			humanInfo.add(inputInteger());
-			
+
 			boolean flag = false;
 			if (sex) { // 성별이 남성인 경우
 				System.out.println("탈모 여부(Y/N)");
 				humanInfo.add(inputChoice());
-				
+
 				vo = new Male(humanInfo);
 				flag = manage.addAccount(vo);
 			} else { // 성별이 여성인 경우
 				System.out.print("시술/성형 여부(1. 얼굴전체성형, 2.양악, 3.단순시술, 4.해당없음: ");
 				humanInfo.add(inputInteger());
-				
+
 				vo = new Female(humanInfo);
 				flag = manage.addAccount(vo);
 			}
-			
+
 			if (flag) {
 				System.out.println("[알림] 회원 등록이 완료되었습니다.");
 				manage.giveScore(vo);
@@ -166,24 +165,24 @@ public class WeddingUI {
 			System.out.println("[에러] 이미 있는 아이디 입니다.");
 		}
 	}
-	
+
 	/**
 	 * 캐시를 충전하는 메소드
 	 */
 	public void deposit() {
 		System.out.print("본인 확인을 위한 비밀번호를 입력하세요: ");
 		String pw = inputString();
-		
-		if(pw.equals(loggedIn.getPassword())) {
+
+		if (pw.equals(loggedIn.getPassword())) {
 			System.out.print("충전할 금액을 입력: ");
 			int cash = inputInteger();
-			
+
 			manage.deposit(loggedIn, pw, cash);
 		} else {
 			System.out.println("[에러] 비밀번호가 틀렸습니다.");
 		}
 	}
-	
+
 	/**
 	 * 상대를 매칭하는 메소드
 	 */
@@ -191,8 +190,8 @@ public class WeddingUI {
 		int level = this.loggedIn.getLevel();
 		String grade = this.loggedIn.getGrade();
 		boolean sex = this.loggedIn.isSex();
-		
-		if(loggedIn.isLock()) {
+
+		if (loggedIn.isLock()) {
 			System.out.println("[에러] 매칭수락 대기중이거나 수락 여부를 판단할 대상이 있습니다.");
 		} else {
 			System.out.println("===========================");
@@ -200,20 +199,17 @@ public class WeddingUI {
 			System.out.println("당신의 등급은 " + grade + "입니다.");
 			System.out.println("6. 비브라늄 5. 다이아 4. 플래티넘 3. 골드 2. 실버 1. 브론즈 0. 언랭");
 			System.out.print("당신이 매칭을 원하는 등급을 고르세요: ");
-			
+
 			boolean choice = true;
-			while(choice) {
+			while (choice) {
 				boolean flag = false;
 				System.out.println(); // 뷰를 위한 처리
 				System.out.print("매칭 선택> ");
 				int selector = inputInteger();
-				
-				if (level < selector) {
-					System.out.println("[에러] 선택할 수 없는 등급입니다.");
-					break;
-				} else {
+
+				if (level >= selector) { // 0 > 6
 					Human another = manage.searchMatch(selector, sex);
-					
+
 					if (another == null) {
 						System.out.println("[에러] 등급에 인원이 없습니다.");
 						break;
@@ -221,7 +217,7 @@ public class WeddingUI {
 					System.out.println(another.toString()); // 상대 정보 출력
 					System.out.print("선택하시겠습니까(Y/N): ");
 					choice = !inputChoice();
-					
+
 					if (choice) {
 						System.out.print("더 검색하시겠습니까(Y/N): ");
 						choice = inputChoice();
@@ -233,38 +229,41 @@ public class WeddingUI {
 							System.out.println("매칭에 실패했습니다.");
 						}
 					}
+				} else {
+					System.out.println("[에러] 선택할 수 없는 등급입니다.");
+					break;
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * 상대 매칭 확인 및 수락하는 메소드
 	 */
 	public void accept() {
 		String matchedId = this.loggedIn.getMatchedId();
 		Human vo = manage.searchAccount(matchedId); // 상대의 정보(객체)
-		
+
 		System.out.println("=====================");
 		System.out.println("[매칭신청을 보낸 상대의 정보입니다]");
 		System.out.println(vo.toString());
 		System.out.print("매칭 수락(Y/N): ");
 		boolean flag = inputChoice();
-		
+
 		flag = manage.accept(loggedIn.getId(), matchedId, flag);
-		
+
 		if (flag) {
 			System.out.println("[알림] 매칭을 수락하였습니다.");
 		} else {
 			System.out.println("[알림] 매칭을 거부하였습니다.");
 		}
 	}
-	
+
 	/**
 	 * 매칭 성사 현황을 보여주는 메소드
 	 */
 	public void seeStatus() {
-		if(loggedIn.isSuccess()) {
+		if (loggedIn.isSuccess()) {
 			Human vo = manage.searchAccount(loggedIn.getMatchedId());
 
 			System.out.println("[알림] 매칭이 성사되었습니다.");
@@ -274,71 +273,72 @@ public class WeddingUI {
 			System.out.println("[알림] 매칭 성사된 내역이 없습니다.");
 		}
 	}
-	
+
 	/**
-	 * int 타입의 데이터를 넣기 위해서 사용하는 메소드
-	 * 예외처리 기능을 포함하였다.
+	 * int 타입의 데이터를 넣기 위해서 사용하는 메소드 예외처리 기능을 포함하였다.
+	 * 
 	 * @return 정수형 반환
 	 */
 	public int inputInteger() {
 		int output;
-		
+
 		try {
 			output = sc.nextInt();
 			sc.nextLine();
-		} catch(InputMismatchException e) {
+		} catch (InputMismatchException e) {
 			sc.nextLine();
 			throw e;
 		}
-		
+
 		return output;
 	}
+
 	/**
-	 * double 타입의 데이터를 넣기 위해서 사용하는 메소드
-	 * 예외처리 기능을 포함하였다.
+	 * double 타입의 데이터를 넣기 위해서 사용하는 메소드 예외처리 기능을 포함하였다.
+	 * 
 	 * @return 실수형 반환
 	 */
 	public double inputDouble() {
 		double output;
-		
+
 		try {
 			output = sc.nextDouble();
 			sc.nextLine();
-		} catch(InputMismatchException e) {
+		} catch (InputMismatchException e) {
 			sc.nextLine();
 			throw e;
 		}
-		
+
 		return output;
 	}
-	
+
 	/**
-	 * String 타입의 데이터를 넣기 위해서 사용하는 메소드
-	 * 예외처리 기능을 포함하였다.
+	 * String 타입의 데이터를 넣기 위해서 사용하는 메소드 예외처리 기능을 포함하였다.
+	 * 
 	 * @return 문자열
 	 */
 	public String inputString() {
 		String str;
 		try {
-			 str = sc.nextLine();
+			str = sc.nextLine();
 		} catch (InputMismatchException e) {
 			throw e;
 		}
-		
+
 		return str;
 	}
-	
+
 	/**
-	 * 성별을 넣기 위해 사용하는 메소드 String값을 boolean으로 변환.
-	 * 사용자 편의성을 위해서 추가함.
+	 * 성별을 넣기 위해 사용하는 메소드 String값을 boolean으로 변환. 사용자 편의성을 위해서 추가함.
+	 * 
 	 * @return 남성이면 true 여성이면 false
 	 */
 	public boolean inputSex() {
 		String str;
 		boolean sex;
-		
+
 		str = sc.nextLine();
-		
+
 		if (str.equals("M")) {
 			sex = true;
 		} else if (str.equals("F")) {
@@ -347,20 +347,21 @@ public class WeddingUI {
 			InputMismatchException e = new InputMismatchException();
 			throw e;
 		}
-		
+
 		return sex;
 	}
-	
+
 	/**
 	 * Y/N 선택
+	 * 
 	 * @return yes이면 true, no이면 false
 	 */
 	public boolean inputChoice() {
 		String str;
 		boolean choice;
-		
+
 		str = sc.nextLine();
-		
+
 		if (str.equals("Y")) {
 			choice = true;
 		} else if (str.equals("N")) {
@@ -369,7 +370,7 @@ public class WeddingUI {
 			InputMismatchException e = new InputMismatchException();
 			throw e;
 		}
-		
+
 		return choice;
 	}
 }
