@@ -6,22 +6,24 @@ public class Human {
 	// 계정정보
 	String id;
 	String password;
-	String[] grade = new String[7];
+	String grade;
 	int level;
 	// 신상정보
 	String name;
 	boolean sex;
 	int age;
+	int height;
 	double bmi;
 	// 능력정보
 	String latestEdu;
+	int latestEduLevel;
 	int salary;
 	// 점수
 	int totalScore;
 	double nomalizedTotalScore;
 	int LatestEduScore;
 	int SalaryScore;
-	int bodyShapeScore;
+	int heightScore;
 	//충전금액
 	int cash;
 	//매칭 억셉터
@@ -29,6 +31,7 @@ public class Human {
 	String matchedId;
 	//매칭 락
 	boolean lock;
+	boolean success;
 	
 	/**
 	 * 기본 생성자
@@ -48,23 +51,55 @@ public class Human {
 		this.name = (String) humanInfo.get(2);
 		this.sex = (Boolean) humanInfo.get(3);
 		this.age = (Integer) humanInfo.get(4);
-		this.bmi = (Double) humanInfo.get(5);
+		this.height = (Integer) humanInfo.get(5);
+		this.bmi = (Double) humanInfo.get(6);
 		
-		this.latestEdu = (String) humanInfo.get(6);
-		this.salary = (Integer) humanInfo.get(7);
+		this.latestEdu = (String) humanInfo.get(7);
+		this.latestEduLevel = (Integer) humanInfo.get(8);
+		this.salary = (Integer) humanInfo.get(9);
 		
 		this.nomalizedTotalScore = 0;
-		this.lock = false;
 		
-		this.grade[0] = "언랭";
-		this.grade[1] = "브론즈";
-		this.grade[2] = "실버";
-		this.grade[3] = "골드";
-		this.grade[4] = "플래티넘";
-		this.grade[5] = "다이아";
-		this.grade[6] = "비브라늄";
+		this.matchedId = null;
+		this.lock = false;
+		this.success = false;
+		
+		this.grade = (level == 0) ? "언랭" : 
+						(level == 1) ? "브론즈" : 
+						(level == 2) ? "실버" : 
+						(level == 3) ? "골드" : 
+						(level == 4) ? "플래티넘" : 
+						(level == 5 ) ? "다이아" : "비브라늄";
 	}
 	
+	/**
+	 * vo의 정보를 출력하는 메소드
+	 */
+	@Override
+	public String toString() {
+		StringBuffer buf = new StringBuffer();
+		
+		buf.append("등급: ");
+		buf.append(grade + ", ");
+		buf.append("이름: ");
+		buf.append(this.name + ", ");
+		buf.append("나이: ");
+		buf.append(this.age);
+		buf.append("성별: ");
+		if(this.sex) {
+			buf.append("남성, ");
+		} else {
+			buf.append("여성, ");
+		}
+		buf.append("학벌");
+		buf.append(latestEdu+ ", ");
+		buf.append("연봉");
+		buf.append(Integer.toString(salary) + ", ");
+		buf.append("BMI");
+		buf.append(Double.toString(bmi));
+		
+		return buf.toString();
+	}
 	// setter와 getter
 	public String getName() {
 		return name;
@@ -160,14 +195,6 @@ public class Human {
 		SalaryScore = salaryScore;
 	}
 
-	public int getBodyShapeScore() {
-		return bodyShapeScore;
-	}
-
-	public void setBodyShapeScore(int bodyShapeScore) {
-		this.bodyShapeScore = bodyShapeScore;
-	}
-
 	public boolean isInvited() {
 		return invited;
 	}
@@ -200,7 +227,34 @@ public class Human {
 		this.lock = lock;
 	}
 
-	public String[] getGrade() {
+	public String getGrade() {
 		return grade;
 	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getHeightScore() {
+		return heightScore;
+	}
+
+	public void setHeightScore(int heightScore) {
+		this.heightScore = heightScore;
+	}	
+	
+	
+	
 }
