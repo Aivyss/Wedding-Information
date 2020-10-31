@@ -10,28 +10,26 @@ public class Male extends Human {
 		this.taco = (Boolean) humanInfo.get(10);
 	}
 	
+	/**
+	 * vo객체의 정보를 출력하는 메소드
+	 */
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		
 		buf.append(super.toString() +", ");
-		buf.append("Ż�𿩺�: ");
+		buf.append("탈모여부: ");
 		if(taco) {
 			buf.append("O");
 		} else {
-			buf.append("ǳ��");
+			buf.append("풍성");
 		}
 		
 		return buf.toString();
 	}
-
+	
+	// Getter and Setter
 	public boolean isTaco() {
 		return taco;
 	}
-
-	public void setTaco(boolean taco) {
-		this.taco = taco;
-	}
-	
-	
 }

@@ -3,45 +3,45 @@ package vo;
 import java.util.ArrayList;
 
 public class Human {
-	// °èÁ¤Á¤º¸
+	// ê³„ì •ì •ë³´
 	String id;
 	String password;
 	String grade;
 	int level;
-	// ½Å»óÁ¤º¸
+	// ì‹ ìƒì •ë³´
 	String name;
 	boolean sex;
 	int age;
 	int height;
 	double bmi;
-	// ´É·ÂÁ¤º¸
+	// ëŠ¥ë ¥ì •ë³´
 	String latestEdu;
 	int latestEduLevel;
 	int salary;
-	// Á¡¼ö
+	// ì ìˆ˜
 	int totalScore;
 	double nomalizedTotalScore;
 	int LatestEduScore;
 	int SalaryScore;
 	int heightScore;
-	//ÃæÀü±İ¾×
+	//ì¶©ì „ê¸ˆì•¡
 	int cash;
-	//¸ÅÄª ¾ï¼ÁÅÍ
+	//ë§¤ì¹­ ì–µì…‰í„°
 	boolean invited;
 	String matchedId;
-	//¸ÅÄª ¶ô
+	//ë§¤ì¹­ ë½
 	boolean lock;
 	boolean success;
 	
 	/**
-	 * ±âº» »ı¼ºÀÚ
+	 * ê¸°ë³¸ ìƒì„±ì
 	 */
 	public Human() {
 		
 	}
 	
 	/**
-	 * »ı¼ºÀÚ ¿À¹ö·Îµù 2
+	 * ìƒì„±ì ì˜¤ë²„ë¡œë”© 2
 	 * @param humanInfo
 	 */
 	public Human(ArrayList<Object> humanInfo) {
@@ -66,162 +66,125 @@ public class Human {
 	}
 	
 	/**
-	 * voÀÇ Á¤º¸¸¦ Ãâ·ÂÇÏ´Â ¸Ş¼Òµå
+	 * voê°ì²´ì˜ ì •ë³´ë¥¼ ì¶œë ¥í•˜ëŠ” ë©”ì†Œë“œ
 	 */
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		
-		buf.append("µî±Ş: ");
+		buf.append("ë“±ê¸‰: ");
 		buf.append(grade + ", ");
-		buf.append("ÀÌ¸§: ");
+		buf.append("ì´ë¦„: ");
 		buf.append(this.name + ", ");
-		buf.append("³ªÀÌ: ");
+		buf.append("ë‚˜ì´: ");
 		buf.append(this.age);
-		buf.append("¼ºº°: ");
+		buf.append("ì„±ë³„: ");
 		if(this.sex) {
-			buf.append("³²¼º, ");
+			buf.append("ë‚¨ì„±, ");
 		} else {
-			buf.append("¿©¼º, ");
+			buf.append("ì—¬ì„±, ");
 		}
-		buf.append("ÇĞ¹ú");
+		buf.append("í•™ë²Œ");
 		buf.append(latestEdu+ ", ");
-		buf.append("¿¬ºÀ");
+		buf.append("ì—°ë´‰");
 		buf.append(Integer.toString(salary) + ", ");
 		buf.append("BMI");
 		buf.append(Double.toString(bmi));
-		buf.append("ÃæÀü±İ: ");
-		buf.append(Integer.toString(cash)+"¿ø");
+		buf.append("ì¶©ì „ê¸ˆ: ");
+		buf.append(Integer.toString(cash)+"ì›");
 		
 		return buf.toString();
 	}
-	// setter¿Í getter
+	
+	// setterì™€ getter
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
+
 	public String getId() {
 		return id;
 	}
-	public void setId(String id) {
-		this.id = id;
-	}
+	
 	public boolean isSex() {
 		return sex;
-	}
-	public void setSex(boolean sex) {
-		this.sex = sex;
 	}
 	
 	public int getAge() {
 		return age;
 	}
-	public void setAge(int age) {
-		this.age = age;
-	}
+	
 	public int getSalary() {
 		return salary;
 	}
-	public void setSalary(int salary) {
-		this.salary = salary;
-	}
-	public double getBmi() {
-		return bmi;
-	}
-	public void setBmi(double bmi) {
-		this.bmi = bmi;
-	}
-
+	
 	public String getPassword() {
 		return password;
 	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getLatestEdu() {
-		return latestEdu;
-	}
-
-	public void setLatestEdu(String latestEdu) {
-		this.latestEdu = latestEdu;
-	}
-
+	
 	public int getCash() {
 		return cash;
 	}
-
+	
 	public void setCash(int cash) {
 		this.cash = cash;
 	}
-
-	public int getTotalScore() {
-		return totalScore;
-	}
-
+	
 	public void setTotalScore(int totalScore) {
 		this.totalScore = totalScore;
 	}
-
+	
 	public double getNomalizedTotalScore() {
 		return nomalizedTotalScore;
 	}
-
+	
 	public void setNomalizedTotalScore(double nomalizedTotalScore) {
 		this.nomalizedTotalScore = nomalizedTotalScore;
 	}
-
+	
 	public int getLatestEduScore() {
 		return LatestEduScore;
 	}
-
+	
 	public void setLatestEduScore(int latestEduScore) {
 		LatestEduScore = latestEduScore;
 	}
-
-	public int getSalaryScore() {
-		return SalaryScore;
-	}
-
+	
 	public void setSalaryScore(int salaryScore) {
 		SalaryScore = salaryScore;
 	}
-
+	
 	public boolean isInvited() {
 		return invited;
 	}
-
+	
 	public void setInvited(boolean invited) {
 		this.invited = invited;
 	}
-
+	
 	public String getMatchedId() {
 		return matchedId;
 	}
-
+	
 	public void setMatchedId(String matchedId) {
 		this.matchedId = matchedId;
 	}
-
+	
 	public int getLevel() {
 		return level;
 	}
-
+	
 	public void setLevel(int level) {
 		this.level = level;
 	}
-
+	
 	public boolean isLock() {
 		return lock;
 	}
-
+	
 	public void setLock(boolean lock) {
 		this.lock = lock;
 	}
-
+	
 	public String getGrade() {
 		return grade;
 	}
@@ -238,14 +201,6 @@ public class Human {
 		return height;
 	}
 
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	public int getHeightScore() {
-		return heightScore;
-	}
-
 	public void setHeightScore(int heightScore) {
 		this.heightScore = heightScore;
 	}
@@ -253,5 +208,4 @@ public class Human {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}	
-	
 }

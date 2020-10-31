@@ -7,7 +7,7 @@ public class Female extends Human {
 	int surgeryScore;
 	
 	/**
-	 * ¿©¼º °´Ã¼¸¦ »ı¼ºÇÏ´Â »ı¼ºÀÚ.
+	 * ì—¬ì„± ê°ì²´ë¥¼ ìƒì„±í•˜ëŠ” ìƒì„±ì.
 	 * @param humanInfo
 	 */
 	public Female(ArrayList<Object> humanInfo) {
@@ -15,29 +15,29 @@ public class Female extends Human {
 		surgeryScore = (Integer) humanInfo.get(10);
 	}
 	
+	/**
+	 * voê°ì²´ì˜ ì •ë³´ë¥¼ ì¶œë ¥í•˜ëŠ” ë©”ì†Œë“œ
+	 */
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		
 		buf.append(super.toString() +", ");
-		buf.append("¼ºÇü¿©ºÎ: ");
+		buf.append("ì„±í˜•ì—¬ë¶€: ");
 		if (this.surgeryScore == 4) {
-			buf.append("ÀÚ¿¬»ê");
+			buf.append("ìì—°ì‚°");
 		} else if (this.surgeryScore == 3) {
-			buf.append("¹İÀÚ¿¬»ê");
+			buf.append("ë°˜ìì—°ì‚°");
 		} else if (this.surgeryScore == 2) {
-			buf.append("¹İ¾ç½Ä");
+			buf.append("ë°˜ì–‘ì‹");
 		} else if (this.surgeryScore == 1) {
-			 buf.append("¾ç½Ä");
+			 buf.append("ì–‘ì‹");
 		}
 
 		return buf.toString();
 	}
-
-	public int getAgeScore() {
-		return ageScore;
-	}
-
+	
+	// Getter and Setter
 	public void setAgeScore(int ageScore) {
 		this.ageScore = ageScore;
 	}
@@ -45,10 +45,4 @@ public class Female extends Human {
 	public int getSurgeryScore() {
 		return surgeryScore;
 	}
-
-	public void setSurgeryScore(int surgeryScore) {
-		this.surgeryScore = surgeryScore;
-	}
-	
-	
 }

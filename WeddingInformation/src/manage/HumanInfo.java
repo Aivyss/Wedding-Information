@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import vo.Female;
 import vo.Human;
@@ -23,11 +22,11 @@ public class HumanInfo {
 	}
 	
 	/**
-	 * ·Î±×ÀÎÀ» ¼öÇàÇÏ´Â ¸Ş¼ÒµåÀÌ´Ù.
+	 * ë¡œê·¸ì¸ì„ ìˆ˜í–‰í•˜ëŠ” ë©”ì†Œë“œì´ë‹¤.
 	 * 
 	 * @param id
 	 * @param pw
-	 * @return ·Î±×ÀÎÀÌ µÇ¸é °´Ã¼¹İÈ¯ ½ÇÆĞÇÏ¸é null ¹İÈ¯
+	 * @return ë¡œê·¸ì¸ì´ ë˜ë©´ ê°ì²´ë°˜í™˜ ì‹¤íŒ¨í•˜ë©´ null ë°˜í™˜
 	 */
 	public Human signIn(String id, String pw) {
 		Human vo = null;
@@ -43,10 +42,10 @@ public class HumanInfo {
 	}
 
 	/**
-	 * »õ·Î¿î °¡ÀÔÀÚÀÇ Á¤º¸¸¦ È¸¿ø¸ñ·Ï¿¡ Ãß°¡ÇÏ´Â ¸Ş¼Òµå
+	 * ìƒˆë¡œìš´ ê°€ì…ìì˜ ì •ë³´ë¥¼ íšŒì›ëª©ë¡ì— ì¶”ê°€í•˜ëŠ” ë©”ì†Œë“œ
 	 * 
 	 * @param vo
-	 * @return °¡ÀÔÀÌ Á¤»óÀûÀ¸·Î Ã³¸®µÇ¸é true¸¦ ¹İÈ¯
+	 * @return ê°€ì…ì´ ì •ìƒì ìœ¼ë¡œ ì²˜ë¦¬ë˜ë©´ trueë¥¼ ë°˜í™˜
 	 */
 	public boolean addAccount(Human vo) {
 		boolean flag = true;
@@ -62,17 +61,17 @@ public class HumanInfo {
 	}
 
 	/**
-	 * id·Î È¸¿øÀ» Ã£¾Æ¼­ vo°´Ã¼¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	 * idë¡œ íšŒì›ì„ ì°¾ì•„ì„œ voê°ì²´ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	 * 
 	 * @param id
-	 * @return È¸¿øÀ» Ã£Áö ¸øÇÒ½Ã¿¡´Â nullÀ» ¹İÈ¯ÇÔ
+	 * @return íšŒì›ì„ ì°¾ì§€ ëª»í• ì‹œì—ëŠ” nullì„ ë°˜í™˜í•¨
 	 */
 	public Human searchAccount(String id) {
 		return humanMap.get(id);
 	}
 
 	/**
-	 * µî±ŞÀ» ºÎ¿©ÇÏ´Â ¸Ş¼Òµå
+	 * ë“±ê¸‰ì„ ë¶€ì—¬í•˜ëŠ” ë©”ì†Œë“œ
 	 */
 	public void giveGrade() {
 		List<Human> rankMale = new ArrayList<Human>();
@@ -86,7 +85,7 @@ public class HumanInfo {
 			}
 		}
 
-		// ³²¼º ·©Å© Á¤·Ä
+		// ë‚¨ì„± ë­í¬ ì •ë ¬
 		for (int i = 0; i < rankMale.size()-1; i++) {
 			Human temp = null;
 
@@ -99,7 +98,7 @@ public class HumanInfo {
 			}
 		}
 
-		// ¿©¼º ·©Å© Á¤·Ä
+		// ì—¬ì„± ë­í¬ ì •ë ¬
 		for (int i = 0; i < rankFemale.size()-1; i++) {
 			Human temp = null;
 
@@ -112,79 +111,79 @@ public class HumanInfo {
 			}
 		}
 
-		// ³²¼º ·©Å© ºÎ¿©
+		// ë‚¨ì„± ë­í¬ ë¶€ì—¬
 		for (int i = rankMale.size() - 1; i >= 0; i--) {
 			if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.84) {
-				rankMale.get(i).setLevel(0); // ¾ğ·©
+				rankMale.get(i).setLevel(0); // ì–¸ë­
 			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.7) {
-				rankMale.get(i).setLevel(1); // ºê·ĞÁî
+				rankMale.get(i).setLevel(1); // ë¸Œë¡ ì¦ˆ
 			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.56) {
-				rankMale.get(i).setLevel(2); // ½Ç¹ö
+				rankMale.get(i).setLevel(2); // ì‹¤ë²„
 			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.42) {
-				rankMale.get(i).setLevel(3); // °ñµå
+				rankMale.get(i).setLevel(3); // ê³¨ë“œ
 			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.28) {
-				rankMale.get(i).setLevel(4); // ÇÃ·¡Æ¼³Ñ
+				rankMale.get(i).setLevel(4); // í”Œë˜í‹°ë„˜
 			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.14) {
-				rankMale.get(i).setLevel(5); // ´ÙÀÌ¾Æ
+				rankMale.get(i).setLevel(5); // ë‹¤ì´ì•„
 			} else {
-				rankMale.get(i).setLevel(6); // ºñºê¶ó´½
+				rankMale.get(i).setLevel(6); // ë¹„ë¸Œë¼ëŠ„
 			}
 			
-			String grade = (rankMale.get(i).getLevel() == 0) ? "¾ğ·©" : 
-				(rankMale.get(i).getLevel() == 1) ? "ºê·ĞÁî" : 
-				(rankMale.get(i).getLevel() == 2) ? "½Ç¹ö" : 
-				(rankMale.get(i).getLevel() == 3) ? "°ñµå" : 
-				(rankMale.get(i).getLevel() == 4) ? "ÇÃ·¡Æ¼³Ñ" : 
-				(rankMale.get(i).getLevel() == 5 ) ? "´ÙÀÌ¾Æ" : "ºñºê¶ó´½";
+			String grade = (rankMale.get(i).getLevel() == 0) ? "ì–¸ë­" : 
+				(rankMale.get(i).getLevel() == 1) ? "ë¸Œë¡ ì¦ˆ" : 
+				(rankMale.get(i).getLevel() == 2) ? "ì‹¤ë²„" : 
+				(rankMale.get(i).getLevel() == 3) ? "ê³¨ë“œ" : 
+				(rankMale.get(i).getLevel() == 4) ? "í”Œë˜í‹°ë„˜" : 
+				(rankMale.get(i).getLevel() == 5 ) ? "ë‹¤ì´ì•„" : "ë¹„ë¸Œë¼ëŠ„";
 			
 			rankMale.get(i).setGrade(grade);
 		}
 		
 
-		// ¿©¼º ·©Å© ºÎ¿©
+		// ì—¬ì„± ë­í¬ ë¶€ì—¬
 		for (int i = rankFemale.size() - 1; i >= 0; i--) {
 			if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.84) {
-				rankFemale.get(i).setLevel(0); // ¾ğ·©
+				rankFemale.get(i).setLevel(0); // ì–¸ë­
 			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.7) {
-				rankFemale.get(i).setLevel(1); // ºê·ĞÁî
+				rankFemale.get(i).setLevel(1); // ë¸Œë¡ ì¦ˆ
 			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.56) {
-				rankFemale.get(i).setLevel(2); // ½Ç¹ö
+				rankFemale.get(i).setLevel(2); // ì‹¤ë²„
 			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.42) {
-				rankFemale.get(i).setLevel(3); // °ñµå
+				rankFemale.get(i).setLevel(3); // ê³¨ë“œ
 			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.28) {
-				rankFemale.get(i).setLevel(4); // ÇÃ·¡Æ¼³Ñ
+				rankFemale.get(i).setLevel(4); // í”Œë˜í‹°ë„˜
 			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.14) {
-				rankFemale.get(i).setLevel(5); // ´ÙÀÌ¾Æ
+				rankFemale.get(i).setLevel(5); // ë‹¤ì´ì•„
 			} else {
-				rankFemale.get(i).setLevel(6); // ºñºê¶ó´½
+				rankFemale.get(i).setLevel(6); // ë¹„ë¸Œë¼ëŠ„
 			}
 			
-			String grade = (rankFemale.get(i).getLevel() == 0) ? "¾ğ·©" : 
-				(rankFemale.get(i).getLevel() == 1) ? "ºê·ĞÁî" : 
-				(rankFemale.get(i).getLevel() == 2) ? "½Ç¹ö" : 
-				(rankFemale.get(i).getLevel() == 3) ? "°ñµå" : 
-				(rankFemale.get(i).getLevel() == 4) ? "ÇÃ·¡Æ¼³Ñ" : 
-				(rankFemale.get(i).getLevel() == 5 ) ? "´ÙÀÌ¾Æ" : "ºñºê¶ó´½";
+			String grade = (rankFemale.get(i).getLevel() == 0) ? "ì–¸ë­" : 
+				(rankFemale.get(i).getLevel() == 1) ? "ë¸Œë¡ ì¦ˆ" : 
+				(rankFemale.get(i).getLevel() == 2) ? "ì‹¤ë²„" : 
+				(rankFemale.get(i).getLevel() == 3) ? "ê³¨ë“œ" : 
+				(rankFemale.get(i).getLevel() == 4) ? "í”Œë˜í‹°ë„˜" : 
+				(rankFemale.get(i).getLevel() == 5 ) ? "ë‹¤ì´ì•„" : "ë¹„ë¸Œë¼ëŠ„";
 			
 			rankFemale.get(i).setGrade(grade);
 		}
 		
-		// ³²¼º ¾÷µ¥ÀÌÆ®
+		// ë‚¨ì„± ì—…ë°ì´íŠ¸
 		for (Human male : rankMale) {
 			humanMap.put(male.getId(), male);
 		}
 		
-		// ¿©¼º ¾÷µ¥ÀÌÆ®
+		// ì—¬ì„± ì—…ë°ì´íŠ¸
 		for (Human female : rankFemale) {
 			humanMap.put(female.getId(), female);
 		}
 	}
 	
 	/**
-	 * È¸¿øÀÇ Á¡¼ö¸¦ ¸Å±â´Â ÇÁ·Î¼¼½º
+	 * íšŒì›ì˜ ì ìˆ˜ë¥¼ ë§¤ê¸°ëŠ” í”„ë¡œì„¸ìŠ¤
 	 */
 	public void giveScore(Human vo) {
-		// °øÅë Á¡¼ö¸¦ ¸Å±â´Â ÇÁ·Î¼¼½º
+		// ê³µí†µ ì ìˆ˜ë¥¼ ë§¤ê¸°ëŠ” í”„ë¡œì„¸ìŠ¤
 		int eduIndex = vo.getLatestEduScore();
 		int eduScore = (eduIndex == 1) ? 60 : 
 						(eduIndex == 2) ? 57 : 
@@ -209,7 +208,7 @@ public class HumanInfo {
 		vo.setSalaryScore(salaryScore);
 		vo.setHeightScore(heightScore);
 		
-		if (!vo.isSex()) {// ¿©¼ºÀÎ °æ¿ì
+		if (!vo.isSex()) {// ì—¬ì„±ì¸ ê²½ìš°
 			Female voF = (Female) vo;
 			int ageScore = (vo.getAge() >= 35) ? 72 : (vo.getAge() >= 30) ? 76 : (vo.getAge() >= 25) ? 78 : 80;
 			voF.setAgeScore(ageScore);
@@ -223,7 +222,7 @@ public class HumanInfo {
 			
 			voF.setNomalizedTotalScore(normalizedScore);
 			humanMap.put(voF.getId(), voF);
-		} else { // ³²¼ºÀÎ °æ¿ì
+		} else { // ë‚¨ì„±ì¸ ê²½ìš°
 			Male voM = (Male) vo;
 			int totalScore = eduScore + salaryScore + heightScore;
 			double normalizedScore = totalScore;
@@ -241,7 +240,7 @@ public class HumanInfo {
 	}
 
 	/**
-	 * ·Î±×ÀÎÇÑ °í°´ÀÌ ±İ¾×À» ÃæÀüÇÒ ¼ö ÀÖµµ·Ï ¼öÇàÇÏ´Â ¸Ş¼Òµå
+	 * ë¡œê·¸ì¸í•œ ê³ ê°ì´ ê¸ˆì•¡ì„ ì¶©ì „í•  ìˆ˜ ìˆë„ë¡ ìˆ˜í–‰í•˜ëŠ” ë©”ì†Œë“œ
 	 * 
 	 * @param vo
 	 * @param pw
@@ -261,7 +260,7 @@ public class HumanInfo {
 	}
 
 	/**
-	 * ÁöÁ¤ÇÑ ·¹º§ÀÎ ´ë»óÀÚ¸¦ ·£´ıÀ¸·Î »Ì¾Æ³»´Â ¸Ş¼Òµå ¸®½ºÆ®·Î ÇØ´çÀÚ¸¸ ´ã¾Æ¼­ ±× ¾È¿¡¼­ ·£´ıÀ¸·Î ÃßÃâÇÑ´Ù.
+	 * ì§€ì •í•œ ë ˆë²¨ì¸ ëŒ€ìƒìë¥¼ ëœë¤ìœ¼ë¡œ ë½‘ì•„ë‚´ëŠ” ë©”ì†Œë“œ ë¦¬ìŠ¤íŠ¸ë¡œ í•´ë‹¹ìë§Œ ë‹´ì•„ì„œ ê·¸ ì•ˆì—ì„œ ëœë¤ìœ¼ë¡œ ì¶”ì¶œí•œë‹¤.
 	 * 
 	 * @param level
 	 * @return
@@ -278,7 +277,7 @@ public class HumanInfo {
 		
 		if(list.size() == 0) {
 			vo = null;
-		} else { // »çÀÌÁî 1 ÀÌ»ó
+		} else { // ì‚¬ì´ì¦ˆ 1 ì´ìƒ
 			int index = rd.nextInt(list.size());
 			vo = list.get(index);
 		}
@@ -287,7 +286,7 @@ public class HumanInfo {
 	}
 	
 	/**
-	 * ¸ÅÄª¿äÃ»À» ¼öÇàÇÏ´Â ¸Ş¼Òµå
+	 * ë§¤ì¹­ìš”ì²­ì„ ìˆ˜í–‰í•˜ëŠ” ë©”ì†Œë“œ
 	 * @param me
 	 * @param you
 	 * @return
@@ -315,7 +314,7 @@ public class HumanInfo {
 	}
 	
 	/**
-	 * »ó´ëÀÇ ¸ÅÄªÀ» ¼ö¶ôÇÏ´Â ¸Ş¼Òµå
+	 * ìƒëŒ€ì˜ ë§¤ì¹­ì„ ìˆ˜ë½í•˜ëŠ” ë©”ì†Œë“œ
 	 */
 	public boolean accept(String myId, String yourId, boolean flag) {
 		Human me = humanMap.get(myId);
@@ -332,8 +331,8 @@ public class HumanInfo {
 						(level == 4) ? 5000000 : 
 						(level == 5) ? 7000000 : 10000000;
 			
-			if(flag) { // ¸ÅÄªÀÇ»ç yes
-				if (you.getCash()-fee >= 0) { // ¸ÅÄªÀÌ ¼º»ç
+			if(flag) { // ë§¤ì¹­ì˜ì‚¬ yes
+				if (you.getCash()-fee >= 0) { // ë§¤ì¹­ì´ ì„±ì‚¬
 					you.setCash(you.getCash()-fee);
 					you.setInvited(true);
 					you.setSuccess(true);
@@ -342,10 +341,10 @@ public class HumanInfo {
 					humanMap.put(you.getId(), you);
 					
 					flagT = true;
-				} else { // µ·ÀÌ ¾ø¾î ¸ÅÄªÀÌ ½ÇÆĞ
+				} else { // ëˆì´ ì—†ì–´ ë§¤ì¹­ì´ ì‹¤íŒ¨
 					initialize(myId);
 				}
-			} else { // ¸ÅÄªÀÇ»ç no
+			} else { // ë§¤ì¹­ì˜ì‚¬ no
 				initialize(myId);
 			}
 		}
@@ -354,7 +353,7 @@ public class HumanInfo {
 	}
 	
 	/**
-	 * ¸ÅÄª Á¤º¸¸¦ ÃÊ±âÈ­ ÇØÁÖ´Â ¸Ş¼Òµå. ´Ù½Ã ¸¸³²À» °¡Áú ¼ö ÀÖµµ·Ï ÇØÁØ´Ù.
+	 * ë§¤ì¹­ ì •ë³´ë¥¼ ì´ˆê¸°í™” í•´ì£¼ëŠ” ë©”ì†Œë“œ. ë‹¤ì‹œ ë§Œë‚¨ì„ ê°€ì§ˆ ìˆ˜ ìˆë„ë¡ í•´ì¤€ë‹¤.
 	 * @param id
 	 * @return
 	 */

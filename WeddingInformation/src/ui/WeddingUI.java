@@ -10,13 +10,13 @@ import vo.Human;
 import vo.Male;
 
 public class WeddingUI {
-	// UI Å¬·¡½ºÀÇ ¸â¹öº¯¼ö
+	// UI í´ë˜ìŠ¤ì˜ ë©¤ë²„ë³€ìˆ˜
 	Scanner sc;
 	HumanInfo manage;
 	Human loggedIn;
 
 	/**
-	 * UI °´Ã¼ »ı¼ºÀÚ. ui±â´ÉÀÇ Àü¹İÀ» ´ã´çÇÑ´Ù.
+	 * UI ê°ì²´ ìƒì„±ì. uiê¸°ëŠ¥ì˜ ì „ë°˜ì„ ë‹´ë‹¹í•œë‹¤.
 	 */
 	public WeddingUI() {
 		sc = new Scanner(System.in);
@@ -25,11 +25,12 @@ public class WeddingUI {
 
 		while (true) {
 			try {
-				if (this.loggedIn == null) { // ·Î±×ÀÎ Àü
+				if (this.loggedIn == null) { // ë¡œê·¸ì¸ ì „
+					System.out.println("================================");
 					menu1();
 					int selector = inputInteger();
-					
 					System.out.println("================================");
+
 					if (selector == 1) {
 						signIn();
 					} else if (selector == 2) {
@@ -37,10 +38,11 @@ public class WeddingUI {
 					} else if (selector == 3) {
 						break;
 					} else {
-						System.out.println("[¿¡·¯] Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.");
+						System.out.println("[ì—ëŸ¬] ì˜ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤.");
 					}
-				} else { // ·Î±×ÀÎ ÈÄ
+				} else { // ë¡œê·¸ì¸ í›„
 					while (true) {
+						System.out.println("================================");
 						menu2();
 						int selector = inputInteger();
 						System.out.println("================================");
@@ -58,108 +60,106 @@ public class WeddingUI {
 						} else if (selector == 6) {
 							initializeMatch();
 						} else if (selector == 0) {
-							System.out.println("[¾Ë¸²] Àü´Ü°è·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+							System.out.println("[ì•Œë¦¼] ì „ë‹¨ê³„ë¡œ ì´ë™í•©ë‹ˆë‹¤.");
 							this.loggedIn = null;
 							break;
 						} else {
-							System.out.println("[¿¡·¯] Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.");
+							System.out.println("[ì—ëŸ¬] ì˜ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤.");
 						}
 					}
 				}
 			} catch (InputMismatchException e) {
-				e = new InputMismatchException("[¿¡·¯] Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.");
+				e = new InputMismatchException("[ì—ëŸ¬] ì˜ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤.");
 				System.out.println(e.getMessage());
 			}
 		} // while end
 	}
 
 	/**
-	 * ·Î±×ÀÎ ÀüÀÇ ¸Ş´ºÈ­¸éÀ» º¸¿©ÁÖ´Â ¸Ş¼Òµå
+	 * ë¡œê·¸ì¸ ì „ì˜ ë©”ë‰´í™”ë©´ì„ ë³´ì—¬ì£¼ëŠ” ë©”ì†Œë“œ
 	 */
 	public void menu1() {
-		System.out.println("================================");
-		System.out.println("[È¸¿ø°¡ÀÔ/·Î±×ÀÎ]");
-		System.out.println("1. ·Î±×ÀÎ");
-		System.out.println("2. È¸¿ø°¡ÀÔ");
-		System.out.println("3. ÇÁ·Î±×·¥ Á¾·á");
-		System.out.print("¸Ş´º¼±ÅÃ> ");
+		System.out.println("[íšŒì›ê°€ì…/ë¡œê·¸ì¸]");
+		System.out.println("1. ë¡œê·¸ì¸");
+		System.out.println("2. íšŒì›ê°€ì…");
+		System.out.println("3. í”„ë¡œê·¸ë¨ ì¢…ë£Œ");
+		System.out.print("ë©”ë‰´ì„ íƒ> ");
 	}
 
 	/**
-	 * ÀÏ¹İÈ¸¿øÀÇ ·Î±×ÀÎ ÈÄ È­¸éÀ» º¸¿©ÁÖ´Â ¸Ş¼Òµå
+	 * ì¼ë°˜íšŒì›ì˜ ë¡œê·¸ì¸ í›„ í™”ë©´ì„ ë³´ì—¬ì£¼ëŠ” ë©”ì†Œë“œ
 	 */
 	public void menu2() {
-		System.out.println("================================");
-		System.out.println("[" + loggedIn.getName() + "È¸¿ø´Ô È¯¿µÇÕ´Ï´Ù.]");
-		System.out.println("1. Ä³½Ã ÃæÀüÇÏ±â");
-		System.out.println("2. »ó´ë ¸ÅÄªÇÏ±â");
-		System.out.println("3. »ó´ë ¸ÅÄª ¼ö¶ôÇÏ±â");
-		System.out.println("4. ¸ÅÄª ¼º»ç ÇöÈ²");
-		System.out.println("5. ³ªÀÇ Á¤º¸ ÇöÈ² È®ÀÎ");
-		System.out.println("6. ¸ÅÄª ÃÊ±âÈ­");
-		System.out.println("0. ·Î±×ÀÎ Àü´Ü°è·Î ÀÌµ¿");
-		System.out.print("¸Ş´º¼±ÅÃ> ");
+		System.out.println("[" + loggedIn.getName() + "íšŒì›ë‹˜ í™˜ì˜í•©ë‹ˆë‹¤.]");
+		System.out.println("1. ìºì‹œ ì¶©ì „í•˜ê¸°");
+		System.out.println("2. ìƒëŒ€ ë§¤ì¹­í•˜ê¸°");
+		System.out.println("3. ìƒëŒ€ ë§¤ì¹­ ìˆ˜ë½í•˜ê¸°");
+		System.out.println("4. ë§¤ì¹­ ì„±ì‚¬ í˜„í™©");
+		System.out.println("5. ë‚˜ì˜ ì •ë³´ í˜„í™© í™•ì¸");
+		System.out.println("6. ë§¤ì¹­ ì´ˆê¸°í™”");
+		System.out.println("0. ë¡œê·¸ì¸ ì „ë‹¨ê³„ë¡œ ì´ë™");
+		System.out.print("ë©”ë‰´ì„ íƒ> ");
 	}
 
 	/**
-	 * ·Î±×ÀÎÀ» ¼öÇàÇÏ´Â ¸Ş¼Òµå
+	 * ë¡œê·¸ì¸ì„ ìˆ˜í–‰í•˜ëŠ” ë©”ì†Œë“œ
 	 */
 	public void signIn() {
-		System.out.print("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ");
+		System.out.print("ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ");
 		String id = inputString();
-		System.out.print("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ");
+		System.out.print("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ");
 		String pw = inputString();
 		this.loggedIn = manage.signIn(id, pw);
 
 		if (this.loggedIn != null) {
-			System.out.println("[¾Ë¸²] ·Î±×ÀÎ µÇ¾ú½À´Ï´Ù.");
+			System.out.println("[ì•Œë¦¼] ë¡œê·¸ì¸ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		} else {
-			System.out.println("[¾Ë¸²] ·Î±×ÀÎ¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+			System.out.println("[ì•Œë¦¼] ë¡œê·¸ì¸ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		}
 	}
 
 	/**
-	 * È¸¿ø°¡ÀÔÀ» ¼öÇàÇÏ´Â ¸Ş¼Òµå.
+	 * íšŒì›ê°€ì…ì„ ìˆ˜í–‰í•˜ëŠ” ë©”ì†Œë“œ.
 	 */
 	public void signUp() {
 		Human vo = null;
 		ArrayList<Object> humanInfo = new ArrayList<>();
 		
-		System.out.print("ÀÌ¿ëÇÒ ¾ÆÀÌµğ ÀÔ·Â: ");
+		System.out.print("ì´ìš©í•  ì•„ì´ë”” ì…ë ¥: ");
 		String id = inputString();
 
 		vo = manage.humanMap.get(id);
 		if (vo == null) {
 			humanInfo.add(id);
-			System.out.print("ºñ¹Ğ¹øÈ£ ÀÔ·Â: ");
+			System.out.print("ë¹„ë°€ë²ˆí˜¸ ì…ë ¥: ");
 			humanInfo.add(inputString());
-			System.out.print("ÀÌ¸§ ÀÔ·Â: ");
+			System.out.print("ì´ë¦„ ì…ë ¥: ");
 			humanInfo.add(inputString());
-			System.out.print("¼ºº° ÀÔ·Â(M/F): ");
+			System.out.print("ì„±ë³„ ì…ë ¥(M/F): ");
 			boolean sex = inputSex();
 			humanInfo.add(sex);
-			System.out.print("³ªÀÌ ÀÔ·Â: ");
+			System.out.print("ë‚˜ì´ ì…ë ¥: ");
 			humanInfo.add(inputInteger());
-			System.out.print("Å° ÀÔ·Â: ");
+			System.out.print("í‚¤ ì…ë ¥: ");
 			humanInfo.add(inputInteger());
-			System.out.print("BMI ÀÔ·Â: ");
+			System.out.print("BMI ì…ë ¥: ");
 			humanInfo.add(inputDouble());
-			System.out.print("ÃÖÁ¾´ëÇĞ ÀÔ·Â: ");
+			System.out.print("ìµœì¢…ëŒ€í•™ ì…ë ¥: ");
 			humanInfo.add(inputString());
-			System.out.print("ÃÖÁ¾ÇĞ·Â ºĞ·ù 1. ¾ÆÀÌºñ¸®±×, 2. ¼³´ë, Ä«ÀÌ½ºÆ®, Æ÷°ø, 3. ¿¬°í¼º ÇØ¿Ü´ëÇĞ, 4. ÀÎ¼­¿ï,  5. ÀÎ°æ±â,  6.Áö°Å±¹, 7. Áö¹æ´ë: ");
+			System.out.print("ìµœì¢…í•™ë ¥ ë¶„ë¥˜ 1. ì•„ì´ë¹„ë¦¬ê·¸, 2. ì„¤ëŒ€, ì¹´ì´ìŠ¤íŠ¸, í¬ê³µ, 3. ì—°ê³ ì„± í•´ì™¸ëŒ€í•™, 4. ì¸ì„œìš¸,  5. ì¸ê²½ê¸°,  6.ì§€ê±°êµ­, 7. ì§€ë°©ëŒ€: ");
 			humanInfo.add(inputInteger());
-			System.out.print("¿¬ºÀ ÀÔ·Â: ");
+			System.out.print("ì—°ë´‰ ì…ë ¥: ");
 			humanInfo.add(inputInteger());
 
 			boolean flag = false;
-			if (sex) { // ¼ºº°ÀÌ ³²¼ºÀÎ °æ¿ì
-				System.out.print("Å»¸ğ ¿©ºÎ(Y/N): ");
+			if (sex) { // ì„±ë³„ì´ ë‚¨ì„±ì¸ ê²½ìš°
+				System.out.print("íƒˆëª¨ ì—¬ë¶€(Y/N): ");
 				humanInfo.add(inputChoice());
 
 				vo = new Male(humanInfo);
 				flag = manage.addAccount(vo);
-			} else { // ¼ºº°ÀÌ ¿©¼ºÀÎ °æ¿ì
-				System.out.print("½Ã¼ú/¼ºÇü ¿©ºÎ(1. ¾ó±¼ÀüÃ¼¼ºÇü, 2.¾ç¾Ç, 3.´Ü¼ø½Ã¼ú, 4.ÇØ´ç¾øÀ½): ");
+			} else { // ì„±ë³„ì´ ì—¬ì„±ì¸ ê²½ìš°
+				System.out.print("ì‹œìˆ /ì„±í˜• ì—¬ë¶€(1. ì–¼êµ´ì „ì²´ì„±í˜•, 2.ì–‘ì•…, 3.ë‹¨ìˆœì‹œìˆ , 4.í•´ë‹¹ì—†ìŒ): ");
 				humanInfo.add(inputInteger());
 
 				vo = new Female(humanInfo);
@@ -167,34 +167,34 @@ public class WeddingUI {
 			}
 
 			if (flag) {
-				System.out.println("[¾Ë¸²] È¸¿ø µî·ÏÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+				System.out.println("[ì•Œë¦¼] íšŒì› ë“±ë¡ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			} else {
-				System.out.println("[¾Ë¸²] È¸¿ø µî·ÏÀÌ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+				System.out.println("[ì•Œë¦¼] íšŒì› ë“±ë¡ì´ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			}
 		} else {
-			System.out.println("[¿¡·¯] ÀÌ¹Ì ÀÖ´Â ¾ÆÀÌµğ ÀÔ´Ï´Ù.");
+			System.out.println("[ì—ëŸ¬] ì´ë¯¸ ìˆëŠ” ì•„ì´ë”” ì…ë‹ˆë‹¤.");
 		}
 	}
 
 	/**
-	 * Ä³½Ã¸¦ ÃæÀüÇÏ´Â ¸Ş¼Òµå
+	 * ìºì‹œë¥¼ ì¶©ì „í•˜ëŠ” ë©”ì†Œë“œ
 	 */
 	public void deposit() {
-		System.out.print("º»ÀÎ È®ÀÎÀ» À§ÇÑ ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ");
+		System.out.print("ë³¸ì¸ í™•ì¸ì„ ìœ„í•œ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ");
 		String pw = inputString();
 
 		if (pw.equals(loggedIn.getPassword())) {
-			System.out.print("ÃæÀüÇÒ ±İ¾×À» ÀÔ·Â: ");
+			System.out.print("ì¶©ì „í•  ê¸ˆì•¡ì„ ì…ë ¥: ");
 			int cash = inputInteger();
 
 			manage.deposit(loggedIn, pw, cash);
 		} else {
-			System.out.println("[¿¡·¯] ºñ¹Ğ¹øÈ£°¡ Æ²·È½À´Ï´Ù.");
+			System.out.println("[ì—ëŸ¬] ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë ¸ìŠµë‹ˆë‹¤.");
 		}
 	}
 
 	/**
-	 * »ó´ë¸¦ ¸ÅÄªÇÏ´Â ¸Ş¼Òµå
+	 * ìƒëŒ€ë¥¼ ë§¤ì¹­í•˜ëŠ” ë©”ì†Œë“œ
 	 */
 	public void match() {
 		int level = this.loggedIn.getLevel();
@@ -203,12 +203,12 @@ public class WeddingUI {
 
 
 		if (loggedIn.isLock()) {
-			System.out.println("[¿¡·¯] ¸ÅÄª¼ö¶ô ´ë±âÁßÀÌ°Å³ª ¼ö¶ô ¿©ºÎ¸¦ ÆÇ´ÜÇÒ ´ë»óÀÌ ÀÖ½À´Ï´Ù.");
+			System.out.println("[ì—ëŸ¬] ë§¤ì¹­ìˆ˜ë½ ëŒ€ê¸°ì¤‘ì´ê±°ë‚˜ ìˆ˜ë½ ì—¬ë¶€ë¥¼ íŒë‹¨í•  ëŒ€ìƒì´ ìˆìŠµë‹ˆë‹¤.");
 		} else {
 			System.out.println(loggedIn.toString());
-			System.out.println("´ç½ÅÀÇ µî±ŞÀº " + grade + "ÀÔ´Ï´Ù.");
-			System.out.println("6. ºñºê¶ó´½ 5. ´ÙÀÌ¾Æ 4. ÇÃ·¡Æ¼³Ñ 3. °ñµå 2. ½Ç¹ö 1. ºê·ĞÁî 0. ¾ğ·©");
-			System.out.print("´ç½ÅÀÌ ¸ÅÄªÀ» ¿øÇÏ´Â µî±ŞÀ» °í¸£¼¼¿ä: ");
+			System.out.println("ë‹¹ì‹ ì˜ ë“±ê¸‰ì€ " + grade + "ì…ë‹ˆë‹¤.");
+			System.out.println("6. ë¹„ë¸Œë¼ëŠ„ 5. ë‹¤ì´ì•„ 4. í”Œë˜í‹°ë„˜ 3. ê³¨ë“œ 2. ì‹¤ë²„ 1. ë¸Œë¡ ì¦ˆ 0. ì–¸ë­");
+			System.out.print("ë‹¹ì‹ ì´ ë§¤ì¹­ì„ ì›í•˜ëŠ” ë“±ê¸‰ì„ ê³ ë¥´ì„¸ìš”: ");
 
 			boolean choice = true;
 			while (choice) {
@@ -219,26 +219,26 @@ public class WeddingUI {
 					Human another = manage.searchMatch(selector, sex);
 
 					if (another == null) {
-						System.out.println("[¿¡·¯] µî±Ş¿¡ ÀÎ¿øÀÌ ¾ø½À´Ï´Ù.");
+						System.out.println("[ì—ëŸ¬] ë“±ê¸‰ì— ì¸ì›ì´ ì—†ìŠµë‹ˆë‹¤.");
 						break;
 					}
-					System.out.println(another.toString()); // »ó´ë Á¤º¸ Ãâ·Â
-					System.out.print("¼±ÅÃÇÏ½Ã°Ú½À´Ï±î(Y/N): ");
+					System.out.println(another.toString()); // ìƒëŒ€ ì •ë³´ ì¶œë ¥
+					System.out.print("ì„ íƒí•˜ì‹œê² ìŠµë‹ˆê¹Œ(Y/N): ");
 					choice = !inputChoice();
 
 					if (choice) {
-						System.out.print("´õ °Ë»öÇÏ½Ã°Ú½À´Ï±î(Y/N): ");
+						System.out.print("ë” ê²€ìƒ‰í•˜ì‹œê² ìŠµë‹ˆê¹Œ(Y/N): ");
 						choice = inputChoice();
 					} else {
 						flag = manage.match(loggedIn, another);
 						if (flag) {
-							System.out.println("¸ÅÄª½ÅÃ»À» º¸³Â½À´Ï´Ù.");
+							System.out.println("ë§¤ì¹­ì‹ ì²­ì„ ë³´ëƒˆìŠµë‹ˆë‹¤.");
 						} else {
-							System.out.println("¸ÅÄª¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+							System.out.println("ë§¤ì¹­ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 						}
 					}
 				} else {
-					System.out.println("[¿¡·¯] ¼±ÅÃÇÒ ¼ö ¾ø´Â µî±ŞÀÔ´Ï´Ù.");
+					System.out.println("[ì—ëŸ¬] ì„ íƒí•  ìˆ˜ ì—†ëŠ” ë“±ê¸‰ì…ë‹ˆë‹¤.");
 					break;
 				}
 			}
@@ -246,67 +246,67 @@ public class WeddingUI {
 	}
 
 	/**
-	 * »ó´ë ¸ÅÄª È®ÀÎ ¹× ¼ö¶ôÇÏ´Â ¸Ş¼Òµå
+	 * ìƒëŒ€ ë§¤ì¹­ í™•ì¸ ë° ìˆ˜ë½í•˜ëŠ” ë©”ì†Œë“œ
 	 */
 	public void accept() {
 		if (loggedIn.isInvited() && !loggedIn.isSuccess()) {
 			String matchedId = this.loggedIn.getMatchedId();
-			Human vo = manage.searchAccount(matchedId); // »ó´ëÀÇ Á¤º¸(°´Ã¼)
+			Human vo = manage.searchAccount(matchedId); // ìƒëŒ€ì˜ ì •ë³´(ê°ì²´)
 
-			System.out.println("[¸ÅÄª½ÅÃ»À» º¸³½ »ó´ëÀÇ Á¤º¸ÀÔ´Ï´Ù]");
+			System.out.println("[ë§¤ì¹­ì‹ ì²­ì„ ë³´ë‚¸ ìƒëŒ€ì˜ ì •ë³´ì…ë‹ˆë‹¤]");
 			System.out.println(vo.toString());
-			System.out.print("¸ÅÄª ¼ö¶ô(Y/N): ");
+			System.out.print("ë§¤ì¹­ ìˆ˜ë½(Y/N): ");
 			boolean flag = inputChoice();
 
 			flag = manage.accept(loggedIn.getId(), matchedId, flag);
 
 			if (flag) {
-				System.out.println("[¾Ë¸²] ¸ÅÄªÀ» ¼ö¶ôÇÏ¿´½À´Ï´Ù.");
+				System.out.println("[ì•Œë¦¼] ë§¤ì¹­ì„ ìˆ˜ë½í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			} else {
-				System.out.println("[¾Ë¸²] ¸ÅÄªÀ» °ÅºÎÇÏ¿´°Å³ª »ó´ë°¡ µ·ÀÌ ¾ø½À´Ï´Ù.");
+				System.out.println("[ì•Œë¦¼] ë§¤ì¹­ì„ ê±°ë¶€í•˜ì˜€ê±°ë‚˜ ìƒëŒ€ê°€ ëˆì´ ì—†ìŠµë‹ˆë‹¤.");
 			}
 		} else {
-			System.out.println("[¿¡·¯] ¸ÅÄª ³»¿ªÀÌ ¾ø½À´Ï´Ù.");
+			System.out.println("[ì—ëŸ¬] ë§¤ì¹­ ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.");
 		}
 	}
 
 	/**
-	 * ¸ÅÄª ¼º»ç ÇöÈ²À» º¸¿©ÁÖ´Â ¸Ş¼Òµå
+	 * ë§¤ì¹­ ì„±ì‚¬ í˜„í™©ì„ ë³´ì—¬ì£¼ëŠ” ë©”ì†Œë“œ
 	 */
 	public void seeStatus() {
 		if (loggedIn.isSuccess()) {
 			Human vo = manage.searchAccount(loggedIn.getMatchedId());
 
-			System.out.println("[¾Ë¸²] ¸ÅÄªÀÌ ¼º»çµÇ¾ú½À´Ï´Ù.");
+			System.out.println("[ì•Œë¦¼] ë§¤ì¹­ì´ ì„±ì‚¬ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			System.out.println(vo.toString());
 		} else {
-			System.out.println("[¾Ë¸²] ¸ÅÄª ¼º»çµÈ ³»¿ªÀÌ ¾ø½À´Ï´Ù.");
+			System.out.println("[ì•Œë¦¼] ë§¤ì¹­ ì„±ì‚¬ëœ ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.");
 		}
 	}
 	
 	/**
-	 * ³» Á¤º¸¸¦ º¸¿©ÁÖ´Â ¸Ş¼Òµå
+	 * ë‚´ ì •ë³´ë¥¼ ë³´ì—¬ì£¼ëŠ” ë©”ì†Œë“œ
 	 */
 	public void showMyInfo() {
-		System.out.println("[³» Á¤º¸ ÇöÈ²]");
+		System.out.println("[ë‚´ ì •ë³´ í˜„í™©]");
 		System.out.println(loggedIn.toString());
 	}
 	
 	/**
-	 * ¸ÅÄª Á¤º¸¸¦ ÃÊ±âÈ­ÇÏ´Â ¸Ş¼Òµå. ´Ù½Ã ¸ÅÄªÀ» ÇÒ ¼ö ÀÖµµ·Ï ÇØÁØ´Ù.
+	 * ë§¤ì¹­ ì •ë³´ë¥¼ ì´ˆê¸°í™”í•˜ëŠ” ë©”ì†Œë“œ. ë‹¤ì‹œ ë§¤ì¹­ì„ í•  ìˆ˜ ìˆë„ë¡ í•´ì¤€ë‹¤.
 	 */
 	public void initializeMatch() {
 		if (manage.initialize(loggedIn.getId())) {
-			System.out.println("[¾Ë¸²] ¸ÅÄªÁ¤º¸°¡ ÃÊ±âÈ­ µÇ¾ú½À´Ï´Ù. »õ·Î¿î ¸¸³²À» Ã£À¸¼¼¿ä!");
+			System.out.println("[ì•Œë¦¼] ë§¤ì¹­ì •ë³´ê°€ ì´ˆê¸°í™” ë˜ì—ˆìŠµë‹ˆë‹¤. ìƒˆë¡œìš´ ë§Œë‚¨ì„ ì°¾ìœ¼ì„¸ìš”!");
 		} else {
-			System.out.println("[¾Ë¸²] ¸ÅÄªÁ¤º¸°¡ ¾ø´Â µí ÇÕ´Ï´Ù.");
+			System.out.println("[ì•Œë¦¼] ë§¤ì¹­ì •ë³´ê°€ ì—†ëŠ” ë“¯ í•©ë‹ˆë‹¤.");
 		}
 	}
 
 	/**
-	 * int Å¸ÀÔÀÇ µ¥ÀÌÅÍ¸¦ ³Ö±â À§ÇØ¼­ »ç¿ëÇÏ´Â ¸Ş¼Òµå ¿¹¿ÜÃ³¸® ±â´ÉÀ» Æ÷ÇÔÇÏ¿´´Ù.
+	 * int íƒ€ì…ì˜ ë°ì´í„°ë¥¼ ë„£ê¸° ìœ„í•´ì„œ ì‚¬ìš©í•˜ëŠ” ë©”ì†Œë“œ ì˜ˆì™¸ì²˜ë¦¬ ê¸°ëŠ¥ì„ í¬í•¨í•˜ì˜€ë‹¤.
 	 * 
-	 * @return Á¤¼öÇü ¹İÈ¯
+	 * @return ì •ìˆ˜í˜• ë°˜í™˜
 	 */
 	public int inputInteger() {
 		int output;
@@ -323,9 +323,9 @@ public class WeddingUI {
 	}
 
 	/**
-	 * double Å¸ÀÔÀÇ µ¥ÀÌÅÍ¸¦ ³Ö±â À§ÇØ¼­ »ç¿ëÇÏ´Â ¸Ş¼Òµå ¿¹¿ÜÃ³¸® ±â´ÉÀ» Æ÷ÇÔÇÏ¿´´Ù.
+	 * double íƒ€ì…ì˜ ë°ì´í„°ë¥¼ ë„£ê¸° ìœ„í•´ì„œ ì‚¬ìš©í•˜ëŠ” ë©”ì†Œë“œ ì˜ˆì™¸ì²˜ë¦¬ ê¸°ëŠ¥ì„ í¬í•¨í•˜ì˜€ë‹¤.
 	 * 
-	 * @return ½Ç¼öÇü ¹İÈ¯
+	 * @return ì‹¤ìˆ˜í˜• ë°˜í™˜
 	 */
 	public double inputDouble() {
 		double output;
@@ -342,9 +342,9 @@ public class WeddingUI {
 	}
 
 	/**
-	 * String Å¸ÀÔÀÇ µ¥ÀÌÅÍ¸¦ ³Ö±â À§ÇØ¼­ »ç¿ëÇÏ´Â ¸Ş¼Òµå ¿¹¿ÜÃ³¸® ±â´ÉÀ» Æ÷ÇÔÇÏ¿´´Ù.
+	 * String íƒ€ì…ì˜ ë°ì´í„°ë¥¼ ë„£ê¸° ìœ„í•´ì„œ ì‚¬ìš©í•˜ëŠ” ë©”ì†Œë“œ ì˜ˆì™¸ì²˜ë¦¬ ê¸°ëŠ¥ì„ í¬í•¨í•˜ì˜€ë‹¤.
 	 * 
-	 * @return ¹®ÀÚ¿­
+	 * @return ë¬¸ìì—´
 	 */
 	public String inputString() {
 		String str;
@@ -358,9 +358,9 @@ public class WeddingUI {
 	}
 
 	/**
-	 * ¼ºº°À» ³Ö±â À§ÇØ »ç¿ëÇÏ´Â ¸Ş¼Òµå String°ªÀ» booleanÀ¸·Î º¯È¯. »ç¿ëÀÚ ÆíÀÇ¼ºÀ» À§ÇØ¼­ Ãß°¡ÇÔ.
+	 * ì„±ë³„ì„ ë„£ê¸° ìœ„í•´ ì‚¬ìš©í•˜ëŠ” ë©”ì†Œë“œ Stringê°’ì„ booleanìœ¼ë¡œ ë³€í™˜. ì‚¬ìš©ì í¸ì˜ì„±ì„ ìœ„í•´ì„œ ì¶”ê°€í•¨.
 	 * 
-	 * @return ³²¼ºÀÌ¸é true ¿©¼ºÀÌ¸é false
+	 * @return ë‚¨ì„±ì´ë©´ true ì—¬ì„±ì´ë©´ false
 	 */
 	public boolean inputSex() {
 		String str;
@@ -381,9 +381,9 @@ public class WeddingUI {
 	}
 
 	/**
-	 * Y/N ¼±ÅÃ
+	 * Y/N ì„ íƒ
 	 * 
-	 * @return yesÀÌ¸é true, noÀÌ¸é false
+	 * @return yesì´ë©´ true, noì´ë©´ false
 	 */
 	public boolean inputChoice() {
 		String str;
