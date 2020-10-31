@@ -164,6 +164,9 @@ public class WeddingUI {
 			
 			boolean flag = false;
 			if (sex) { // 성별이 남성인 경우
+				System.out.println("탈모 여부(Y/N)");
+				humanInfo.add(inputChoice());
+				
 				vo = new Male(humanInfo);
 				flag = manage.addAccount(vo);
 			} else { // 성별이 여성인 경우
@@ -279,7 +282,7 @@ public class WeddingUI {
 	 * 상대 매칭 확인 및 수락하는 메소드
 	 */
 	public void accept() {
-		
+			
 	}
 	
 	/**
