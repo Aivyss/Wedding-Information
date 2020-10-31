@@ -259,8 +259,8 @@ public class HumanInfo {
 		
 		if(list.size() == 0) {
 			vo = null;
-		} else {
-			int index = rd.nextInt(list.size()+1);
+		} else { // 사이즈 1 이상
+			int index = rd.nextInt(list.size());
 			vo = list.get(index);
 		}
 
