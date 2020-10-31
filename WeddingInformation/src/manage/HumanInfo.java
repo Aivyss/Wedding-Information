@@ -105,10 +105,10 @@ public class HumanInfo {
 		}
 
 		// 여성 랭크 정렬
-		for (int i = 0; i < rankFemale.size(); i++) {
+		for (int i = 0; i < rankFemale.size()-1; i++) {
 			Human temp = null;
 			double max = 0;
-			int jMax = 0;
+			int jMax = i;
 
 			for (int j = i; i < rankFemale.size(); j++) {
 				if (max > rankFemale.get(i).getNomalizedTotalScore()) {
