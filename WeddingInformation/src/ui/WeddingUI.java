@@ -22,42 +22,49 @@ public class WeddingUI {
 		sc = new Scanner(System.in);
 		manage = new HumanInfo();
 		this.loggedIn = null;
-
+		
+	
+		
 		while (true) {
-			if (this.loggedIn == null) { // 로그인 전
-				menu1();
-				int selector = inputInteger();
-
-				if (selector == 1) {
-					signIn();
-				} else if (selector == 2) {
-					signUp();
-				} else if (selector == 3) {
-					break;
-				} else {
-					System.out.println("[에러] 잘못 입력하셨습니다.");
-				}
-			} else { // 로그인 후
-				while (true) {
-					menu2();
+			try {
+				if (this.loggedIn == null) { // 로그인 전
+					menu1();
 					int selector = inputInteger();
 
 					if (selector == 1) {
-						deposit();
+						signIn();
 					} else if (selector == 2) {
-						match();
+						signUp();
 					} else if (selector == 3) {
-						accept();
-					} else if (selector == 4) {
-						seeStatus();
-					} else if (selector == 0) {
-						System.out.println("[알림] 전단계로 이동합니다.");
-						this.loggedIn = null;
 						break;
 					} else {
 						System.out.println("[에러] 잘못 입력하셨습니다.");
 					}
+				} else { // 로그인 후
+					while (true) {
+						menu2();
+						int selector = inputInteger();
+
+						if (selector == 1) {
+							deposit();
+						} else if (selector == 2) {
+							match();
+						} else if (selector == 3) {
+							accept();
+						} else if (selector == 4) {
+							seeStatus();
+						} else if (selector == 0) {
+							System.out.println("[알림] 전단계로 이동합니다.");
+							this.loggedIn = null;
+							break;
+						} else {
+							System.out.println("[에러] 잘못 입력하셨습니다.");
+						}
+					}
 				}
+			} catch(InputMismatchException e) {
+				e = new InputMismatchException("[에러] 잘못 입력하셨습니다.");
+				System.out.println(e.getMessage());
 			}
 		} // while end
 	}
@@ -241,21 +248,25 @@ public class WeddingUI {
 	 * 상대 매칭 확인 및 수락하는 메소드
 	 */
 	public void accept() {
-		String matchedId = this.loggedIn.getMatchedId();
-		Human vo = manage.searchAccount(matchedId); // 상대의 정보(객체)
+		if (loggedIn.isInvited() && !loggedIn.isSuccess()) {
+			String matchedId = this.loggedIn.getMatchedId();
+			Human vo = manage.searchAccount(matchedId); // 상대의 정보(객체)
+			
+			System.out.println("=====================");
+			System.out.println("[매칭신청을 보낸 상대의 정보입니다]");
+			System.out.println(vo.toString());
+			System.out.print("매칭 수락(Y/N): ");
+			boolean flag = inputChoice();
 
-		System.out.println("=====================");
-		System.out.println("[매칭신청을 보낸 상대의 정보입니다]");
-		System.out.println(vo.toString());
-		System.out.print("매칭 수락(Y/N): ");
-		boolean flag = inputChoice();
-
-		flag = manage.accept(loggedIn.getId(), matchedId, flag);
-
-		if (flag) {
-			System.out.println("[알림] 매칭을 수락하였습니다.");
+			flag = manage.accept(loggedIn.getId() ,matchedId, flag);
+			
+			if (flag) {
+				System.out.println("[알림] 매칭을 수락하였습니다.");
+			} else {
+				System.out.println("[알림] 매칭을 거부하였거나 상대가 돈이 없습니다.");
+			}
 		} else {
-			System.out.println("[알림] 매칭을 거부하였습니다.");
+			System.out.println("[에러] 매칭 내역이 없습니다.");		
 		}
 	}
 
@@ -266,8 +277,8 @@ public class WeddingUI {
 		if (loggedIn.isSuccess()) {
 			Human vo = manage.searchAccount(loggedIn.getMatchedId());
 
-			System.out.println("[알림] 매칭이 성사되었습니다.");
 			System.out.println("===============================");
+			System.out.println("[알림] 매칭이 성사되었습니다.");
 			System.out.println(vo.toString());
 		} else {
 			System.out.println("[알림] 매칭 성사된 내역이 없습니다.");
@@ -339,9 +350,9 @@ public class WeddingUI {
 
 		str = sc.nextLine();
 
-		if (str.equals("M")) {
+		if (str.toUpperCase().equals("M")) {
 			sex = true;
-		} else if (str.equals("F")) {
+		} else if (str.toUpperCase().equals("F")) {
 			sex = false;
 		} else {
 			InputMismatchException e = new InputMismatchException();
@@ -361,10 +372,11 @@ public class WeddingUI {
 		boolean choice;
 
 		str = sc.nextLine();
-
-		if (str.equals("Y")) {
+		
+		
+		if (str.toUpperCase().equals("Y")) {
 			choice = true;
-		} else if (str.equals("N")) {
+		} else if (str.toUpperCase().equals("N")) {
 			choice = false;
 		} else {
 			InputMismatchException e = new InputMismatchException();

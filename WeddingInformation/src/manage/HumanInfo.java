@@ -316,40 +316,48 @@ public class HumanInfo {
 		Human you = humanMap.get(yourId);
 		boolean flagT = false;
 		
-		int level = me.getLevel();
-		
-		int fee = (level == 0) ? 100000 : 
-					(level == 1) ? 500000 : 
-					(level == 2) ? 1000000 : 
-					(level == 3) ? 2000000 :
-					(level == 4) ? 5000000 : 
-					(level == 5) ? 7000000 : 10000000;
-		
-		if(flag) {
-			if (you.getCash()-fee >= 0) {
-				you.setCash(you.getCash()-fee);
-				you.setInvited(true);
-				you.setSuccess(true);
-				me.setSuccess(true);
-				
-				flagT = true;
-			} else {
+		if (me.isInvited() && !me.isSuccess()) {
+			int level = me.getLevel();
+			
+			int fee = (level == 0) ? 100000 : 
+						(level == 1) ? 500000 : 
+						(level == 2) ? 1000000 : 
+						(level == 3) ? 2000000 :
+						(level == 4) ? 5000000 : 
+						(level == 5) ? 7000000 : 10000000;
+			
+			if(flag) { // ¸ÅÄªÀÇ»ç yes
+				if (you.getCash()-fee >= 0) { // ¸ÅÄªÀÌ ¼º»ç
+					you.setCash(you.getCash()-fee);
+					you.setInvited(true);
+					you.setSuccess(true);
+					me.setSuccess(true);
+					
+					flagT = true;
+				} else { // µ·ÀÌ ¾ø¾î ¸ÅÄªÀÌ ½ÇÆÐ
+					me.setMatchedId(null);
+					me.setInvited(false);
+					me.setLock(false);
+					you.setMatchedId(null);
+					you.setInvited(false);
+					you.setLock(false);
+					you.setSuccess(false);
+					me.setSuccess(false);
+				}
+			} else { // ¸ÅÄªÀÇ»ç no
 				me.setMatchedId(null);
 				me.setInvited(false);
 				me.setLock(false);
 				you.setMatchedId(null);
 				you.setInvited(false);
 				you.setLock(false);
+				you.setSuccess(false);
+				me.setSuccess(false);
 			}
-		} else {
-			me.setMatchedId(null);
-			me.setInvited(false);
-			me.setLock(false);
-			you.setMatchedId(null);
-			you.setInvited(false);
-			you.setLock(false);
 		}
 		
+		humanMap.put(me.getId(), me);
+		humanMap.put(you.getId(), you);
 		
 		return flagT;
 	}
