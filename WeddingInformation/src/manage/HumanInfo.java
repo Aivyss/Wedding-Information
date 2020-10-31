@@ -89,37 +89,27 @@ public class HumanInfo {
 		// 남성 랭크 정렬
 		for (int i = 0; i < rankMale.size()-1; i++) {
 			Human temp = null;
-			double max = 0;
-			int jMax = i;
 
-			for (int j = i; i < rankMale.size(); j++) {
-				if (max < rankMale.get(i).getNomalizedTotalScore()) {
-					max = rankMale.get(i).getNomalizedTotalScore();
-					jMax = j;
+			for (int j = i; j < rankMale.size(); j++) {
+				if (rankMale.get(i).getNomalizedTotalScore() < rankMale.get(j).getNomalizedTotalScore()) {
+					temp = rankMale.get(i);
+					rankMale.set(i, rankMale.get(j));
+					rankMale.set(j, temp);
 				}
 			}
-
-			temp = rankMale.get(i);
-			rankMale.set(i, rankMale.get(jMax));
-			rankMale.set(jMax, temp);
 		}
 
 		// 여성 랭크 정렬
 		for (int i = 0; i < rankFemale.size()-1; i++) {
 			Human temp = null;
-			double max = 0;
-			int jMax = i;
 
-			for (int j = i; i < rankFemale.size(); j++) {
-				if (max < rankFemale.get(i).getNomalizedTotalScore()) {
-					max = rankFemale.get(i).getNomalizedTotalScore();
-					jMax = j;
+			for (int j = i; j < rankMale.size(); j++) {
+				if (rankFemale.get(i).getNomalizedTotalScore() < rankFemale.get(j).getNomalizedTotalScore()) {
+					temp = rankFemale.get(i);
+					rankFemale.set(i, rankFemale.get(j));
+					rankFemale.set(j, temp);
 				}
 			}
-
-			temp = rankFemale.get(i);
-			rankFemale.set(i, rankFemale.get(jMax));
-			rankFemale.set(jMax, temp);
 		}
 
 		// 남성 랭크 부여
