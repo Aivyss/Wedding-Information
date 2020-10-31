@@ -196,6 +196,7 @@ public class WeddingUI {
 			System.out.println("[에러] 매칭수락 대기중이거나 수락 여부를 판단할 대상이 있습니다.");
 		} else {
 			System.out.println("===========================");
+			System.out.println(loggedIn.toString());
 			System.out.println("당신의 등급은 " + grade + "입니다.");
 			System.out.println("6. 비브라늄 5. 다이아 4. 플래티넘 3. 골드 2. 실버 1. 브론즈 0. 언랭");
 			System.out.print("당신이 매칭을 원하는 등급을 고르세요: ");
@@ -204,12 +205,19 @@ public class WeddingUI {
 			while(choice) {
 				boolean flag = false;
 				System.out.println(); // 뷰를 위한 처리
-				System.out.println("매칭 선택> ");
+				System.out.print("매칭 선택> ");
 				int selector = inputInteger();
+				
 				if (level < selector) {
 					System.out.println("[에러] 선택할 수 없는 등급입니다.");
+					break;
 				} else {
 					Human another = manage.searchMatch(selector, sex);
+					
+					if (another == null) {
+						System.out.println("[에러] 등급에 인원이 없습니다.");
+						break;
+					}
 					System.out.println(another.toString()); // 상대 정보 출력
 					System.out.print("선택하시겠습니까(Y/N): ");
 					choice = !inputChoice();

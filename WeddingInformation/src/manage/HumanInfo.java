@@ -93,7 +93,7 @@ public class HumanInfo {
 			int jMax = i;
 
 			for (int j = i; i < rankMale.size(); j++) {
-				if (max > rankMale.get(i).getNomalizedTotalScore()) {
+				if (max < rankMale.get(i).getNomalizedTotalScore()) {
 					max = rankMale.get(i).getNomalizedTotalScore();
 					jMax = j;
 				}
@@ -111,7 +111,7 @@ public class HumanInfo {
 			int jMax = i;
 
 			for (int j = i; i < rankFemale.size(); j++) {
-				if (max > rankFemale.get(i).getNomalizedTotalScore()) {
+				if (max < rankFemale.get(i).getNomalizedTotalScore()) {
 					max = rankFemale.get(i).getNomalizedTotalScore();
 					jMax = j;
 				}
@@ -259,16 +259,22 @@ public class HumanInfo {
 	 */
 	public Human searchMatch(int level, boolean sex) {
 		List<Human> list = new ArrayList<>();
+		Human vo = null;
 
 		for (String id : humanMap.keySet()) {
 			if (humanMap.get(id).getLevel() == level && sex != humanMap.get(id).isSex()) {
 				list.add(humanMap.get(id));
 			}
 		}
+		
+		if(list.size() == 0) {
+			vo = null;
+		} else {
+			int index = rd.nextInt(list.size()+1);
+			vo = list.get(index);
+		}
 
-		int index = rd.nextInt(list.size()+1);
-
-		return list.get(index);
+		return vo;
 	}
 
 	public boolean match(Human me, Human you) {
