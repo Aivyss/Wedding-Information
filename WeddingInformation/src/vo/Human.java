@@ -10,7 +10,6 @@ public class Human {
 	int level;
 	// 신상정보
 	String name;
-	boolean sex;
 	int age;
 	int height;
 	double bmi;
@@ -49,7 +48,6 @@ public class Human {
 		this.password = (String) info.get("password");
 		
 		this.name = (String) info.get("name");
-		this.sex = (Boolean) info.get("sex");
 		this.age = (Integer) info.get("age");
 		this.height = (Integer) info.get("height");
 		this.bmi = (Double) info.get("bmi");
@@ -78,12 +76,6 @@ public class Human {
 		buf.append(this.name + ", ");
 		buf.append("나이: ");
 		buf.append(this.age);
-		buf.append("성별: ");
-		if(this.sex) {
-			buf.append("남성, ");
-		} else {
-			buf.append("여성, ");
-		}
 		buf.append("학벌");
 		buf.append(latestEdu+ ", ");
 		buf.append("연봉");
@@ -103,10 +95,6 @@ public class Human {
 
 	public String getId() {
 		return id;
-	}
-	
-	public boolean isSex() {
-		return sex;
 	}
 	
 	public int getAge() {

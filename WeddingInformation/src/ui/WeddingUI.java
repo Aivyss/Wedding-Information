@@ -123,6 +123,7 @@ public class WeddingUI {
 	 */
 	public void signUp() {
 		Human vo = null;
+		boolean sex;
 		HashMap<String, Object> info = new HashMap<>();
 		
 		System.out.print("이용할 아이디 입력: ");
@@ -136,8 +137,7 @@ public class WeddingUI {
 			System.out.print("이름 입력: ");
 			info.put("name", sc.nextLine());
 			System.out.print("성별 입력(M/F): ");
-			boolean sex = inputSex();
-			info.put("sex", sex);
+			sex = inputSex();
 			System.out.print("나이 입력: ");
 			info.put("age", inputInteger());
 			System.out.print("키 입력: ");
@@ -200,8 +200,6 @@ public class WeddingUI {
 		int level = this.loggedIn.getLevel();
 		String grade = this.loggedIn.getGrade();
 		int cash = this.loggedIn.getCash();
-		boolean sex = this.loggedIn.isSex();
-
 
 		if (loggedIn.isLock()) {
 			System.out.println("[에러] 매칭수락 대기중이거나 수락 여부를 판단할 대상이 있습니다.");
@@ -218,7 +216,7 @@ public class WeddingUI {
 				int selector = inputInteger();
 
 				if (level >= selector) { // 0 > 6
-					Human another = manage.searchMatch(selector, sex);
+					Human another = manage.searchMatch(selector, this.loggedIn);
 
 					if (another == null) {
 						System.out.println("[에러] 등급에 인원이 없습니다.");

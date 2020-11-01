@@ -78,7 +78,7 @@ public class HumanInfo {
 		List<Human> rankFemale = new ArrayList<Human>();
 		
 		for (String id : humanMap.keySet()) {
-			if (humanMap.get(id).isSex()) {
+			if (humanMap.get(id) instanceof Male) {
 				rankMale.add(humanMap.get(id));
 			} else {
 				rankFemale.add(humanMap.get(id));
@@ -198,7 +198,7 @@ public class HumanInfo {
 		vo.setSalaryScore(salaryScore);
 		vo.setHeightScore(heightScore);
 		
-		if (!vo.isSex()) {// 여성인 경우
+		if (vo instanceof Female) {// 여성인 경우
 			Female voF = (Female) vo;
 			int ageScore = (vo.getAge() >= 35) ? 72 : (vo.getAge() >= 30) ? 76 : (vo.getAge() >= 25) ? 78 : 80;
 			voF.setAgeScore(ageScore);
@@ -253,24 +253,30 @@ public class HumanInfo {
 	 * @param level
 	 * @return
 	 */
-	public Human searchMatch(int level, boolean sex) {
+	public Human searchMatch(int level, Human vo) {
 		List<Human> list = new ArrayList<>();
-		Human vo = null;
+		Human matched = null;
 
 		for (String id : humanMap.keySet()) {
-			if (humanMap.get(id).getLevel() == level && sex != humanMap.get(id).isSex()) {
-				list.add(humanMap.get(id));
+			if (vo instanceof Male) {
+				if (humanMap.get(id) instanceof Female) {
+					list.add(humanMap.get(id));
+				}
+			} else {
+				if (humanMap.get(id) instanceof Male) {
+					list.add(humanMap.get(id));
+				}
 			}
 		}
 		
 		if(list.size() == 0) {
-			vo = null;
+			matched = null;
 		} else { // 사이즈 1 이상
 			int index = rd.nextInt(list.size());
-			vo = list.get(index);
+			matched = list.get(index);
 		}
 
-		return vo;
+		return matched;
 	}
 	
 	/**
