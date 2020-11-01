@@ -106,9 +106,9 @@ public class WeddingUI {
 	 */
 	public void signIn() {
 		System.out.print("아이디를 입력하세요: ");
-		String id = inputString();
+		String id = sc.nextLine();
 		System.out.print("비밀번호를 입력하세요: ");
-		String pw = inputString();
+		String pw = sc.nextLine();
 		this.loggedIn = manage.signIn(id, pw);
 
 		if (this.loggedIn != null) {
@@ -126,15 +126,15 @@ public class WeddingUI {
 		ArrayList<Object> humanInfo = new ArrayList<>();
 		
 		System.out.print("이용할 아이디 입력: ");
-		String id = inputString();
+		String id = sc.nextLine();
 
 		vo = manage.humanMap.get(id);
 		if (vo == null) {
 			humanInfo.add(id);
 			System.out.print("비밀번호 입력: ");
-			humanInfo.add(inputString());
+			humanInfo.add(sc.nextLine());
 			System.out.print("이름 입력: ");
-			humanInfo.add(inputString());
+			humanInfo.add(sc.nextLine());
 			System.out.print("성별 입력(M/F): ");
 			boolean sex = inputSex();
 			humanInfo.add(sex);
@@ -145,7 +145,7 @@ public class WeddingUI {
 			System.out.print("BMI 입력: ");
 			humanInfo.add(inputDouble());
 			System.out.print("최종대학 입력: ");
-			humanInfo.add(inputString());
+			humanInfo.add(sc.nextLine());
 			System.out.print("최종학력 분류 1. 아이비리그, 2. 설대, 카이스트, 포공, 3. 연고성 해외대학, 4. 인서울,  5. 인경기,  6.지거국, 7. 지방대: ");
 			humanInfo.add(inputInteger());
 			System.out.print("연봉 입력: ");
@@ -181,7 +181,7 @@ public class WeddingUI {
 	 */
 	public void deposit() {
 		System.out.print("본인 확인을 위한 비밀번호를 입력하세요: ");
-		String pw = inputString();
+		String pw = sc.nextLine();
 
 		if (pw.equals(loggedIn.getPassword())) {
 			System.out.print("충전할 금액을 입력: ");
@@ -349,22 +349,6 @@ public class WeddingUI {
 	}
 
 	/**
-	 * String 타입의 데이터를 넣기 위해서 사용하는 메소드 예외처리 기능을 포함하였다.
-	 * 
-	 * @return 문자열
-	 */
-	public String inputString() {
-		String str;
-		try {
-			str = sc.nextLine();
-		} catch (InputMismatchException e) {
-			throw e;
-		}
-
-		return str;
-	}
-
-	/**
 	 * 성별을 넣기 위해 사용하는 메소드 String값을 boolean으로 변환. 사용자 편의성을 위해서 추가함.
 	 * 
 	 * @return 남성이면 true 여성이면 false
@@ -380,8 +364,7 @@ public class WeddingUI {
 		} else if (str.toUpperCase().equals("F")) {
 			sex = false;
 		} else {
-			InputMismatchException e = new InputMismatchException();
-			throw e;
+			throw new InputMismatchException();
 		}
 
 		return sex;
@@ -403,8 +386,7 @@ public class WeddingUI {
 		} else if (str.toUpperCase().equals("N")) {
 			choice = false;
 		} else {
-			InputMismatchException e = new InputMismatchException();
-			throw e;
+			throw new InputMismatchException();
 		}
 
 		return choice;
