@@ -1,6 +1,6 @@
 package vo;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Human {
 	// 계정정보
@@ -41,22 +41,22 @@ public class Human {
 	}
 	
 	/**
-	 * 생성자 오버로딩 2
+	 * 생성자 오버로딩
 	 * @param humanInfo
 	 */
-	public Human(ArrayList<Object> humanInfo) {
-		this.id = (String) humanInfo.get(0);
-		this.password = (String) humanInfo.get(1);
+	public Human(HashMap<String, Object> info) {
+		this.id = (String) info.get("id");
+		this.password = (String) info.get("password");
 		
-		this.name = (String) humanInfo.get(2);
-		this.sex = (Boolean) humanInfo.get(3);
-		this.age = (Integer) humanInfo.get(4);
-		this.height = (Integer) humanInfo.get(5);
-		this.bmi = (Double) humanInfo.get(6);
+		this.name = (String) info.get("name");
+		this.sex = (Boolean) info.get("sex");
+		this.age = (Integer) info.get("age");
+		this.height = (Integer) info.get("height");
+		this.bmi = (Double) info.get("bmi");
 		
-		this.latestEdu = (String) humanInfo.get(7);
-		this.latestEduLevel = (Integer) humanInfo.get(8);
-		this.salary = (Integer) humanInfo.get(9);
+		this.latestEdu = (String) info.get("degreeString");
+		this.latestEduLevel = (Integer) info.get("degreeIndex");
+		this.salary = (Integer) info.get("salary");
 		
 		this.nomalizedTotalScore = 0;
 		

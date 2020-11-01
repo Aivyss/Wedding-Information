@@ -1,13 +1,23 @@
 package vo;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Male extends Human {
 	boolean taco;
 	
-	public Male(ArrayList<Object> humanInfo) {
-		super(humanInfo);
-		this.taco = (Boolean) humanInfo.get(10);
+	/**
+	 * 기본 생성자
+	 */
+	public Male() {
+		
+	}
+	/**
+	 * 생성자 오버로딩
+	 * @param info
+	 */
+	public Male(HashMap<String, Object> info) {
+		super(info);
+		this.taco = (Boolean) info.get("taco");
 	}
 	
 	/**

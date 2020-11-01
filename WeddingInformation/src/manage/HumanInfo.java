@@ -206,9 +206,9 @@ public class HumanInfo {
 			double normalizedScore = totalScore;
 			voF.setTotalScore(totalScore);
 			
-			normalizedScore = (voF.getSurgeryScore() == 1) ? totalScore*0.5 : 
-								(voF.getSurgeryScore() == 2) ? totalScore*0.7 : 
-								(voF.getSurgeryScore() == 3) ? totalScore*0.9 : totalScore;  
+			normalizedScore = (voF.getsurgery() == 1) ? totalScore*0.5 : 
+								(voF.getsurgery() == 2) ? totalScore*0.7 : 
+								(voF.getsurgery() == 3) ? totalScore*0.9 : totalScore;  
 			
 			voF.setNomalizedTotalScore(normalizedScore);
 		} else { // 남성인 경우

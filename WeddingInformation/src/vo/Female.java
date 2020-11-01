@@ -1,18 +1,25 @@
 package vo;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Female extends Human {
 	int ageScore;
-	int surgeryScore;
+	int surgery;
+	
+	/**
+	 * 기본생성자
+	 */
+	public Female() {
+		
+	}
 	
 	/**
 	 * 여성 객체를 생성하는 생성자.
 	 * @param humanInfo
 	 */
-	public Female(ArrayList<Object> humanInfo) {
-		super(humanInfo);
-		surgeryScore = (Integer) humanInfo.get(10);
+	public Female(HashMap<String, Object> info) {
+		super(info);
+		surgery = (Integer) info.get("surgery");
 	}
 	
 	/**
@@ -24,13 +31,13 @@ public class Female extends Human {
 		
 		buf.append(super.toString() +", ");
 		buf.append("성형여부: ");
-		if (this.surgeryScore == 4) {
+		if (this.surgery == 4) {
 			buf.append("자연산");
-		} else if (this.surgeryScore == 3) {
+		} else if (this.surgery == 3) {
 			buf.append("반자연산");
-		} else if (this.surgeryScore == 2) {
+		} else if (this.surgery == 2) {
 			buf.append("반양식");
-		} else if (this.surgeryScore == 1) {
+		} else if (this.surgery == 1) {
 			 buf.append("양식");
 		}
 
@@ -42,7 +49,7 @@ public class Female extends Human {
 		this.ageScore = ageScore;
 	}
 
-	public int getSurgeryScore() {
-		return surgeryScore;
+	public int getsurgery() {
+		return surgery;
 	}
 }

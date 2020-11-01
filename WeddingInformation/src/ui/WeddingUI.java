@@ -1,6 +1,6 @@
 package ui;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -123,46 +123,46 @@ public class WeddingUI {
 	 */
 	public void signUp() {
 		Human vo = null;
-		ArrayList<Object> humanInfo = new ArrayList<>();
+		HashMap<String, Object> info = new HashMap<>();
 		
 		System.out.print("이용할 아이디 입력: ");
 		String id = sc.nextLine();
 
 		vo = manage.humanMap.get(id);
 		if (vo == null) {
-			humanInfo.add(id);
+			info.put("id", id);
 			System.out.print("비밀번호 입력: ");
-			humanInfo.add(sc.nextLine());
+			info.put("password", sc.nextLine());
 			System.out.print("이름 입력: ");
-			humanInfo.add(sc.nextLine());
+			info.put("name", sc.nextLine());
 			System.out.print("성별 입력(M/F): ");
 			boolean sex = inputSex();
-			humanInfo.add(sex);
+			info.put("sex", sex);
 			System.out.print("나이 입력: ");
-			humanInfo.add(inputInteger());
+			info.put("age", inputInteger());
 			System.out.print("키 입력: ");
-			humanInfo.add(inputInteger());
+			info.put("height", inputInteger());
 			System.out.print("BMI 입력: ");
-			humanInfo.add(inputDouble());
+			info.put("bmi", inputDouble());
 			System.out.print("최종대학 입력: ");
-			humanInfo.add(sc.nextLine());
+			info.put("latestEdu", sc.nextLine());
 			System.out.print("최종학력 분류 1. 아이비리그, 2. 설대, 카이스트, 포공, 3. 연고성 해외대학, 4. 인서울,  5. 인경기,  6.지거국, 7. 지방대: ");
-			humanInfo.add(inputInteger());
+			info.put("latestEduLevel", inputInteger());
 			System.out.print("연봉 입력: ");
-			humanInfo.add(inputInteger());
+			info.put("salary", inputInteger());
 
 			boolean flag = false;
 			if (sex) { // 성별이 남성인 경우
 				System.out.print("탈모 여부(Y/N): ");
-				humanInfo.add(inputChoice());
+				info.put("taco", inputChoice());
 
-				vo = new Male(humanInfo);
+				vo = new Male(info);
 				flag = manage.addAccount(vo);
 			} else { // 성별이 여성인 경우
 				System.out.print("시술/성형 여부(1. 얼굴전체성형, 2.양악, 3.단순시술, 4.해당없음): ");
-				humanInfo.add(inputInteger());
+				info.put("surgery", inputInteger());
 
-				vo = new Female(humanInfo);
+				vo = new Female(info);
 				flag = manage.addAccount(vo);
 			}
 
