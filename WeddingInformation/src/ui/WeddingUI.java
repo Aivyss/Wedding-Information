@@ -230,7 +230,7 @@ public class WeddingUI {
 						System.out.print("더 검색하시겠습니까(Y/N): ");
 						choice = inputChoice();
 					} else {
-						flag = manage.match(loggedIn, another);
+						flag = manage.match(loggedIn.getId(), another.getId());
 						if (flag) {
 							System.out.println("매칭신청을 보냈습니다.");
 						} else {

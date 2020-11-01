@@ -167,16 +167,6 @@ public class HumanInfo {
 			
 			rankFemale.get(i).setGrade(grade);
 		}
-		
-		// 남성 업데이트
-		for (Human male : rankMale) {
-			humanMap.put(male.getId(), male);
-		}
-		
-		// 여성 업데이트
-		for (Human female : rankFemale) {
-			humanMap.put(female.getId(), female);
-		}
 	}
 	
 	/**
@@ -221,7 +211,6 @@ public class HumanInfo {
 								(voF.getSurgeryScore() == 3) ? totalScore*0.9 : totalScore;  
 			
 			voF.setNomalizedTotalScore(normalizedScore);
-			humanMap.put(voF.getId(), voF);
 		} else { // 남성인 경우
 			Male voM = (Male) vo;
 			int totalScore = eduScore + salaryScore + heightScore;
@@ -233,7 +222,6 @@ public class HumanInfo {
 			}
 			
 			voM.setNomalizedTotalScore(normalizedScore);
-			humanMap.put(voM.getId(), voM);
 		}
 		
 		giveGrade();
@@ -291,10 +279,10 @@ public class HumanInfo {
 	 * @param you
 	 * @return
 	 */
-	public boolean match(Human me, Human you) {
+	public boolean match(String myId, String yourId) {
 		boolean flag = false;
-		String meId = me.getId();
-		String youId = you.getId();
+		Human me = humanMap.get(myId);
+		Human you = humanMap.get(yourId);
 
 		if (me != null && you != null) {
 			me.setMatchedId(you.getId());
@@ -305,8 +293,6 @@ public class HumanInfo {
 			you.setInvited(true);
 			you.setLock(true);
 
-			humanMap.put(meId, me);
-			humanMap.put(youId, you);
 			flag = true;
 		}
 
@@ -337,8 +323,6 @@ public class HumanInfo {
 					you.setInvited(true);
 					you.setSuccess(true);
 					me.setSuccess(true);
-					humanMap.put(me.getId(), me);
-					humanMap.put(you.getId(), you);
 					
 					flagT = true;
 				} else { // 돈이 없어 매칭이 실패
@@ -371,8 +355,6 @@ public class HumanInfo {
 			you.setLock(false);
 			you.setSuccess(false);
 			me.setSuccess(false);
-			humanMap.put(me.getId(), me);
-			humanMap.put(you.getId(), you);
 			
 			flag = true;
 		}
