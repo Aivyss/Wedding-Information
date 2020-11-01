@@ -54,8 +54,8 @@ public class Human {
 		this.height = (Integer) info.get("height");
 		this.bmi = (Double) info.get("bmi");
 		
-		this.latestEdu = (String) info.get("degreeString");
-		this.latestEduLevel = (Integer) info.get("degreeIndex");
+		this.latestEdu = (String) info.get("latestEdu");
+		this.latestEduLevel = (Integer) info.get("latestEduLevel");
 		this.salary = (Integer) info.get("salary");
 		
 		this.nomalizedTotalScore = 0;
