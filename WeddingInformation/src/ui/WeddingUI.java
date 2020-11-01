@@ -199,20 +199,22 @@ public class WeddingUI {
 	public void match() {
 		int level = this.loggedIn.getLevel();
 		String grade = this.loggedIn.getGrade();
+		int cash = this.loggedIn.getCash();
 		boolean sex = this.loggedIn.isSex();
 
 
 		if (loggedIn.isLock()) {
 			System.out.println("[에러] 매칭수락 대기중이거나 수락 여부를 판단할 대상이 있습니다.");
 		} else {
-			System.out.println(loggedIn.toString());
-			System.out.println("당신의 등급은 " + grade + "입니다.");
-			System.out.println("6. 비브라늄 5. 다이아 4. 플래티넘 3. 골드 2. 실버 1. 브론즈 0. 언랭");
-			System.out.print("당신이 매칭을 원하는 등급을 고르세요: ");
-
 			boolean choice = true;
+
 			while (choice) {
 				boolean flag = false;
+				
+				System.out.println("당신의 등급: " + grade + ", 충전금: " + cash + "원");
+				System.out.println("[매칭등급 선택(회원님보다 높은 등급은 고를 수 없습니다.)]");
+				System.out.println("6. 비브라늄 5. 다이아 4. 플래티넘 3. 골드 2. 실버 1. 브론즈 0. 언랭");
+				System.out.print("매칭등급 선택> ");
 				int selector = inputInteger();
 
 				if (level >= selector) { // 0 > 6
@@ -223,14 +225,19 @@ public class WeddingUI {
 						break;
 					}
 					System.out.println(another.toString()); // 상대 정보 출력
-					System.out.print("선택하시겠습니까(Y/N): ");
+					System.out.print("선택하시겠습니까(Y/N)> ");
 					choice = !inputChoice();
 
 					if (choice) {
-						System.out.print("더 검색하시겠습니까(Y/N): ");
+						System.out.print("더 검색하시겠습니까(Y/N)> ");
 						choice = inputChoice();
+						
+						if (choice) { // 깔끔한 뷰를 위해 추가한 조건문
+							System.out.println("================================");
+						}
 					} else {
 						flag = manage.match(loggedIn.getId(), another.getId());
+						
 						if (flag) {
 							System.out.println("매칭신청을 보냈습니다.");
 						} else {
