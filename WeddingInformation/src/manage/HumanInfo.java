@@ -40,26 +40,7 @@ public class HumanInfo {
 
 		return vo;
 	}
-
-	/**
-	 * 새로운 가입자의 정보를 회원목록에 추가하는 메소드
-	 * 
-	 * @param vo
-	 * @return 가입이 정상적으로 처리되면 true를 반환
-	 */
-	public boolean addAccount(Human vo) {
-		boolean flag = true;
-
-		if (vo != null) {
-			humanMap.put(vo.getId(), vo);
-			giveScore(vo);
-		} else {
-			flag = false;
-		}
-
-		return flag;
-	}
-
+	
 	/**
 	 * id로 회원을 찾아서 vo객체를 반환하는 메소드
 	 * 
@@ -71,123 +52,14 @@ public class HumanInfo {
 	}
 
 	/**
-	 * 등급을 부여하는 메소드
-	 */	
-	public void giveGrade() {
-		Rank rank = new Rank();
-		
-		// 여자/남자를 분류하는 프로세스
-		for (String id : humanMap.keySet()) {
-			if (humanMap.get(id) instanceof Male) {
-				rank.add(0, humanMap.get(id));
-			} else {
-				rank.add(1, humanMap.get(id));
-			}
-		}
-		
-		// 여자 남자를 점수 순으로 정렬하는 프로세스
-		for (int i = 0; i < rank.length; i++) {
-			for (int j = 0; j < rank.size(i) - 1; j++) {
-				Human temp = null;
-
-				for (int k = 0; k < rank.size(i); k++) {
-					if (rank.get(i, j).getNomalizedTotalScore() < rank.get(i, k).getNomalizedTotalScore()) {
-						temp = rank.get(i, j);
-						rank.set(i ,j, rank.get(i, k));
-						rank.set(i, k, temp);
-					}
-				}
-			}
-		}
-		
-		// 정렬된 것에 따라 랭크를 부여하는 프로세스
-		for (int i = 0; i < rank.length; i++) {
-			for (int j = rank.size(i)-1; j>=0; j--) {
-				if (((j + 1) * 1.0) / (rank.size(i) * 1.0) > 0.84) {
-					rank.get(i, j).setLevel(0); // 언랭
-				} else if (((j + 1) * 1.0) / (rank.size(i) * 1.0) > 0.7) {
-					rank.get(i, j).setLevel(1); // 브론즈
-				} else if (((j + 1) * 1.0) / (rank.size(i) * 1.0) > 0.56) {
-					rank.get(i, j).setLevel(2); // 실버
-				} else if (((j + 1) * 1.0) / (rank.size(i) * 1.0) > 0.42) {
-					rank.get(i, j).setLevel(3); // 골드
-				} else if (((j + 1) * 1.0) / (rank.size(i) * 1.0) > 0.28) {
-					rank.get(i, j).setLevel(4); // 플래티넘
-				} else if (((j + 1) * 1.0) / (rank.size(i) * 1.0) > 0.14) {
-					rank.get(i, j).setLevel(5); // 다이아
-				} else {
-					rank.get(i, j).setLevel(6); // 비브라늄
-				}
-				
-				String grade = (rank.get(i, j).getLevel() == 0) ? "언랭"
-								: (rank.get(i, j).getLevel() == 1) ? "브론즈"
-								: (rank.get(i, j).getLevel() == 2) ? "실버"
-								: (rank.get(i, j).getLevel() == 3) ? "골드"
-								: (rank.get(i, j).getLevel() == 4) ? "플래티넘"
-								: (rank.get(i, j).getLevel() == 5) ? "다이아" : "비브라늄";
-
-				rank.get(i, j).setGrade(grade);
-			}
-		}
-	}
-
-	/**
-	 * 회원의 점수를 매기는 메소드
+	 * 새로운 가입자의 정보를 회원목록에 추가하는 메소드
+	 * 
+	 * @param vo
+	 * @return 가입이 정상적으로 처리되면 true를 반환
 	 */
-	public void giveScore(Human vo) {
-		// 공통 점수를 매기는 프로세스
-		int eduIndex = vo.getLatestEduScore();
-		int eduScore = (eduIndex == 1) ? 60
-						: (eduIndex == 2) ? 57
-						: (eduIndex == 3) ? 54
-						: (eduIndex == 4) ? 51 
-						: (eduIndex == 5) ? 48 
-						: (eduIndex == 6) ? 45 : 42;
+	public boolean addAccount(Human vo) {
 
-		int salaryScore = (vo.getSalary() >= 1000000000) ? 100
-						: (vo.getSalary() >= 600000000) ? 95
-						: (vo.getSalary() >= 100000000) ? 90 
-						: (vo.getSalary() >= 50000000) ? 85 : 80;
-
-		int heightScore = (vo.getHeight() >= 180) ? 60
-						: (vo.getHeight() >= 175) ? 58
-						: (vo.getHeight() >= 170) ? 54
-						: (vo.getHeight() >= 160) ? 52 
-						: (vo.getHeight() >= 150) ? 50 : 48;
-
-		vo.setLatestEduScore(eduScore);
-		vo.setSalaryScore(salaryScore);
-		vo.setHeightScore(heightScore);
-
-		if (vo instanceof Female) {// 여성인 경우
-			Female voF = (Female) vo;
-			int ageScore = (vo.getAge() >= 35) ? 72 
-						: (vo.getAge() >= 30) ? 76 
-						: (vo.getAge() >= 25) ? 78 : 80;
-			voF.setAgeScore(ageScore);
-			int totalScore = eduScore + salaryScore + heightScore + ageScore;
-			double normalizedScore = totalScore;
-			voF.setTotalScore(totalScore);
-
-			normalizedScore = (voF.getsurgery() == 1) ? totalScore * 0.5
-							: (voF.getsurgery() == 2) ? totalScore * 0.7
-							: (voF.getsurgery() == 3) ? totalScore * 0.9 : totalScore;
-
-			voF.setNomalizedTotalScore(normalizedScore);
-		} else { // 남성인 경우
-			Male voM = (Male) vo;
-			int totalScore = eduScore + salaryScore + heightScore;
-			double normalizedScore = totalScore;
-			voM.setTotalScore(totalScore);
-
-			if (voM.isTaco()) {
-				normalizedScore = totalScore * 0.5;
-			}
-
-			voM.setNomalizedTotalScore(normalizedScore);
-		}
-
-		giveGrade();
+		return new Rank(humanMap).addAccount(vo);
 	}
 
 	/**
