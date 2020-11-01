@@ -20,7 +20,7 @@ public class HumanInfo {
 		humanMap = new HashMap<>();
 		rd = new Random();
 	}
-	
+
 	/**
 	 * 로그인을 수행하는 메소드이다.
 	 * 
@@ -72,158 +72,121 @@ public class HumanInfo {
 
 	/**
 	 * 등급을 부여하는 메소드
-	 */
+	 */	
+	@SuppressWarnings("unchecked")
 	public void giveGrade() {
-		List<Human> rankMale = new ArrayList<Human>();
-		List<Human> rankFemale = new ArrayList<Human>();
-		
+		ArrayList<Human>[] rank = new ArrayList[2];
+		rank[0] = new ArrayList<Human>();
+		rank[1] = new ArrayList<Human>();
+
 		for (String id : humanMap.keySet()) {
 			if (humanMap.get(id) instanceof Male) {
-				rankMale.add(humanMap.get(id));
+				rank[0].add(humanMap.get(id));
 			} else {
-				rankFemale.add(humanMap.get(id));
+				rank[1].add(humanMap.get(id));
 			}
 		}
 
-		// 남성 랭크 정렬
-		for (int i = 0; i < rankMale.size()-1; i++) {
-			Human temp = null;
+		for (int i = 0; i < rank.length; i++) {
+			for (int j = 0; j < rank[i].size() - 1; j++) {
+				Human temp = null;
 
-			for (int j = i; j < rankMale.size(); j++) {
-				if (rankMale.get(i).getNomalizedTotalScore() < rankMale.get(j).getNomalizedTotalScore()) {
-					temp = rankMale.get(i);
-					rankMale.set(i, rankMale.get(j));
-					rankMale.set(j, temp);
+				for (int k = 0; k < rank[j].size(); k++) {
+					if (rank[i].get(j).getNomalizedTotalScore() < rank[i].get(k).getNomalizedTotalScore()) {
+						temp = rank[i].get(j);
+						rank[i].set(j, rank[i].get(k));
+						rank[i].set(k, temp);
+					}
 				}
 			}
 		}
 
-		// 여성 랭크 정렬
-		for (int i = 0; i < rankFemale.size()-1; i++) {
-			Human temp = null;
-
-			for (int j = i; j < rankMale.size(); j++) {
-				if (rankFemale.get(i).getNomalizedTotalScore() < rankFemale.get(j).getNomalizedTotalScore()) {
-					temp = rankFemale.get(i);
-					rankFemale.set(i, rankFemale.get(j));
-					rankFemale.set(j, temp);
+		for (int i = 0; i < rank.length; i++) {
+			for (int j = rank[i].size()-1; j>=0; j--) {
+				if (((j + 1) * 1.0) / (rank[i].size() * 1.0) > 0.84) {
+					rank[i].get(i).setLevel(0); // 언랭
+				} else if (((j + 1) * 1.0) / (rank[i].size() * 1.0) > 0.7) {
+					rank[i].get(i).setLevel(1); // 브론즈
+				} else if (((j + 1) * 1.0) / (rank[i].size() * 1.0) > 0.56) {
+					rank[i].get(i).setLevel(2); // 실버
+				} else if (((j + 1) * 1.0) / (rank[i].size() * 1.0) > 0.42) {
+					rank[i].get(i).setLevel(3); // 골드
+				} else if (((j + 1) * 1.0) / (rank[i].size() * 1.0) > 0.28) {
+					rank[i].get(i).setLevel(4); // 플래티넘
+				} else if (((j + 1) * 1.0) / (rank[i].size() * 1.0) > 0.14) {
+					rank[i].get(j).setLevel(5); // 다이아
+				} else {
+					rank[i].get(j).setLevel(6); // 비브라늄
 				}
-			}
-		}
+				
+				String grade = (rank[i].get(j).getLevel() == 0) ? "언랭"
+								: (rank[i].get(j).getLevel() == 1) ? "브론즈"
+								: (rank[i].get(j).getLevel() == 2) ? "실버"
+								: (rank[i].get(j).getLevel() == 3) ? "골드"
+								: (rank[i].get(j).getLevel() == 4) ? "플래티넘"
+								: (rank[i].get(j).getLevel() == 5) ? "다이아" : "비브라늄";
 
-		// 남성 랭크 부여
-		for (int i = rankMale.size() - 1; i >= 0; i--) {
-			if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.84) {
-				rankMale.get(i).setLevel(0); // 언랭
-			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.7) {
-				rankMale.get(i).setLevel(1); // 브론즈
-			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.56) {
-				rankMale.get(i).setLevel(2); // 실버
-			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.42) {
-				rankMale.get(i).setLevel(3); // 골드
-			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.28) {
-				rankMale.get(i).setLevel(4); // 플래티넘
-			} else if (((i+1) * 1.0) / (rankMale.size() * 1.0) > 0.14) {
-				rankMale.get(i).setLevel(5); // 다이아
-			} else {
-				rankMale.get(i).setLevel(6); // 비브라늄
+				rank[i].get(i).setGrade(grade);
 			}
-			
-			String grade = (rankMale.get(i).getLevel() == 0) ? "언랭" : 
-				(rankMale.get(i).getLevel() == 1) ? "브론즈" : 
-				(rankMale.get(i).getLevel() == 2) ? "실버" : 
-				(rankMale.get(i).getLevel() == 3) ? "골드" : 
-				(rankMale.get(i).getLevel() == 4) ? "플래티넘" : 
-				(rankMale.get(i).getLevel() == 5 ) ? "다이아" : "비브라늄";
-			
-			rankMale.get(i).setGrade(grade);
-		}
-		
-
-		// 여성 랭크 부여
-		for (int i = rankFemale.size() - 1; i >= 0; i--) {
-			if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.84) {
-				rankFemale.get(i).setLevel(0); // 언랭
-			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.7) {
-				rankFemale.get(i).setLevel(1); // 브론즈
-			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.56) {
-				rankFemale.get(i).setLevel(2); // 실버
-			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.42) {
-				rankFemale.get(i).setLevel(3); // 골드
-			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.28) {
-				rankFemale.get(i).setLevel(4); // 플래티넘
-			} else if (((i+1) * 1.0) / (rankFemale.size() * 1.0) > 0.14) {
-				rankFemale.get(i).setLevel(5); // 다이아
-			} else {
-				rankFemale.get(i).setLevel(6); // 비브라늄
-			}
-			
-			String grade = (rankFemale.get(i).getLevel() == 0) ? "언랭" : 
-				(rankFemale.get(i).getLevel() == 1) ? "브론즈" : 
-				(rankFemale.get(i).getLevel() == 2) ? "실버" : 
-				(rankFemale.get(i).getLevel() == 3) ? "골드" : 
-				(rankFemale.get(i).getLevel() == 4) ? "플래티넘" : 
-				(rankFemale.get(i).getLevel() == 5 ) ? "다이아" : "비브라늄";
-			
-			rankFemale.get(i).setGrade(grade);
 		}
 	}
-	
+
 	/**
 	 * 회원의 점수를 매기는 프로세스
 	 */
 	public void giveScore(Human vo) {
 		// 공통 점수를 매기는 프로세스
 		int eduIndex = vo.getLatestEduScore();
-		int eduScore = (eduIndex == 1) ? 60 : 
-						(eduIndex == 2) ? 57 : 
-						(eduIndex == 3) ? 54 : 
-						(eduIndex == 4) ? 51 : 
-						(eduIndex == 5) ? 48 : 
-						(eduIndex == 6) ? 45 : 42;
-		
-		int salaryScore = (vo.getSalary() >= 1000000000) ? 100 : 
-							(vo.getSalary() >= 600000000) ? 95 :
-							(vo.getSalary() >= 100000000) ? 90 :
-							(vo.getSalary() >= 50000000) ? 85 : 80;
-		
-		
-		int heightScore = (vo.getHeight() >= 180) ? 60 : 
-							(vo.getHeight() >= 175) ? 58 :
-							(vo.getHeight() >= 170) ? 54 : 
-							(vo.getHeight() >= 160) ? 52 :
-							(vo.getHeight() >= 150) ?  50 : 48;
-		
+		int eduScore = (eduIndex == 1) ? 60
+						: (eduIndex == 2) ? 57
+						: (eduIndex == 3) ? 54
+						: (eduIndex == 4) ? 51 
+						: (eduIndex == 5) ? 48 
+						: (eduIndex == 6) ? 45 : 42;
+
+		int salaryScore = (vo.getSalary() >= 1000000000) ? 100
+						: (vo.getSalary() >= 600000000) ? 95
+						: (vo.getSalary() >= 100000000) ? 90 
+						: (vo.getSalary() >= 50000000) ? 85 : 80;
+
+		int heightScore = (vo.getHeight() >= 180) ? 60
+						: (vo.getHeight() >= 175) ? 58
+						: (vo.getHeight() >= 170) ? 54
+						: (vo.getHeight() >= 160) ? 52 
+						: (vo.getHeight() >= 150) ? 50 : 48;
+
 		vo.setLatestEduScore(eduScore);
 		vo.setSalaryScore(salaryScore);
 		vo.setHeightScore(heightScore);
-		
+
 		if (vo instanceof Female) {// 여성인 경우
 			Female voF = (Female) vo;
-			int ageScore = (vo.getAge() >= 35) ? 72 : (vo.getAge() >= 30) ? 76 : (vo.getAge() >= 25) ? 78 : 80;
+			int ageScore = (vo.getAge() >= 35) ? 72 
+						: (vo.getAge() >= 30) ? 76 
+						: (vo.getAge() >= 25) ? 78 : 80;
 			voF.setAgeScore(ageScore);
 			int totalScore = eduScore + salaryScore + heightScore + ageScore;
 			double normalizedScore = totalScore;
 			voF.setTotalScore(totalScore);
-			
-			normalizedScore = (voF.getsurgery() == 1) ? totalScore*0.5 : 
-								(voF.getsurgery() == 2) ? totalScore*0.7 : 
-								(voF.getsurgery() == 3) ? totalScore*0.9 : totalScore;  
-			
+
+			normalizedScore = (voF.getsurgery() == 1) ? totalScore * 0.5
+							: (voF.getsurgery() == 2) ? totalScore * 0.7
+							: (voF.getsurgery() == 3) ? totalScore * 0.9 : totalScore;
+
 			voF.setNomalizedTotalScore(normalizedScore);
 		} else { // 남성인 경우
 			Male voM = (Male) vo;
 			int totalScore = eduScore + salaryScore + heightScore;
 			double normalizedScore = totalScore;
 			voM.setTotalScore(totalScore);
-			
-			if(voM.isTaco()) {
-				normalizedScore = totalScore*0.5;
+
+			if (voM.isTaco()) {
+				normalizedScore = totalScore * 0.5;
 			}
-			
+
 			voM.setNomalizedTotalScore(normalizedScore);
 		}
-		
+
 		giveGrade();
 	}
 
@@ -256,7 +219,7 @@ public class HumanInfo {
 	public Human searchMatch(int level, Human vo) {
 		List<Human> list = new ArrayList<>();
 		Human matched = null;
-		
+
 		if (vo instanceof Male) {
 			for (String id : humanMap.keySet()) {
 				if (humanMap.get(id) instanceof Female) {
@@ -270,8 +233,8 @@ public class HumanInfo {
 				}
 			}
 		}
-		
-		if(list.size() == 0) {
+
+		if (list.size() == 0) {
 			matched = null;
 		} else { // 사이즈 1 이상
 			int index = rd.nextInt(list.size());
@@ -280,9 +243,10 @@ public class HumanInfo {
 
 		return matched;
 	}
-	
+
 	/**
 	 * 매칭요청을 수행하는 메소드
+	 * 
 	 * @param me
 	 * @param you
 	 * @return
@@ -306,7 +270,7 @@ public class HumanInfo {
 
 		return flag;
 	}
-	
+
 	/**
 	 * 상대의 매칭을 수락하는 메소드
 	 */
@@ -314,24 +278,24 @@ public class HumanInfo {
 		Human me = humanMap.get(myId);
 		Human you = humanMap.get(yourId);
 		boolean flagT = false;
-		
+
 		if (me.isInvited() && !me.isSuccess()) {
 			int level = me.getLevel();
-			
-			int fee = (level == 0) ? 100000 : 
-						(level == 1) ? 500000 : 
-						(level == 2) ? 1000000 : 
-						(level == 3) ? 2000000 :
-						(level == 4) ? 5000000 : 
-						(level == 5) ? 7000000 : 10000000;
-			
-			if(flag) { // 매칭의사 yes
-				if (you.getCash()-fee >= 0) { // 매칭이 성사
-					you.setCash(you.getCash()-fee);
+
+			int fee = (level == 0) ? 100000
+					: (level == 1) ? 500000
+					: (level == 2) ? 1000000
+					: (level == 3) ? 2000000
+					: (level == 4) ? 5000000 
+					: (level == 5) ? 7000000 : 10000000;
+
+			if (flag) { // 매칭의사 yes
+				if (you.getCash() - fee >= 0) { // 매칭이 성사
+					you.setCash(you.getCash() - fee);
 					you.setInvited(true);
 					you.setSuccess(true);
 					me.setSuccess(true);
-					
+
 					flagT = true;
 				} else { // 돈이 없어 매칭이 실패
 					initialize(myId);
@@ -340,12 +304,13 @@ public class HumanInfo {
 				initialize(myId);
 			}
 		}
-		
+
 		return flagT;
 	}
-	
+
 	/**
 	 * 매칭 정보를 초기화 해주는 메소드. 다시 만남을 가질 수 있도록 해준다.
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -353,7 +318,7 @@ public class HumanInfo {
 		boolean flag = false;
 		Human me = searchAccount(id);
 		Human you = searchAccount(me.getMatchedId());
-		
+
 		if (me != null && you != null) {
 			me.setMatchedId(null);
 			me.setInvited(false);
@@ -363,10 +328,10 @@ public class HumanInfo {
 			you.setLock(false);
 			you.setSuccess(false);
 			me.setSuccess(false);
-			
+
 			flag = true;
 		}
-		
+
 		return flag;
 	}
 }
