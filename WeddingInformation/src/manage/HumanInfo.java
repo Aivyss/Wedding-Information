@@ -256,13 +256,15 @@ public class HumanInfo {
 	public Human searchMatch(int level, Human vo) {
 		List<Human> list = new ArrayList<>();
 		Human matched = null;
-
-		for (String id : humanMap.keySet()) {
-			if (vo instanceof Male) {
+		
+		if (vo instanceof Male) {
+			for (String id : humanMap.keySet()) {
 				if (humanMap.get(id) instanceof Female) {
 					list.add(humanMap.get(id));
 				}
-			} else {
+			}
+		} else {
+			for (String id : humanMap.keySet()) {
 				if (humanMap.get(id) instanceof Male) {
 					list.add(humanMap.get(id));
 				}
