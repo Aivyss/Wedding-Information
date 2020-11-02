@@ -31,6 +31,9 @@ public class Human {
 	//매칭 락
 	boolean lock;
 	boolean success;
+	// 어카운트 락 (계정을 3회 이상 실패시 로그인을 불가능하게 함)
+	boolean accountLock;
+	int lockCount;
 	
 	/**
 	 * 기본 생성자
@@ -61,6 +64,8 @@ public class Human {
 		this.matchedId = null;
 		this.lock = false;
 		this.success = false;
+		this.accountLock = false;
+		this.lockCount = 0;
 	}
 	
 	/**
@@ -195,5 +200,21 @@ public class Human {
 
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+
+	public void setAccountLock(boolean accountLock) {
+		this.accountLock = accountLock;
+	}
+
+	public boolean isAccountLock() {
+		return accountLock;
+	}
+
+	public int getLockCount() {
+		return lockCount;
+	}
+
+	public void setLockCount(int lockCount) {
+		this.lockCount = lockCount;
 	}	
 }

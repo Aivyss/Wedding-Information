@@ -12,7 +12,7 @@ import vo.Male;
 
 public class HumanInfo {
 	Random rd;
-	public Map<String, Human> humanMap; // <id, vo>
+	private Map<String, Human> humanMap; // <id, vo>
 
 	/**
 	 */
@@ -30,17 +30,29 @@ public class HumanInfo {
 	 */
 	public Human signIn(String id, String pw) {
 		Human vo = null;
-		vo = humanMap.get(id);
+		vo = searchAccount(id);
 
 		if (vo != null) {
-			if (!pw.equals(vo.getPassword())) {
+			if (vo.getLockCount() < 3) {
+				if (!pw.equals(vo.getPassword())) { 
+					// 비밀번호를 틀려 계정락 카운트를 늘리고 로그인 실패
+					vo.setLockCount(vo.getLockCount() + 1);
+					vo = null;
+				}
+			} else { 
+				// 비밀번호를 3회 이상 틀려 계정락상태, 로그인 실패
 				vo = null;
 			}
 		}
 
+		if (vo != null) { 
+			// 로그인에 성공한 경우 락카운트 초기화
+			vo.setLockCount(0);
+		}
+
 		return vo;
 	}
-	
+
 	/**
 	 * id로 회원을 찾아서 vo객체를 반환하는 메소드
 	 * 
@@ -206,4 +218,29 @@ public class HumanInfo {
 
 		return flag;
 	}
+
+	/**
+	 * 회원 탈퇴를 진행하는 메소드 회원탈퇴가 성공하면 true 실패하면 false
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean removeAccount(String id, String pw) {
+		boolean flag = false;
+
+		if (pw.equals(humanMap.get(id).getPassword())) {
+			initialize(id); // 매칭 상대가 있다면 매칭 상대도 상태를 반영해야 하므로 시행
+			humanMap.remove(id);
+			flag = true;
+		}
+
+		return flag;
+	}
+
+	public void lockAccount(String id) {
+		if (humanMap.get(id) != null) {
+			humanMap.get(id).setAccountLock(true);
+		}
+	}
+
 }

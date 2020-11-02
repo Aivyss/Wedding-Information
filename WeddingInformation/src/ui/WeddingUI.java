@@ -59,9 +59,14 @@ public class WeddingUI {
 							showMyInfo();
 						} else if (selector == 6) {
 							initializeMatch();
+						} else if (selector == 7) {
+							removeAccount();
+							
+							if (loggedIn == null) { // 회원 탈퇴가 완료 되었으면 로그인 전단계로 이동하는 조건문
+								break;
+							}
 						} else if (selector == 0) {
-							System.out.println("[알림] 전단계로 이동합니다.");
-							this.loggedIn = null;
+							backToFirst();
 							break;
 						} else {
 							System.out.println("[에러] 잘못 입력하셨습니다.");
@@ -90,13 +95,14 @@ public class WeddingUI {
 	 * 일반회원의 로그인 후 화면을 보여주는 메소드
 	 */
 	public void menu2() {
-		System.out.println("[" + loggedIn.getName() + "회원님 환영합니다.]");
+		System.out.println("[" + loggedIn.getName() + " 회원님 환영합니다.]");
 		System.out.println("1. 캐시 충전하기");
 		System.out.println("2. 상대 매칭하기");
 		System.out.println("3. 상대 매칭 수락하기");
 		System.out.println("4. 매칭 성사 현황");
 		System.out.println("5. 나의 정보 현황 확인");
 		System.out.println("6. 매칭 초기화");
+		System.out.println("7. 회원 탈퇴");
 		System.out.println("0. 로그인 전단계로 이동");
 		System.out.print("메뉴선택> ");
 	}
@@ -115,7 +121,12 @@ public class WeddingUI {
 			System.out.println("[알림] 로그인 되었습니다.");
 		} else {
 			System.out.println("[알림] 로그인에 실패했습니다.");
-		}
+			if (manage.searchAccount(id) != null) {
+				if (manage.searchAccount(id).getLockCount()>=3) {
+					System.out.println("[알림] 3회 이상 실패하여 계정이 잠겼습니다.");
+				}
+			}
+		}	
 	}
 
 	/**
@@ -129,7 +140,7 @@ public class WeddingUI {
 		System.out.print("이용할 아이디 입력: ");
 		String id = sc.nextLine();
 
-		vo = manage.humanMap.get(id);
+		vo = manage.searchAccount(id);
 		if (vo == null) {
 			info.put("id", id);
 			System.out.print("비밀번호 입력: ");
@@ -306,6 +317,24 @@ public class WeddingUI {
 		} else {
 			System.out.println("[알림] 매칭정보가 없는 듯 합니다.");
 		}
+	}
+	
+	/**
+	 * 회원 탈퇴를 진행하는 메소드
+	 */
+	public void removeAccount() {
+		System.out.print("비밀번호 재입력> ");
+		if(manage.removeAccount(loggedIn.getId(),sc.nextLine())) {
+			System.out.println("[알림] 회원 탈퇴를 완료했습니다.");
+			backToFirst();
+		} else {
+			System.out.println("[에러] 회원 탈퇴에 실패했습니다(비밀번호 불일치). ");
+		}
+	}
+	
+	public void backToFirst() {
+		System.out.println("[알림] 로그인 전단계로 이동합니다.");
+		this.loggedIn = null;
 	}
 
 	/**
