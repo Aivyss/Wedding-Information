@@ -113,12 +113,12 @@ public class Rank {
 	 */
 	public void giveScore(Human vo) {
 		// 공통 점수를 매기는 프로세스
-		int eduScore = (vo.getLatestEduScore() == 1) ? 60
-						: (vo.getLatestEduScore() == 2) ? 57
-						: (vo.getLatestEduScore() == 3) ? 54
-						: (vo.getLatestEduScore() == 4) ? 51 
-						: (vo.getLatestEduScore() == 5) ? 48 
-						: (vo.getLatestEduScore() == 6) ? 45 : 42;
+		int latestEduScore = (vo.getLatestEduLevel() == 1) ? 60
+						: (vo.getLatestEduLevel() == 2) ? 57
+						: (vo.getLatestEduLevel() == 3) ? 54
+						: (vo.getLatestEduLevel() == 4) ? 51 
+						: (vo.getLatestEduLevel() == 5) ? 48 
+						: (vo.getLatestEduLevel() == 6) ? 45 : 42;
 
 		int salaryScore = (vo.getSalary() >= 1000000000) ? 100
 						: (vo.getSalary() >= 600000000) ? 95
@@ -130,37 +130,37 @@ public class Rank {
 						: (vo.getHeight() >= 170) ? 54
 						: (vo.getHeight() >= 160) ? 52 
 						: (vo.getHeight() >= 150) ? 50 : 48;
-
-		vo.setLatestEduScore(eduScore);
+		
+		vo.setLatestEduScore(latestEduScore);
 		vo.setSalaryScore(salaryScore);
 		vo.setHeightScore(heightScore);
 
+		double normalizedScore = 0;
 		if (vo instanceof Female) {// 여성인 경우
 			Female voF = (Female) vo;
 			int ageScore = (vo.getAge() >= 35) ? 72 
 						: (vo.getAge() >= 30) ? 76 
 						: (vo.getAge() >= 25) ? 78 : 80;
 			voF.setAgeScore(ageScore);
-			int totalScore = eduScore + salaryScore + heightScore + ageScore;
-			double normalizedScore = totalScore;
+			
+			int totalScore = latestEduScore + salaryScore + heightScore + ageScore;
 			voF.setTotalScore(totalScore);
 
 			normalizedScore = (voF.getsurgery() == 1) ? totalScore * 0.5
 							: (voF.getsurgery() == 2) ? totalScore * 0.7
 							: (voF.getsurgery() == 3) ? totalScore * 0.9 : totalScore;
 
-			voF.setNomalizedTotalScore(normalizedScore);
+			voF.setNormalizedTotalScore(normalizedScore);
 		} else { // 남성인 경우
 			Male voM = (Male) vo;
-			int totalScore = eduScore + salaryScore + heightScore;
-			double normalizedScore = totalScore;
+			int totalScore = latestEduScore + salaryScore + heightScore;
 			voM.setTotalScore(totalScore);
 
 			if (voM.isTaco()) {
 				normalizedScore = totalScore * 0.5;
 			}
 
-			voM.setNomalizedTotalScore(normalizedScore);
+			voM.setNormalizedTotalScore(normalizedScore);
 		}
 
 		giveGrade();
@@ -185,7 +185,7 @@ public class Rank {
 				Human temp = null;
 
 				for (int k = 0; k < size(i); k++) {
-					if (get(i, j).getNomalizedTotalScore() < get(i, k).getNomalizedTotalScore()) {
+					if (get(i, j).getNormalizedTotalScore() < get(i, k).getNormalizedTotalScore()) {
 						temp = get(i, j);
 						set(i ,j, get(i, k));
 						set(i, k, temp);

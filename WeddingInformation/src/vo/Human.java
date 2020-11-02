@@ -19,7 +19,7 @@ public class Human {
 	int salary;
 	// 점수
 	int totalScore;
-	double nomalizedTotalScore;
+	double NormalizedTotalScore;
 	int LatestEduScore;
 	int SalaryScore;
 	int heightScore;
@@ -59,7 +59,7 @@ public class Human {
 		this.latestEduLevel = (Integer) info.get("latestEduLevel");
 		this.salary = (Integer) info.get("salary");
 		
-		this.nomalizedTotalScore = 0;
+		this.NormalizedTotalScore = 0;
 		
 		this.matchedId = null;
 		this.lock = false;
@@ -126,12 +126,12 @@ public class Human {
 		this.totalScore = totalScore;
 	}
 	
-	public double getNomalizedTotalScore() {
-		return nomalizedTotalScore;
+	public double getNormalizedTotalScore() {
+		return NormalizedTotalScore;
 	}
 	
-	public void setNomalizedTotalScore(double nomalizedTotalScore) {
-		this.nomalizedTotalScore = nomalizedTotalScore;
+	public void setNormalizedTotalScore(double NormalizedTotalScore) {
+		this.NormalizedTotalScore = NormalizedTotalScore;
 	}
 	
 	public int getLatestEduScore() {
@@ -216,5 +216,10 @@ public class Human {
 
 	public void setLockCount(int lockCount) {
 		this.lockCount = lockCount;
+	}
+
+	public int getLatestEduLevel() {
+		return latestEduLevel;
 	}	
+	
 }
