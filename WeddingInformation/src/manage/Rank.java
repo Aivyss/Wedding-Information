@@ -185,7 +185,7 @@ public class Rank {
 			for (int j = 0; j < this.size(i) - 1; j++) {
 				Human temp = null;
 
-				for (int k = 0; k < size(i); k++) {
+				for (int k = j+1; k < size(i); k++) {
 					if (get(i, j).getNormalizedTotalScore() < get(i, k).getNormalizedTotalScore()) {
 						temp = get(i, j);
 						set(i ,j, get(i, k));
