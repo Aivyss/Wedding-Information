@@ -135,33 +135,34 @@ public class Rank {
 		vo.setSalaryScore(salaryScore);
 		vo.setHeightScore(heightScore);
 
-		double normalizedScore = 0;
+		int totalScore;
+		double normalizedScore;
 		if (vo instanceof Female) {// 여성인 경우
 			Female voF = (Female) vo;
 			int ageScore = (vo.getAge() >= 35) ? 72 
 						: (vo.getAge() >= 30) ? 76 
 						: (vo.getAge() >= 25) ? 78 : 80;
 			voF.setAgeScore(ageScore);
-			
-			int totalScore = latestEduScore + salaryScore + heightScore + ageScore;
-			voF.setTotalScore(totalScore);
+			totalScore = latestEduScore + salaryScore + heightScore + ageScore;
+			normalizedScore = totalScore;
 
-			normalizedScore = (voF.getsurgery() == 1) ? totalScore * 0.5
-							: (voF.getsurgery() == 2) ? totalScore * 0.7
-							: (voF.getsurgery() == 3) ? totalScore * 0.9 : totalScore;
-
-			voF.setNormalizedTotalScore(normalizedScore);
+			vo = voF;
 		} else { // 남성인 경우
 			Male voM = (Male) vo;
-			int totalScore = latestEduScore + salaryScore + heightScore;
-			voM.setTotalScore(totalScore);
+			totalScore = latestEduScore + salaryScore + heightScore;
+			normalizedScore = totalScore;
 
 			if (voM.isTaco()) {
-				normalizedScore = totalScore * 0.5;
+				normalizedScore = normalizedScore * 0.5;
 			}
-
-			voM.setNormalizedTotalScore(normalizedScore);
+			
+			vo = voM;
 		}
+		
+		normalizedScore = (vo.getBmi() >= 25) ? normalizedScore * 0.85 // 비만
+						: (vo.getBmi() >= 23) ? normalizedScore * 0.92 // 과체중
+						: (vo.getBmi() >= 18.5) ? normalizedScore * 1.05 : normalizedScore * 0.95; // 정상 : 저체중
+		vo.setTotalScore(totalScore);
 
 		giveGrade();
 	}

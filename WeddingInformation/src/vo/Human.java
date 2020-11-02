@@ -220,6 +220,11 @@ public class Human {
 
 	public int getLatestEduLevel() {
 		return latestEduLevel;
+	}
+
+	public double getBmi() {
+		return bmi;
 	}	
+	
 	
 }
