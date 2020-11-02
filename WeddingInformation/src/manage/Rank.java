@@ -197,21 +197,14 @@ public class Rank {
 		// 정렬된 것에 따라 랭크를 부여하는 프로세스
 		for (int i = 0; i < length; i++) {
 			for (int j = size(i)-1; j>=0; j--) {
-				if (((j + 1) * 1.0) / (size(i) * 1.0) > 0.84) {
-					get(i, j).setLevel(0); // 언랭
-				} else if (((j + 1) * 1.0) / (size(i) * 1.0) > 0.7) {
-					get(i, j).setLevel(1); // 브론즈
-				} else if (((j + 1) * 1.0) / (size(i) * 1.0) > 0.56) {
-					get(i, j).setLevel(2); // 실버
-				} else if (((j + 1) * 1.0) / (size(i) * 1.0) > 0.42) {
-					get(i, j).setLevel(3); // 골드
-				} else if (((j + 1) * 1.0) / (size(i) * 1.0) > 0.28) {
-					get(i, j).setLevel(4); // 플래티넘
-				} else if (((j + 1) * 1.0) / (size(i) * 1.0) > 0.14) {
-					get(i, j).setLevel(5); // 다이아
-				} else {
-					get(i, j).setLevel(6); // 비브라늄
-				}
+				int level = (((j + 1) * 1.0) / (size(i) * 1.0) > 0.84) ? 0 // 언랭
+							: (((j + 1) * 1.0) / (size(i) * 1.0) > 0.7) ? 1 // 브론즈
+							: (((j + 1) * 1.0) / (size(i) * 1.0) > 0.56) ? 2 // 실버
+							: (((j + 1) * 1.0) / (size(i) * 1.0) > 0.42) ? 3 // 골드
+							: (((j + 1) * 1.0) / (size(i) * 1.0) > 0.28) ? 4 // 플래티넘
+							: (((j + 1) * 1.0) / (size(i) * 1.0) > 0.14) ? 5 : 6; // 다이아: 비브라늄
+				get(i, j).setLevel(level);
+				
 				
 				String grade = (get(i, j).getLevel() == 0) ? "언랭"
 								: (get(i, j).getLevel() == 1) ? "브론즈"
@@ -219,7 +212,6 @@ public class Rank {
 								: (get(i, j).getLevel() == 3) ? "골드"
 								: (get(i, j).getLevel() == 4) ? "플래티넘"
 								: (get(i, j).getLevel() == 5) ? "다이아" : "비브라늄";
-
 				get(i, j).setGrade(grade);
 			}
 		}
