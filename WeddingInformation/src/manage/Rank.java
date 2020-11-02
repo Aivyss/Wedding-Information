@@ -113,13 +113,12 @@ public class Rank {
 	 */
 	public void giveScore(Human vo) {
 		// 공통 점수를 매기는 프로세스
-		int eduIndex = vo.getLatestEduScore();
-		int eduScore = (eduIndex == 1) ? 60
-						: (eduIndex == 2) ? 57
-						: (eduIndex == 3) ? 54
-						: (eduIndex == 4) ? 51 
-						: (eduIndex == 5) ? 48 
-						: (eduIndex == 6) ? 45 : 42;
+		int eduScore = (vo.getLatestEduScore() == 1) ? 60
+						: (vo.getLatestEduScore() == 2) ? 57
+						: (vo.getLatestEduScore() == 3) ? 54
+						: (vo.getLatestEduScore() == 4) ? 51 
+						: (vo.getLatestEduScore() == 5) ? 48 
+						: (vo.getLatestEduScore() == 6) ? 45 : 42;
 
 		int salaryScore = (vo.getSalary() >= 1000000000) ? 100
 						: (vo.getSalary() >= 600000000) ? 95
