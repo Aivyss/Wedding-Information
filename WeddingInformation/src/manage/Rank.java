@@ -1,6 +1,7 @@
 package manage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,78 +10,14 @@ import vo.Human;
 import vo.Male;
 
 public class Rank {
-	List<Human> male;
-	List<Human> female;
-	Map<String, Human> humanMap;
-	public int length;
+	private Map<String, Human> humanMap;
 	
 	/**
 	 * 생성자 오버로딩
 	 * @param humanMap
 	 */
 	public Rank(Map<String, Human> humanMap) {
-		length = 2;
 		this.humanMap = humanMap;
-	}
-	
-	/**
-	 * 남성인지 여성인지 분류하여 각각의 어레이리스트에 넣는 메소드
-	 * @param index
-	 * @param vo
-	 */
-	public void add(int index, Human vo) {
-		if (index == 0) {
-			male.add(vo);
-		} else {
-			female.add(vo);
-		}
-	}
-	
-	/**
-	 * 남성, 여성이 분류된 어레이리스트에서 값을 추출하는 메소드
-	 * @param index
-	 * @param listIndex
-	 * @return
-	 */
-	public Human get(int index, int listIndex) {
-		Human result = null;
-		
-		if (index == 0) {
-			result = male.get(listIndex);
-		} else if (index == 1) {
-			result = female.get(listIndex);
-		}
-		
-		return result; 
-	}
-	
-	/**
-	 * 어레이리스트의 값을 다른 vo로 교체하는 메소드
-	 * @param index
-	 * @param listIndex
-	 * @param vo
-	 */
-	public void set(int index, int listIndex, Human vo) {
-		if (index == 0) {
-			male.set(listIndex, vo);
-		} else {
-			female.set(listIndex, vo);
-		}
-	}
-	
-	/**
-	 * 각 어레이리스트의 사이즈를 추출하는 메소드
-	 * @param index
-	 * @return
-	 */
-	public int size(int index) {
-		int size = female.size();
-		
-		if (index == 0) {
-			size = male.size();
-		} 
-		
-		return size;
 	}
 	
 	/**
@@ -168,52 +105,55 @@ public class Rank {
 	 * 등급을 부여하는 메소드
 	 */	
 	public void giveGrade() {
-		male = new ArrayList<>();
-		female = new ArrayList<>();
+		List<Human> male = new ArrayList<>();
+		List<Human> female = new ArrayList<>();
+		Map<Integer, List<Human>> rank = new HashMap<>();
 		
 		// 여자/남자를 분류하는 프로세스
 		for (String id : humanMap.keySet()) {
 			if (humanMap.get(id) instanceof Male) {
-				add(0, humanMap.get(id));
+				male.add(humanMap.get(id));
 			} else {
-				add(1, humanMap.get(id));
+				female.add(humanMap.get(id));
 			}
 		}
+		rank.put(0, male);
+		rank.put(1, female);
 		
 		// 여자 남자를 점수 순으로 정렬하는 프로세스
-		for (int i = 0; i < this.length; i++) {
-			for (int j = 0; j < this.size(i) - 1; j++) {
+		for (Integer i : rank.keySet()) {
+			for (int j = 0; j < rank.get(i).size() - 1; j++) {
 
-				for (int k = j+1; k < size(i); k++) {
-					if (get(i, j).getNormalizedTotalScore() < get(i, k).getNormalizedTotalScore()) {
+				for (int k = j+1; k < rank.get(i).size(); k++) {
+					if (rank.get(i).get(j).getNormalizedTotalScore() < rank.get(i).get(k).getNormalizedTotalScore()) {
 						Human temp = null;
-						temp = get(i, j);
-						set(i ,j, get(i, k));
-						set(i, k, temp);
+						temp = rank.get(i).get(j);
+						rank.get(i).set(j, rank.get(i).get(k));
+						rank.get(i).set(k, temp);
 					}
 				}
 			}
 		}
 		
 		// 정렬된 것에 따라 랭크를 부여하는 프로세스
-		for (int i = 0; i < length; i++) {
-			for (int j = size(i)-1; j>=0; j--) {
-				int level = (((j + 1) * 1.0) / (size(i) * 1.0) > 0.84) ? 0 // 언랭
-							: (((j + 1) * 1.0) / (size(i) * 1.0) > 0.7) ? 1 // 브론즈
-							: (((j + 1) * 1.0) / (size(i) * 1.0) > 0.56) ? 2 // 실버
-							: (((j + 1) * 1.0) / (size(i) * 1.0) > 0.42) ? 3 // 골드
-							: (((j + 1) * 1.0) / (size(i) * 1.0) > 0.28) ? 4 // 플래티넘
-							: (((j + 1) * 1.0) / (size(i) * 1.0) > 0.14) ? 5 : 6; // 다이아: 비브라늄
-				get(i, j).setLevel(level);
+		for (Integer i : rank.keySet()) {
+			for (int j = rank.get(i).size()-1; j>=0; j--) {
+				int level = (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.84) ? 0 // 언랭
+							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.7) ? 1 // 브론즈
+							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.56) ? 2 // 실버
+							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.42) ? 3 // 골드
+							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.28) ? 4 // 플래티넘
+							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.14) ? 5 : 6; // 다이아: 비브라늄
+				rank.get(i).get(j).setLevel(level);
 				
 				
-				String grade = (get(i, j).getLevel() == 0) ? "언랭"
-								: (get(i, j).getLevel() == 1) ? "브론즈"
-								: (get(i, j).getLevel() == 2) ? "실버"
-								: (get(i, j).getLevel() == 3) ? "골드"
-								: (get(i, j).getLevel() == 4) ? "플래티넘"
-								: (get(i, j).getLevel() == 5) ? "다이아" : "비브라늄";
-				get(i, j).setGrade(grade);
+				String grade = (rank.get(i).get(j).getLevel() == 0) ? "언랭"
+								: (rank.get(i).get(j).getLevel() == 1) ? "브론즈"
+								: (rank.get(i).get(j).getLevel() == 2) ? "실버"
+								: (rank.get(i).get(j).getLevel() == 3) ? "골드"
+								: (rank.get(i).get(j).getLevel() == 4) ? "플래티넘"
+								: (rank.get(i).get(j).getLevel() == 5) ? "다이아" : "비브라늄";
+				rank.get(i).get(j).setGrade(grade);
 			}
 		}
 	}
