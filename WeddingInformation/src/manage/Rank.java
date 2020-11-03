@@ -19,8 +19,6 @@ public class Rank {
 	 * @param humanMap
 	 */
 	public Rank(Map<String, Human> humanMap) {
-		male = new ArrayList<>();
-		female = new ArrayList<>();
 		length = 2;
 		this.humanMap = humanMap;
 	}
@@ -95,8 +93,9 @@ public class Rank {
 		boolean flag = false;
 
 		if (vo != null) {
-			humanMap.put(vo.getId(), vo);
 			giveScore(vo);
+			humanMap.put(vo.getId(), vo);
+			giveGrade();
 			
 			// 제대로 값이 들어갔는지 확인하는 조건문
 			if (humanMap.get(vo.getId()) != null && vo.getGrade() != null) { 
@@ -162,15 +161,16 @@ public class Rank {
 		normalizedScore = (vo.getBmi() >= 25) ? normalizedScore * 0.85 // 비만
 						: (vo.getBmi() >= 23) ? normalizedScore * 0.92 // 과체중
 						: (vo.getBmi() >= 18.5) ? normalizedScore * 1.05 : normalizedScore * 0.95; // 정상 : 저체중
-		vo.setTotalScore(totalScore);
-
-		giveGrade();
+		vo.setNormalizedTotalScore(normalizedScore);
 	}
 	
 	/**
 	 * 등급을 부여하는 메소드
 	 */	
 	public void giveGrade() {
+		male = new ArrayList<>();
+		female = new ArrayList<>();
+		
 		// 여자/남자를 분류하는 프로세스
 		for (String id : humanMap.keySet()) {
 			if (humanMap.get(id) instanceof Male) {
@@ -183,10 +183,10 @@ public class Rank {
 		// 여자 남자를 점수 순으로 정렬하는 프로세스
 		for (int i = 0; i < this.length; i++) {
 			for (int j = 0; j < this.size(i) - 1; j++) {
-				Human temp = null;
 
 				for (int k = j+1; k < size(i); k++) {
 					if (get(i, j).getNormalizedTotalScore() < get(i, k).getNormalizedTotalScore()) {
+						Human temp = null;
 						temp = get(i, j);
 						set(i ,j, get(i, k));
 						set(i, k, temp);
