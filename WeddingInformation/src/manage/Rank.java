@@ -49,12 +49,12 @@ public class Rank {
 	 */
 	public void giveScore(Human vo) {
 		// 공통 점수를 매기는 프로세스
-		int latestEduScore = (vo.getLatestEduLevel() == 1) ? 60
-						: (vo.getLatestEduLevel() == 2) ? 57
-						: (vo.getLatestEduLevel() == 3) ? 54
-						: (vo.getLatestEduLevel() == 4) ? 51 
-						: (vo.getLatestEduLevel() == 5) ? 48 
-						: (vo.getLatestEduLevel() == 6) ? 45 : 42;
+		int latestEduScore = (vo.getLatestEduIndex() == 1) ? 60
+						: (vo.getLatestEduIndex() == 2) ? 57
+						: (vo.getLatestEduIndex() == 3) ? 54
+						: (vo.getLatestEduIndex() == 4) ? 51 
+						: (vo.getLatestEduIndex() == 5) ? 48 
+						: (vo.getLatestEduIndex() == 6) ? 45 : 42;
 
 		int salaryScore = (vo.getSalary() >= 1000000000) ? 100
 						: (vo.getSalary() >= 600000000) ? 95
@@ -144,15 +144,15 @@ public class Rank {
 							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.42) ? 3 // 골드
 							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.28) ? 4 // 플래티넘
 							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.14) ? 5 : 6; // 다이아: 비브라늄
-				rank.get(i).get(j).setLevel(level);
+				rank.get(i).get(j).setGradeIndex(level);
 				
 				
-				String grade = (rank.get(i).get(j).getLevel() == 0) ? "언랭"
-								: (rank.get(i).get(j).getLevel() == 1) ? "브론즈"
-								: (rank.get(i).get(j).getLevel() == 2) ? "실버"
-								: (rank.get(i).get(j).getLevel() == 3) ? "골드"
-								: (rank.get(i).get(j).getLevel() == 4) ? "플래티넘"
-								: (rank.get(i).get(j).getLevel() == 5) ? "다이아" : "비브라늄";
+				String grade = (rank.get(i).get(j).getGradeIndex() == 0) ? "언랭"
+								: (rank.get(i).get(j).getGradeIndex() == 1) ? "브론즈"
+								: (rank.get(i).get(j).getGradeIndex() == 2) ? "실버"
+								: (rank.get(i).get(j).getGradeIndex() == 3) ? "골드"
+								: (rank.get(i).get(j).getGradeIndex() == 4) ? "플래티넘"
+								: (rank.get(i).get(j).getGradeIndex() == 5) ? "다이아" : "비브라늄";
 				rank.get(i).get(j).setGrade(grade);
 			}
 		}

@@ -164,14 +164,14 @@ public class HumanInfo {
 		boolean flagT = false;
 
 		if (me.isInvited() && !me.isSuccess()) {
-			int level = me.getLevel();
+			int gradeIndex = me.getGradeIndex();
 
-			int fee = (level == 0) ? 100000
-					: (level == 1) ? 500000
-					: (level == 2) ? 1000000
-					: (level == 3) ? 2000000
-					: (level == 4) ? 5000000 
-					: (level == 5) ? 7000000 : 10000000;
+			int fee = (gradeIndex == 0) ? 100000
+					: (gradeIndex == 1) ? 500000
+					: (gradeIndex == 2) ? 1000000
+					: (gradeIndex == 3) ? 2000000
+					: (gradeIndex == 4) ? 5000000 
+					: (gradeIndex == 5) ? 7000000 : 10000000;
 
 			if (flag) { // 매칭의사 yes
 				if (you.getCash() - fee >= 0) { // 매칭이 성사

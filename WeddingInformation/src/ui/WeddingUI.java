@@ -158,7 +158,7 @@ public class WeddingUI {
 			System.out.print("최종대학 입력: ");
 			info.put("latestEdu", sc.nextLine());
 			System.out.print("최종학력 분류 1. 아이비리그, 2. 설대, 카이스트, 포공, 3. 연고성 해외대학, 4. 인서울,  5. 인경기,  6.지거국, 7. 지방대: ");
-			info.put("latestEduLevel", inputInteger());
+			info.put("latestEduIndex", inputInteger());
 			System.out.print("연봉 입력: ");
 			info.put("salary", inputInteger());
 
@@ -208,7 +208,7 @@ public class WeddingUI {
 	 * 상대를 매칭하는 메소드
 	 */
 	public void match() {
-		int level = this.loggedIn.getLevel();
+		int gradeIndex = this.loggedIn.getGradeIndex();
 		String grade = this.loggedIn.getGrade();
 		int cash = this.loggedIn.getCash();
 
@@ -226,7 +226,7 @@ public class WeddingUI {
 				System.out.print("매칭등급 선택> ");
 				int selector = inputInteger();
 
-				if (level >= selector) { // 0 > 6
+				if (gradeIndex >= selector) { // 0 > 6
 					Human another = manage.searchMatch(selector, this.loggedIn);
 
 					if (another == null) {

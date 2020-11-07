@@ -7,7 +7,7 @@ public class Human {
 	String id;
 	String password;
 	String grade;
-	int level;
+	int gradeIndex;
 	// 신상정보
 	String name;
 	int age;
@@ -15,7 +15,7 @@ public class Human {
 	double bmi;
 	// 능력정보
 	String latestEdu;
-	int latestEduLevel;
+	int latestEduIndex;
 	int salary;
 	// 점수
 	int totalScore;
@@ -56,7 +56,7 @@ public class Human {
 		this.bmi = (Double) info.get("bmi");
 		
 		this.latestEdu = (String) info.get("latestEdu");
-		this.latestEduLevel = (Integer) info.get("latestEduLevel");
+		this.latestEduIndex = (Integer) info.get("latestEduIndex");
 		this.salary = (Integer) info.get("salary");
 		
 		this.NormalizedTotalScore = 0;
@@ -162,12 +162,12 @@ public class Human {
 		this.matchedId = matchedId;
 	}
 	
-	public int getLevel() {
-		return level;
+	public int getGradeIndex() {
+		return gradeIndex;
 	}
 	
-	public void setLevel(int level) {
-		this.level = level;
+	public void setGradeIndex(int gradeIndex) {
+		this.gradeIndex = gradeIndex;
 	}
 	
 	public boolean isLock() {
@@ -218,8 +218,8 @@ public class Human {
 		this.lockCount = lockCount;
 	}
 
-	public int getLatestEduLevel() {
-		return latestEduLevel;
+	public int getLatestEduIndex() {
+		return latestEduIndex;
 	}
 
 	public double getBmi() {
