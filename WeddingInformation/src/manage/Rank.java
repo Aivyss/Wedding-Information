@@ -8,8 +8,8 @@ import vo.Human;
 import vo.Male;
 
 public class Rank {
-	private static Rank rank = new Rank();
-	private HumanInfo humanInfo = HumanInfo.getInstance();
+	private static final Rank rank = new Rank();
+	private final HumanInfo humanInfo = HumanInfo.getInstance();
 	
 	/**
 	 * 생성자
@@ -40,7 +40,6 @@ public class Rank {
 			
 			// 제대로 값이 들어갔는지 확인하는 조건문
 			if (humanInfo.getHumanMap().get(vo.getId()) != null && vo.getGrade() != null) { 
-				
 				flag = true;
 			}
 		}

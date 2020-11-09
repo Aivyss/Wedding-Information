@@ -94,6 +94,7 @@ public class Human {
 		buf.append(", 환산점수: ");
 		buf.append(normalizedTotalScore);
 		
+		
 		return buf.toString();
 	}
 	
