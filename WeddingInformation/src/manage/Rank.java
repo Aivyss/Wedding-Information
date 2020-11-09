@@ -10,14 +10,21 @@ import vo.Human;
 import vo.Male;
 
 public class Rank {
-	private Map<String, Human> humanMap;
+	private static Rank rank = new Rank();
+	private HumanInfo humanInfo = HumanInfo.getInstance();
 	
 	/**
-	 * 생성자 오버로딩
-	 * @param humanMap
+	 * 생성자
+	 * 
 	 */
-	public Rank(Map<String, Human> humanMap) {
-		this.humanMap = humanMap;
+	private Rank() {
+		
+	}
+	/**
+	 * 싱글톤 디자인
+	 */
+	public static Rank getInstance() {
+		return rank;
 	}
 	
 	/**
@@ -31,11 +38,11 @@ public class Rank {
 
 		if (vo != null) {
 			giveScore(vo);
-			humanMap.put(vo.getId(), vo);
+			humanInfo.getHumanMap().put(vo.getId(), vo);
 			giveGrade();
 			
 			// 제대로 값이 들어갔는지 확인하는 조건문
-			if (humanMap.get(vo.getId()) != null && vo.getGrade() != null) { 
+			if (humanInfo.getHumanMap().get(vo.getId()) != null && vo.getGrade() != null) { 
 				
 				flag = true;
 			}
@@ -47,7 +54,7 @@ public class Rank {
 	/**
 	 * 회원의 점수를 매기는 메소드
 	 */
-	public void giveScore(Human vo) {
+	private void giveScore(Human vo) {
 		// 공통 점수를 매기는 프로세스
 		int latestEduScore = (vo.getLatestEduIndex() == 1) ? 60
 						: (vo.getLatestEduIndex() == 2) ? 57
@@ -104,17 +111,17 @@ public class Rank {
 	/**
 	 * 등급을 부여하는 메소드
 	 */	
-	public void giveGrade() {
+	private void giveGrade() {
 		List<Human> male = new ArrayList<>();
 		List<Human> female = new ArrayList<>();
 		Map<Integer, List<Human>> rank = new HashMap<>();
 		
 		// 여자/남자를 분류하는 프로세스
-		for (String id : humanMap.keySet()) {
-			if (humanMap.get(id) instanceof Male) {
-				male.add(humanMap.get(id));
+		for (String id : humanInfo.getHumanMap().keySet()) {
+			if (humanInfo.getHumanMap().get(id) instanceof Male) {
+				male.add(humanInfo.getHumanMap().get(id));
 			} else {
-				female.add(humanMap.get(id));
+				female.add(humanInfo.getHumanMap().get(id));
 			}
 		}
 		rank.put(0, male);

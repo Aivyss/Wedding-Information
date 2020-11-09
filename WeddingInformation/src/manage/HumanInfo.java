@@ -79,8 +79,9 @@ public class HumanInfo {
 	 * @return 가입이 정상적으로 처리되면 true를 반환
 	 */
 	public boolean addAccount(Human vo) {
+		Rank rank = Rank.getInstance();
 
-		return new Rank(humanMap).addAccount(vo);
+		return rank.addAccount(vo);
 	}
 
 	/**
@@ -165,7 +166,7 @@ public class HumanInfo {
 	}
 
 	/**
-	 * 상대의 매칭을 수락하는 메소드
+	 * 상대의 매칭을 수락/거부하는 메소드
 	 */
 	public boolean accept(String myId, String yourId, boolean flag) {
 		Human me = humanMap.get(myId);
@@ -246,10 +247,8 @@ public class HumanInfo {
 		return flag;
 	}
 
-	public void lockAccount(String id) {
-		if (humanMap.get(id) != null) {
-			humanMap.get(id).setAccountLock(true);
-		}
+	public Map<String, Human> getHumanMap() {
+		return humanMap;
 	}
 
 }
