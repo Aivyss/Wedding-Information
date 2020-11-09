@@ -13,12 +13,21 @@ import vo.Male;
 public class HumanInfo {
 	Random rd;
 	private Map<String, Human> humanMap; // <id, vo>
+	private static final HumanInfo humanInfo = new HumanInfo();
 
 	/**
+	 * 생성자
 	 */
-	public HumanInfo() {
+	private HumanInfo() {
 		humanMap = new HashMap<>();
 		rd = new Random();
+	}
+	
+	/**
+	 * 싱글톤 디자인 패턴 적용
+	 */
+	public static HumanInfo getInstance() {
+		return humanInfo;
 	}
 
 	/**

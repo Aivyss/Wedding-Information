@@ -10,17 +10,26 @@ import vo.Human;
 import vo.Male;
 
 public class WeddingUI {
+	// WeddingUI 객체, 싱글톤 디자인
+	private static final WeddingUI ui = new WeddingUI();
 	// UI 클래스의 멤버변수
 	Scanner sc;
 	HumanInfo manage;
 	Human loggedIn;
+	
+	/**
+	 * 싱글톤 디자인
+	 */
+	public static WeddingUI getInstance() {
+		return ui;
+	}
 
 	/**
 	 * UI 객체 생성자. ui기능의 전반을 담당한다.
 	 */
-	public WeddingUI() {
+	private WeddingUI() {
 		sc = new Scanner(System.in);
-		manage = new HumanInfo();
+		manage = HumanInfo.getInstance();
 		this.loggedIn = null;
 
 		while (true) {
@@ -83,7 +92,7 @@ public class WeddingUI {
 	/**
 	 * 로그인 전의 메뉴화면을 보여주는 메소드
 	 */
-	public void menu1() {
+	private void menu1() {
 		System.out.println("[회원가입/로그인]");
 		System.out.println("1. 로그인");
 		System.out.println("2. 회원가입");
@@ -94,7 +103,7 @@ public class WeddingUI {
 	/**
 	 * 일반회원의 로그인 후 화면을 보여주는 메소드
 	 */
-	public void menu2() {
+	private void menu2() {
 		System.out.println("[" + loggedIn.getName() + " 회원님 환영합니다.]");
 		System.out.println("1. 캐시 충전하기");
 		System.out.println("2. 상대 매칭하기");
@@ -110,7 +119,7 @@ public class WeddingUI {
 	/**
 	 * 로그인을 수행하는 메소드
 	 */
-	public void signIn() {
+	private void signIn() {
 		System.out.print("아이디를 입력하세요: ");
 		String id = sc.nextLine();
 		System.out.print("비밀번호를 입력하세요: ");
@@ -132,7 +141,7 @@ public class WeddingUI {
 	/**
 	 * 회원가입을 수행하는 메소드.
 	 */
-	public void signUp() {
+	private void signUp() {
 		Human vo = null;
 		boolean sex;
 		HashMap<String, Object> info = new HashMap<>();
@@ -190,7 +199,7 @@ public class WeddingUI {
 	/**
 	 * 캐시를 충전하는 메소드
 	 */
-	public void deposit() {
+	private void deposit() {
 		System.out.print("본인 확인을 위한 비밀번호를 입력하세요: ");
 		String pw = sc.nextLine();
 
@@ -207,7 +216,7 @@ public class WeddingUI {
 	/**
 	 * 상대를 매칭하는 메소드
 	 */
-	public void match() {
+	private void match() {
 		int gradeIndex = this.loggedIn.getGradeIndex();
 		String grade = this.loggedIn.getGrade();
 		int cash = this.loggedIn.getCash();
@@ -264,7 +273,7 @@ public class WeddingUI {
 	/**
 	 * 상대 매칭 확인 및 수락하는 메소드
 	 */
-	public void accept() {
+	private void accept() {
 		if (loggedIn.isInvited() && !loggedIn.isSuccess()) {
 			String matchedId = this.loggedIn.getMatchedId();
 			Human vo = manage.searchAccount(matchedId); // 상대의 정보(객체)
@@ -289,7 +298,7 @@ public class WeddingUI {
 	/**
 	 * 매칭 성사 현황을 보여주는 메소드
 	 */
-	public void seeStatus() {
+	private void seeStatus() {
 		if (loggedIn.isSuccess()) {
 			Human vo = manage.searchAccount(loggedIn.getMatchedId());
 
@@ -303,7 +312,7 @@ public class WeddingUI {
 	/**
 	 * 내 정보를 보여주는 메소드
 	 */
-	public void showMyInfo() {
+	private void showMyInfo() {
 		System.out.println("[내 정보 현황]");
 		System.out.println(loggedIn.toString());
 	}
@@ -311,7 +320,7 @@ public class WeddingUI {
 	/**
 	 * 매칭 정보를 초기화하는 메소드. 다시 매칭을 할 수 있도록 해준다.
 	 */
-	public void initializeMatch() {
+	private void initializeMatch() {
 		if (manage.initialize(loggedIn.getId())) {
 			System.out.println("[알림] 매칭정보가 초기화 되었습니다. 새로운 만남을 찾으세요!");
 		} else {
@@ -322,7 +331,7 @@ public class WeddingUI {
 	/**
 	 * 회원 탈퇴를 진행하는 메소드
 	 */
-	public void removeAccount() {
+	private void removeAccount() {
 		System.out.print("비밀번호 재입력> ");
 		if(manage.removeAccount(loggedIn.getId(),sc.nextLine())) {
 			System.out.println("[알림] 회원 탈퇴를 완료했습니다.");
@@ -332,7 +341,7 @@ public class WeddingUI {
 		}
 	}
 	
-	public void backToFirst() {
+	private void backToFirst() {
 		System.out.println("[알림] 로그인 전단계로 이동합니다.");
 		this.loggedIn = null;
 	}
@@ -342,7 +351,7 @@ public class WeddingUI {
 	 * 
 	 * @return 정수형 반환
 	 */
-	public int inputInteger() {
+	private int inputInteger() {
 		int output;
 
 		try {
@@ -361,7 +370,7 @@ public class WeddingUI {
 	 * 
 	 * @return 실수형 반환
 	 */
-	public double inputDouble() {
+	private double inputDouble() {
 		double output;
 
 		try {
@@ -380,7 +389,7 @@ public class WeddingUI {
 	 * 
 	 * @return 남성이면 true 여성이면 false
 	 */
-	public boolean inputSex() {
+	private boolean inputSex() {
 		String str;
 		boolean sex;
 
@@ -402,7 +411,7 @@ public class WeddingUI {
 	 * 
 	 * @return yes이면 true, no이면 false
 	 */
-	public boolean inputChoice() {
+	private boolean inputChoice() {
 		String str;
 		boolean choice;
 
