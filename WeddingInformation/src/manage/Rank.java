@@ -1,9 +1,7 @@
 package manage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import vo.Female;
 import vo.Human;
@@ -15,7 +13,6 @@ public class Rank {
 	
 	/**
 	 * 생성자
-	 * 
 	 */
 	private Rank() {
 		
@@ -77,44 +74,48 @@ public class Rank {
 		vo.setLatestEduScore(latestEduScore);
 		vo.setSalaryScore(salaryScore);
 		vo.setHeightScore(heightScore);
-
-		int totalScore;
-		double normalizedScore;
+		
+		// 가중 환산점수로 바꾸는 프로세스
+		int totalScore = latestEduScore + salaryScore + heightScore;
+		double normalizedScore = 0;
 		if (vo instanceof Female) {// 여성인 경우
 			Female voF = (Female) vo;
-			int ageScore = (vo.getAge() >= 35) ? 72 
-						: (vo.getAge() >= 30) ? 76 
-						: (vo.getAge() >= 25) ? 78 : 80;
+			int ageScore = (voF.getAge() >= 35) ? 72 
+						: (voF.getAge() >= 30) ? 76 
+						: (voF.getAge() >= 25) ? 78 : 80;
 			voF.setAgeScore(ageScore);
-			totalScore = latestEduScore + salaryScore + heightScore + ageScore;
+			
+			totalScore += ageScore;
 			normalizedScore = totalScore;
+			normalizedScore *= (voF.getSurgery() == 4) ? 1.0 
+							: (voF.getSurgery() == 3) ? 0.9
+							: (voF.getSurgery() == 2) ? 0.7 : 0.5;
 
 			vo = voF;
 		} else { // 남성인 경우
 			Male voM = (Male) vo;
 			totalScore = latestEduScore + salaryScore + heightScore;
 			normalizedScore = totalScore;
-
-			if (voM.isTaco()) {
-				normalizedScore = normalizedScore * 0.5;
-			}
+			
+			normalizedScore *= (voM.isTaco()) ? 0.5 : 1.0;
 			
 			vo = voM;
 		}
 		
-		normalizedScore = (vo.getBmi() >= 25) ? normalizedScore * 0.85 // 비만
-						: (vo.getBmi() >= 23) ? normalizedScore * 0.92 // 과체중
-						: (vo.getBmi() >= 18.5) ? normalizedScore * 1.05 : normalizedScore * 0.95; // 정상 : 저체중
+		normalizedScore *= (vo.getBmi() >= 25) ? 0.85 // 비만
+						: (vo.getBmi() >= 23) ? 0.92 // 과체중
+						: (vo.getBmi() >= 18.5) ? 1.05 : 0.95; // 정상 : 저체중
+		vo.setTotalScore(totalScore);
 		vo.setNormalizedTotalScore(normalizedScore);
 	}
 	
 	/**
 	 * 등급을 부여하는 메소드
 	 */	
-	private void giveGrade() {
+	public void giveGrade() {
 		List<Human> male = new ArrayList<>();
 		List<Human> female = new ArrayList<>();
-		Map<Integer, List<Human>> rank = new HashMap<>();
+		List<List<Human>> rank = new ArrayList<>();
 		
 		// 여자/남자를 분류하는 프로세스
 		for (String id : humanInfo.getHumanMap().keySet()) {
@@ -124,43 +125,42 @@ public class Rank {
 				female.add(humanInfo.getHumanMap().get(id));
 			}
 		}
-		rank.put(0, male);
-		rank.put(1, female);
+		rank.add(male);
+		rank.add(female);
 		
 		// 여자 남자를 점수 순으로 정렬하는 프로세스
-		for (Integer i : rank.keySet()) {
-			for (int j = 0; j < rank.get(i).size() - 1; j++) {
-
-				for (int k = j+1; k < rank.get(i).size(); k++) {
-					if (rank.get(i).get(j).getNormalizedTotalScore() < rank.get(i).get(k).getNormalizedTotalScore()) {
+		for (List<Human> list : rank) { // 남자 또는 여자
+			for (int j = 0; j < list.size() - 1; j++) {
+				for (int k = j+1; k < list.size(); k++) {
+					if (list.get(j).getNormalizedTotalScore() < list.get(k).getNormalizedTotalScore()) {
 						Human temp = null;
-						temp = rank.get(i).get(j);
-						rank.get(i).set(j, rank.get(i).get(k));
-						rank.get(i).set(k, temp);
+						temp = list.get(j);
+						list.set(j, list.get(k));
+						list.set(k, temp);
 					}
 				}
 			}
 		}
 		
 		// 정렬된 것에 따라 랭크를 부여하는 프로세스
-		for (Integer i : rank.keySet()) {
-			for (int j = rank.get(i).size()-1; j>=0; j--) {
-				int level = (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.84) ? 0 // 언랭
-							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.7) ? 1 // 브론즈
-							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.56) ? 2 // 실버
-							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.42) ? 3 // 골드
-							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.28) ? 4 // 플래티넘
-							: (((j + 1) * 1.0) / (rank.get(i).size() * 1.0) > 0.14) ? 5 : 6; // 다이아: 비브라늄
-				rank.get(i).get(j).setGradeIndex(level);
+		for (List<Human> list : rank) {
+			for (int j = list.size()-1; j>=0; j--) {
+				int level = (((j + 1) * 1.0) / (list.size() * 1.0) > 0.84) ? 0 // 언랭
+							: (((j + 1) * 1.0) / (list.size() * 1.0) > 0.7) ? 1 // 브론즈
+							: (((j + 1) * 1.0) / (list.size() * 1.0) > 0.56) ? 2 // 실버
+							: (((j + 1) * 1.0) / (list.size() * 1.0) > 0.42) ? 3 // 골드
+							: (((j + 1) * 1.0) / (list.size() * 1.0) > 0.28) ? 4 // 플래티넘
+							: (((j + 1) * 1.0) / (list.size() * 1.0) > 0.14) ? 5 : 6; // 다이아: 비브라늄
+				list.get(j).setGradeIndex(level);
 				
 				
-				String grade = (rank.get(i).get(j).getGradeIndex() == 0) ? "언랭"
-								: (rank.get(i).get(j).getGradeIndex() == 1) ? "브론즈"
-								: (rank.get(i).get(j).getGradeIndex() == 2) ? "실버"
-								: (rank.get(i).get(j).getGradeIndex() == 3) ? "골드"
-								: (rank.get(i).get(j).getGradeIndex() == 4) ? "플래티넘"
-								: (rank.get(i).get(j).getGradeIndex() == 5) ? "다이아" : "비브라늄";
-				rank.get(i).get(j).setGrade(grade);
+				String grade = (list.get(j).getGradeIndex() == 0) ? "언랭"
+								: (list.get(j).getGradeIndex() == 1) ? "브론즈"
+								: (list.get(j).getGradeIndex() == 2) ? "실버"
+								: (list.get(j).getGradeIndex() == 3) ? "골드"
+								: (list.get(j).getGradeIndex() == 4) ? "플래티넘"
+								: (list.get(j).getGradeIndex() == 5) ? "다이아" : "비브라늄";
+				list.get(j).setGrade(grade);
 			}
 		}
 	}

@@ -19,9 +19,9 @@ public class Human {
 	private int salary;
 	// 점수
 	private int totalScore;
-	private double NormalizedTotalScore;
-	private int LatestEduScore;
-	private int SalaryScore;
+	private double normalizedTotalScore;
+	private int latestEduScore;
+	private int salaryScore;
 	private int heightScore;
 	//충전금액
 	private int cash;
@@ -59,7 +59,7 @@ public class Human {
 		this.latestEduIndex = (Integer) info.get("latestEduIndex");
 		this.salary = (Integer) info.get("salary");
 		
-		this.NormalizedTotalScore = 0;
+		this.normalizedTotalScore = 0;
 		
 		this.matchedId = null;
 		this.lock = false;
@@ -88,7 +88,11 @@ public class Human {
 		buf.append("BMI");
 		buf.append(Double.toString(bmi));
 		buf.append("충전금: ");
-		buf.append(Integer.toString(cash)+"원");
+		buf.append(Integer.toString(cash)+"원, ");
+		buf.append("총점수: ");
+		buf.append(totalScore);
+		buf.append(", 환산점수: ");
+		buf.append(normalizedTotalScore);
 		
 		return buf.toString();
 	}
@@ -127,23 +131,23 @@ public class Human {
 	}
 	
 	public double getNormalizedTotalScore() {
-		return NormalizedTotalScore;
+		return normalizedTotalScore;
 	}
 	
-	public void setNormalizedTotalScore(double NormalizedTotalScore) {
-		this.NormalizedTotalScore = NormalizedTotalScore;
+	public void setNormalizedTotalScore(double normalizedTotalScore) {
+		this.normalizedTotalScore = normalizedTotalScore;
 	}
 	
 	public int getLatestEduScore() {
-		return LatestEduScore;
+		return latestEduScore;
 	}
 	
 	public void setLatestEduScore(int latestEduScore) {
-		LatestEduScore = latestEduScore;
+		this.latestEduScore = latestEduScore;
 	}
 	
 	public void setSalaryScore(int salaryScore) {
-		SalaryScore = salaryScore;
+		this.salaryScore = salaryScore;
 	}
 	
 	public boolean isInvited() {
@@ -224,6 +228,18 @@ public class Human {
 
 	public double getBmi() {
 		return bmi;
+	}
+
+	public int getTotalScore() {
+		return totalScore;
+	}
+
+	public int getSalaryScore() {
+		return salaryScore;
+	}
+
+	public int getHeightScore() {
+		return heightScore;
 	}	
 	
 	

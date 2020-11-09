@@ -241,6 +241,8 @@ public class HumanInfo {
 		if (pw.equals(humanMap.get(id).getPassword())) {
 			initialize(id); // 매칭 상대가 있다면 매칭 상대도 상태를 반영해야 하므로 시행
 			humanMap.remove(id);
+			Rank rank = Rank.getInstance();
+			rank.giveGrade(); // 삭제된 회원에따른 등급 재배치
 			flag = true;
 		}
 

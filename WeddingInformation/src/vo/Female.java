@@ -49,7 +49,12 @@ public class Female extends Human {
 		this.ageScore = ageScore;
 	}
 
-	public int getsurgery() {
+	public int getSurgery() {
 		return surgery;
 	}
+
+	public int getAgeScore() {
+		return ageScore;
+	}
+	
 }
