@@ -4,36 +4,36 @@ import java.util.HashMap;
 
 public class Human {
 	// 계정정보
-	String id;
-	String password;
-	String grade;
-	int gradeIndex;
+	private String id;
+	private String password;
+	private String grade;
+	private int gradeIndex;
 	// 신상정보
-	String name;
-	int age;
-	int height;
-	double bmi;
+	private String name;
+	private int age;
+	private int height;
+	private double bmi;
 	// 능력정보
-	String latestEdu;
-	int latestEduIndex;
-	int salary;
+	private String latestEdu;
+	private int latestEduIndex;
+	private int salary;
 	// 점수
-	int totalScore;
-	double NormalizedTotalScore;
-	int LatestEduScore;
-	int SalaryScore;
-	int heightScore;
+	private int totalScore;
+	private double NormalizedTotalScore;
+	private int LatestEduScore;
+	private int SalaryScore;
+	private int heightScore;
 	//충전금액
-	int cash;
+	private int cash;
 	//매칭 억셉터
-	boolean invited;
-	String matchedId;
+	private boolean invited;
+	private String matchedId;
 	//매칭 락
-	boolean lock;
-	boolean success;
+	private boolean lock;
+	private boolean success;
 	// 어카운트 락 (계정을 3회 이상 실패시 로그인을 불가능하게 함)
-	boolean accountLock;
-	int lockCount;
+	private boolean accountLock;
+	private int lockCount;
 	
 	/**
 	 * 기본 생성자

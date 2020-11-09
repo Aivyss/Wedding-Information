@@ -10,16 +10,13 @@ import vo.Human;
 import vo.Male;
 
 public class WeddingUI {
-	// WeddingUI 객체, 싱글톤 디자인
+	// WeddingUI 객체
 	private static final WeddingUI ui = new WeddingUI();
 	// UI 클래스의 멤버변수
 	Scanner sc;
 	HumanInfo manage;
 	Human loggedIn;
 	
-	/**
-	 * 싱글톤 디자인
-	 */
 	public static WeddingUI getInstance() {
 		return ui;
 	}

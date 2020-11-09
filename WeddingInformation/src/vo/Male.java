@@ -3,7 +3,7 @@ package vo;
 import java.util.HashMap;
 
 public class Male extends Human {
-	boolean taco;
+	private boolean taco;
 	
 	/**
 	 * 기본 생성자

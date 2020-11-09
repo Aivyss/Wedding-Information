@@ -11,7 +11,7 @@ import vo.Human;
 import vo.Male;
 
 public class HumanInfo {
-	Random rd;
+	private Random rd;
 	private Map<String, Human> humanMap; // <id, vo>
 	private static final HumanInfo humanInfo = new HumanInfo();
 
@@ -24,7 +24,7 @@ public class HumanInfo {
 	}
 	
 	/**
-	 * 싱글톤 디자인 패턴 적용
+	 * HumanInfo 객체를 얻는 메소드
 	 */
 	public static HumanInfo getInstance() {
 		return humanInfo;

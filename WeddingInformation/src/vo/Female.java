@@ -3,8 +3,8 @@ package vo;
 import java.util.HashMap;
 
 public class Female extends Human {
-	int ageScore;
-	int surgery;
+	private int ageScore;
+	private int surgery;
 	
 	/**
 	 * 기본생성자

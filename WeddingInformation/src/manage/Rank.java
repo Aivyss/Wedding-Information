@@ -21,7 +21,7 @@ public class Rank {
 		
 	}
 	/**
-	 * 싱글톤 디자인
+	 * Rank 객체를 얻는 메소드
 	 */
 	public static Rank getInstance() {
 		return rank;
