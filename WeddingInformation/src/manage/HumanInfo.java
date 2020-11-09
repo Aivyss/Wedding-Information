@@ -11,8 +11,8 @@ import vo.Human;
 import vo.Male;
 
 public class HumanInfo {
-	private Random rd;
-	private Map<String, Human> humanMap; // <id, vo>
+	private final Random rd;
+	private final Map<String, Human> humanMap; // <id, vo>
 	private static final HumanInfo humanInfo = new HumanInfo();
 
 	/**

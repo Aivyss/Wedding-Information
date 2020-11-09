@@ -13,9 +13,9 @@ public class WeddingUI {
 	// WeddingUI 객체
 	private static final WeddingUI ui = new WeddingUI();
 	// UI 클래스의 멤버변수
-	Scanner sc;
-	HumanInfo manage;
-	Human loggedIn;
+	private final Scanner sc;
+	private final HumanInfo manage;
+	private Human loggedIn;
 	
 	public static WeddingUI getInstance() {
 		return ui;
