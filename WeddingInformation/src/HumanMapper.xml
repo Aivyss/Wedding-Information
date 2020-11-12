@@ -5,6 +5,7 @@
 
 <mapper namespace="dao.HumanMapper">
 
+<!-- 회원을 추가하는 태그 -->
 <insert id="insertHumanTuple" parameterType="HumanVO">
 insert into
     member(
@@ -34,31 +35,17 @@ insert into
     )
 </insert>
 
-<select id="selectList" resultType="HumanVO">
-select
-	num
-	,name
-	,age
-from
-	person
+<!-- 회원찾기 기능 -->
+<select id="searchAccount" parameterType="String" resultType="Human">
+
 </select>
 
-<select id="selectOne" parameterType="int" resultType="PersonVO">
-select
-	num
-	,name
-	,age
-from
-	person
+<!-- param: id문자열 -->
+<delete id="removeAccount" parameterType="String">
+delete from
+	member
 where
-	num = #{num}
-</select>
-
-<delete id="deleteOne" parameterType="int">
-delete from 
-	person
-where
-	num = #{num}
+	id = #{id}
 </delete>
 
 </mapper>

@@ -13,6 +13,7 @@ public class Human {
 	private int age;
 	private int height;
 	private double bmi;
+	private boolean sex;
 	// 능력정보
 	private String latestEdu;
 	private int latestEduIndex;
@@ -54,6 +55,7 @@ public class Human {
 		this.age = (Integer) info.get("age");
 		this.height = (Integer) info.get("height");
 		this.bmi = (Double) info.get("bmi");
+		this.sex = (Boolean) info.get("sex");
 		
 		this.latestEdu = (String) info.get("latestEdu");
 		this.latestEduIndex = (Integer) info.get("latestEduIndex");
@@ -175,9 +177,6 @@ public class Human {
 		this.gradeIndex = gradeIndex;
 	}
 	
-	public boolean isLock() {
-		return lock;
-	}
 	
 	public void setLock(boolean lock) {
 		this.lock = lock;
@@ -211,9 +210,6 @@ public class Human {
 		this.accountLock = accountLock;
 	}
 
-	public boolean isAccountLock() {
-		return accountLock;
-	}
 
 	public int getLockCount() {
 		return lockCount;
@@ -281,7 +277,22 @@ public class Human {
 
 	public void setSalary(int salary) {
 		this.salary = salary;
+	}
+
+
+	public void setSex(boolean sex) {
+		this.sex = sex;
 	}	
 	
+	public boolean isSex() {
+		return sex;
+	}
 	
+	public boolean isLock() {
+		return lock;
+	}
+	
+	public boolean isAccountLock() {
+		return accountLock;
+	}	
 }

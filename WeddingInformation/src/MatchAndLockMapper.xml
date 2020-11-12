@@ -26,31 +26,4 @@ insert into
     )
 </insert>
 
-<select id="selectList" resultType="HumanVO">
-select
-	num
-	,name
-	,age
-from
-	person
-</select>
-
-<select id="selectOne" parameterType="int" resultType="PersonVO">
-select
-	num
-	,name
-	,age
-from
-	person
-where
-	num = #{num}
-</select>
-
-<delete id="deleteOne" parameterType="int">
-delete from 
-	person
-where
-	num = #{num}
-</delete>
-
 </mapper>

@@ -155,6 +155,7 @@ public class WeddingUI {
 			info.put("name", sc.nextLine());
 			System.out.print("성별 입력(M/F): ");
 			sex = inputSex();
+			info.put("sex", sex);
 			System.out.print("나이 입력: ");
 			info.put("age", inputInteger());
 			System.out.print("키 입력: ");
