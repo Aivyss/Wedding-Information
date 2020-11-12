@@ -56,5 +56,10 @@ public class Female extends Human {
 	public int getAgeScore() {
 		return ageScore;
 	}
+
+	public void setSurgery(int surgery) {
+		this.surgery = surgery;
+	}
+	
 	
 }

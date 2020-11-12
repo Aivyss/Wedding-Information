@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.MatchAndLockMapper">
+
+<insert id="insertLockInfo" parameterType="HumanVO">
+insert into
+    match_and_lock(
+        id
+        ,matched_id
+        ,invited
+        ,match_lock
+        ,success
+        ,account_lock
+        ,lock_count
+    )values(
+        ,#{id}
+        ,#{matchedId}
+        ,#{invited}
+        ,#{matchLock}
+        ,#{success}
+        ,#{accountLock}
+        ,#{lockCount}
+    )
+</insert>
+
+<select id="selectList" resultType="HumanVO">
+select
+	num
+	,name
+	,age
+from
+	person
+</select>
+
+<select id="selectOne" parameterType="int" resultType="PersonVO">
+select
+	num
+	,name
+	,age
+from
+	person
+where
+	num = #{num}
+</select>
+
+<delete id="deleteOne" parameterType="int">
+delete from 
+	person
+where
+	num = #{num}
+</delete>
+
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.HumanMapper">
+
+<insert id="insertHumanTuple" parameterType="HumanVO">
+insert into
+    member(
+        id
+        ,password
+        ,name
+        ,age
+        ,bmi
+        ,height
+        ,salary
+        ,latest_edu
+        ,cash
+        ,latest_edu_index
+        ,grade_index
+    )values(
+        ,#{id}
+        ,#{password}
+        ,#{name}
+        ,#{age}
+        ,#{bmi}
+        ,#{height}
+        ,#{salary}
+        ,#{latestEdu}
+        ,#{cash}
+        ,#{latestEduIndex}
+        ,#{gradeIndex}
+    )
+</insert>
+
+<select id="selectList" resultType="HumanVO">
+select
+	num
+	,name
+	,age
+from
+	person
+</select>
+
+<select id="selectOne" parameterType="int" resultType="PersonVO">
+select
+	num
+	,name
+	,age
+from
+	person
+where
+	num = #{num}
+</select>
+
+<delete id="deleteOne" parameterType="int">
+delete from 
+	person
+where
+	num = #{num}
+</delete>
+
+</mapper>

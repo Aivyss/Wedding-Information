@@ -42,4 +42,8 @@ public class Male extends Human {
 	public boolean isTaco() {
 		return taco;
 	}
+	public void setTaco(boolean taco) {
+		this.taco = taco;
+	}
+	
 }

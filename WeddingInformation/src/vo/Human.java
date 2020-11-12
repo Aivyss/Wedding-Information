@@ -241,6 +241,46 @@ public class Human {
 
 	public int getHeightScore() {
 		return heightScore;
+	}
+
+	public String getLatestEdu() {
+		return latestEdu;
+	}
+
+	public void setLatestEdu(String latestEdu) {
+		this.latestEdu = latestEdu;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setBmi(double bmi) {
+		this.bmi = bmi;
+	}
+
+	public void setLatestEduIndex(int latestEduIndex) {
+		this.latestEduIndex = latestEduIndex;
+	}
+
+	public void setSalary(int salary) {
+		this.salary = salary;
 	}	
 	
 	
