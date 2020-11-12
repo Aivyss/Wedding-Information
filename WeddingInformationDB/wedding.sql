@@ -12,19 +12,18 @@ create table member (
     ,cash number(16) default 0 constraint cash_not_null not null
     ,latest_edu_index number(2) default 7 constraint latest_edu_index_ck check(latest_edu_index <=7 and latest_edu_index >=1)
     ,grade_index number(2) default 6 constraint grade_index_ck check(grade_index <=6 and grade_index >=0)
-);
-
--- 회원의 점수를 관리하는 테이블
-drop table score_table;
-create table score_table(
-    id  varchar2(50) constraint id_score_table_fk references member(id)
     ,total_score number(5) default 0 constraint total_score_not_null not null
     ,normalized_total_score number(7,3) default 0 constraint norm_total_score_not_null not null
-    ,salary_score number(3) default 80 constraint salary_score_not_null not null
-    ,latest_edu_score number(3) default 42 constraint edu_score_not_null not null
-    ,height_score number(3) default 48 constraint height_score_not_null not null
-    ,taco number(1) default 0 constraint taco_not_null not null
-    ,age_score number(3) default 0 constraint age_score_not_null not null
+);
+drop table male_table;
+create table male_table(
+    id  varchar2(50) constraint id_fk_male_table references member(id)
+    ,taco number(1) default 0 constraint taco_not_null not null 
+);
+
+drop table female_table;
+create table female_table(
+    id  varchar2(50) constraint id_fk_female_table references member(id)
     ,surgery number(1) default 4 constraint surgery_not_null not null
 );
 
