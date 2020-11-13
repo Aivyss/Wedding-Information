@@ -41,7 +41,7 @@ insert into
     )
 </insert>
 
-<!-- 리스트 반출 랭크정렬 -->
+<!-- 성별별 리스트 반출 랭크정렬 -->
 <select id="getList" parameterType="HumanVO" resultType="HumanVO">
 select
 	ID
@@ -66,9 +66,28 @@ order by
 	NORMALIZED_TOTAL_SCORE desc
 </select>
 
+<select id="getAll" resultType="HumanVO">
+select
+	ID	as id
+	,PASSWORD	as password
+	,NAME	as name
+	,AGE	as age
+	,SEX	as sex
+	,BMI	as bmi
+	,HEIGHT	as	height
+	,SALARY	as	salary
+	,LATEST_EDU	as	latestEdu
+	,CASH	as	cash
+	,LATEST_EDU_INDEX	as	latestEduIndex
+	,GRADE_INDEX	as	gradeIndex
+	,TOTAL_SCORE	as	totalScore
+	,NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
+from
+	member
+</select>
+
 <update id="updateGrade" parameterType="HumanVO">
 update member
-	set grade = #{grade}
 	set grade_index = #{gradeIndex}
 </update>
 

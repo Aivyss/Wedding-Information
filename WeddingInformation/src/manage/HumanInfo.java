@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import dao.WeddingDAO;
 import vo.Female;
 import vo.Human;
 import vo.Male;
@@ -21,6 +22,13 @@ public class HumanInfo {
 	private HumanInfo() {
 		humanMap = new HashMap<>();
 		rd = new Random();
+		WeddingDAO dao = new WeddingDAO();
+		
+		if (dao.getAll() != null && !dao.getAll().isEmpty()) {
+			for (Human vo : dao.getAll()) {
+				humanMap.put(vo.getId(), vo);
+			}
+		}
 	}
 	
 	/**

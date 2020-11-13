@@ -107,5 +107,23 @@ public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper
 		return count;
 	}
 	
+	/**
+	 * 전체 회원 정보를 불러 읽어오는 메소드
+	 */
+	@Override
+	public List<Human> getAll() {
+		SqlSession ss = null;
+		List<Human> list = null;
+		
+		try {
+			ss = factory.openSession();
+			MemberMapper mapper = ss.getMapper(MemberMapper.class);
+			list = mapper.getAll();
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+		return list;
+	}
+	
 	// 회원정보를 저장하는 메소드
 }
