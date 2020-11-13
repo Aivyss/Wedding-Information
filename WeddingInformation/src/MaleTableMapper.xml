@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.MaleTableMapper">
+
+<insert id="insertTaco" parameterType="MaleVO">
+insert into male_table(
+		id
+		,taco
+	) values (
+		#{id}
+		,#{taco}
+	)
+</insert>
+
+</mapper>

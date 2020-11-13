@@ -5,9 +5,11 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import vo.Female;
 import vo.Human;
+import vo.Male;
 
-public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper {
+public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper, MaleTableMapper, FemaleTableMapper {
 	private SqlSessionFactory factory = MybatisConfig.getSqlSessionFactory();
 
 	@Override
@@ -138,6 +140,40 @@ public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper
 		} finally {
 			if (ss != null) ss.close();
 		}
+	}
+	
+	/**
+	 * 남성의 탈모여부를 남성테이블에 기록한다.
+	 */
+	@Override
+	public int insertTaco (Male vo) {
+		SqlSession ss = null;
+		int count = 0;
+		
+		try {
+			ss = factory.openSession();
+			MaleTableMapper mapper = ss.getMapper(MaleTableMapper.class);
+			mapper.insertTaco(vo);
+			ss.commit();
+		} catch(Exception e) {
+			e.getStackTrace();
+		}
+		
+		return count;
+	}
+
+	@Override
+	public int insertSurgery(Female vo) {
+		SqlSession ss = null;
+		try {
+			ss=factory.openSession();
+			FemaleTableMapper mapper = ss.getMapper(FemaleTableMapper.class);
+			mapper.insertSurgery(vo);
+			ss.commit();
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+		return 0;
 	}
 	
 	// 회원정보를 저장하는 메소드

@@ -39,11 +39,23 @@ public class Male extends Human {
 	}
 	
 	// Getter and Setter
-	public boolean isTaco() {
-		return taco;
+	public int getTaco() {
+		int result = 0;
+		
+		if (taco) {
+			result = 1;
+		}
+		
+		return result;
 	}
-	public void setTaco(boolean taco) {
-		this.taco = taco;
+	public void setTaco(int taco) {
+		boolean flag = false;
+		
+		if (taco == 1) {
+			flag = true;
+		}
+		
+		this.taco = flag;
 	}
 	
 }

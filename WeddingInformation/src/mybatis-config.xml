@@ -31,6 +31,8 @@
 		<mapper resource="MemberMapper.xml"/>
 		<mapper resource="GradeMapper.xml"/>
 		<mapper resource="MatchAndLockMapper.xml"/>
+		<mapper resource="MaleTableMapper.xml"/>
+		<mapper resource="FemaleTableMapper.xml"/>
 	</mappers>
 	
 </configuration>

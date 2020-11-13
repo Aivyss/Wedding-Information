@@ -41,6 +41,12 @@ public class Rank {
 			dao.initializeLockInfo(vo);
 			giveGrade(vo);
 			
+			if (vo instanceof Male) { // 남성 전용 테이블에 값을 넣음
+				dao.insertTaco((Male) vo);
+			} else { // 여성 전용 테이블에 값을 넣음
+				dao.insertSurgery((Female) vo);
+			}
+			
 			// 제대로 값이 들어갔는지 확인하는 조건문
 			if (humanInfo.getHumanMap().get(vo.getId()) != null ) {  // && vo.getGrade() != null
 				flag = true;
@@ -99,7 +105,7 @@ public class Rank {
 			totalScore = latestEduScore + salaryScore + heightScore;
 			normalizedScore = totalScore;
 			
-			normalizedScore *= (voM.isTaco()) ? 0.5 : 1.0;
+			normalizedScore *= (voM.getTaco()==1) ? 0.5 : 1.0;
 			
 			vo = voM;
 		}
