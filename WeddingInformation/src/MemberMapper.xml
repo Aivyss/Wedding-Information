@@ -83,15 +83,25 @@ select
 	,g.grade 	as	grade
 	,m.TOTAL_SCORE	as	totalScore
 	,m.NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
+    ,matched_id	as	matchedId
+	,invited	as	invited
+	,match_lock	as	matchedLock
+	,success	as	success
+	,account_lock	as	accountLock
+	,lock_count	as	lockCount
 from
-	member m, grade g
+	member m, grade g, match_and_lock l
 where
 	m.grade_index = g.grade_index
+	and
+	m.id = l.id
 </select>
 
 <update id="updateGrade" parameterType="HumanVO">
 update member
 	set grade_index = #{gradeIndex}
+where
+	id = #{id}
 </update>
 
 <!-- param: id문자열 -->

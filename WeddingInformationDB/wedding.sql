@@ -11,7 +11,7 @@ create table member (
     ,latest_edu varchar2(50) constraint latest_edu_not_null not null
     ,cash number(16) default 0 constraint cash_not_null not null
     ,latest_edu_index number(2) default 7 constraint latest_edu_index_ck check(latest_edu_index <=7 and latest_edu_index >=1)
-    ,grade_index number(2) default 6 constraint grade_index_fk references grade(grade_index)
+    ,grade_index number(2) default 0 constraint grade_index_fk references grade(grade_index)
     ,total_score number(5) default 0 constraint total_score_not_null not null
     ,normalized_total_score number(7,3) default 0 constraint norm_total_score_not_null not null
 );
@@ -27,7 +27,6 @@ create table female_table(
 );
 
 -- 매칭과 계정블럭 테이블
-
 create table match_and_lock(
     id varchar2(50) constraint id_match_and_lock_fk references member(id)
     ,matched_id varchar2(50)
@@ -39,7 +38,6 @@ create table match_and_lock(
 );
 
 -- 등급 테이블 생성 sql 구문
-
 create table grade(
     grade_index number(2) constraint grade_index_pk primary key
     ,grade varchar2(20) constraint grade_not_null not null
@@ -70,21 +68,7 @@ select
 from
     user_constraints;
     
--- 테스토
-select
-	ID	as id
-	,PASSWORD	as password
-	,NAME	as name
-	,AGE	as age
-	,SEX
-	,BMI	as bmi
-	,HEIGHT	as	height
-	,SALARY	as	salary
-	,LATEST_EDU	as	latestEdu
-	,CASH	as	cash
-	,LATEST_EDU_INDEX	as	latestEduIndex
-	,GRADE_INDEX	as	gradeIndex
-	,TOTAL_SCORE	as	totalScore
-	,NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
-from
-	member;
+update match_and_lock
+	set lock_count=1
+where
+	id = '8';

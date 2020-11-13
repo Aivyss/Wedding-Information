@@ -38,6 +38,7 @@ public class Rank {
 			giveScore(vo);
 			humanInfo.getHumanMap().put(vo.getId(), vo);
 			dao.addAccount(vo);
+			dao.initializeLockInfo(vo);
 			giveGrade(vo);
 			
 			// 제대로 값이 들어갔는지 확인하는 조건문

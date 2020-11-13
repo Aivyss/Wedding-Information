@@ -8,6 +8,8 @@
 	<!-- Java Class에 대한 alias 지정 -->
 	<typeAliases>
 		<typeAlias type ="vo.Human" alias="HumanVO"/>
+		<typeAlias type ="vo.Male" alias="MaleVO"/>
+		<typeAlias type ="vo.Female" alias="FemaleVO"/>
 	</typeAliases>
 	
 

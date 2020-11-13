@@ -30,7 +30,7 @@ public class Human {
 	private boolean invited;
 	private String matchedId;
 	//매칭 락
-	private boolean lock;
+	private boolean matchLock;
 	private boolean success;
 	// 어카운트 락 (계정을 3회 이상 실패시 로그인을 불가능하게 함)
 	private boolean accountLock;
@@ -63,11 +63,12 @@ public class Human {
 		
 		this.normalizedTotalScore = 0;
 		
-		this.matchedId = null;
-		this.lock = false;
+		this.matchedId = "";
+		this.matchLock = false;
 		this.success = false;
 		this.accountLock = false;
 		this.lockCount = 0;
+		this.gradeIndex = 0;
 	}
 	
 	/**
@@ -153,12 +154,24 @@ public class Human {
 		this.salaryScore = salaryScore;
 	}
 	
-	public boolean isInvited() {
-		return invited;
+	public int getInvited() {
+		int result = 0;
+		
+		if (this.invited) {
+			result = 1;
+		}
+		
+		return result;
 	}
 	
-	public void setInvited(boolean invited) {
-		this.invited = invited;
+	public void setInvited(int invited) {
+		boolean flag = false;
+		
+		if (invited == 1) {
+			flag = true;
+		}
+		
+		this.invited = flag;
 	}
 	
 	public String getMatchedId() {
@@ -178,20 +191,35 @@ public class Human {
 	}
 	
 	
-	public void setLock(boolean lock) {
-		this.lock = lock;
+	public void setMatchLock(int matchLock) {
+		boolean flag = false;
+		
+		if(matchLock == 1) {
+			flag = true;
+		}
+		this.matchLock = flag;
 	}
 	
 	public String getGrade() {
 		return grade;
 	}
-
-	public boolean isSuccess() {
-		return success;
+	
+	public int getSuccess() {
+		int result = 0;
+		
+		if(this.success) {
+			result = 1;
+		}
+		
+		return result;
 	}
 
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public void setSuccess(int success) {
+		boolean flag = false;
+		if (success == 1) {
+			flag = true;
+		}
+		this.success = flag;
 	}
 
 	public int getHeight() {
@@ -206,8 +234,14 @@ public class Human {
 		this.grade = grade;
 	}
 
-	public void setAccountLock(boolean accountLock) {
-		this.accountLock = accountLock;
+	public void setAccountLock(int accountLock) {
+		boolean flag = false;
+		
+		if(accountLock == 1) {
+			flag = true;
+		}
+		
+		this.accountLock = flag;
 	}
 
 
@@ -297,11 +331,21 @@ public class Human {
 		return num;
 	}
 	
-	public boolean isLock() {
+	public int getMatchLock() {
+		int lock = 0;
+		if (this.matchLock) {
+			lock = 1;
+		}
 		return lock;
 	}
 	
-	public boolean isAccountLock() {
-		return accountLock;
-	}	
+	public int getAccountLock() {
+		int result = 0;
+		
+		if(this.accountLock) {
+			result = 1;
+		}
+		
+		return result;
+	}
 }

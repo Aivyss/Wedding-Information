@@ -13,6 +13,7 @@ import vo.Male;
 
 public class HumanInfo {
 	private Random rd;
+	private WeddingDAO dao;
 	private Map<String, Human> humanMap; // <id, vo>
 	private static HumanInfo humanInfo = new HumanInfo();
 
@@ -22,7 +23,7 @@ public class HumanInfo {
 	private HumanInfo() {
 		humanMap = new HashMap<>();
 		rd = new Random();
-		WeddingDAO dao = new WeddingDAO();
+		dao = new WeddingDAO();
 		
 		if (dao.getAll() != null && !dao.getAll().isEmpty()) {
 			for (Human vo : dao.getAll()) {
@@ -54,6 +55,7 @@ public class HumanInfo {
 				if (!pw.equals(vo.getPassword())) { 
 					// 비밀번호를 틀려 계정락 카운트를 늘리고 로그인 실패
 					vo.setLockCount(vo.getLockCount() + 1);
+					dao.updateLockCount(vo);
 					vo = null;
 				}
 			} else { 
@@ -65,6 +67,7 @@ public class HumanInfo {
 		if (vo != null) { 
 			// 로그인에 성공한 경우 락카운트 초기화
 			vo.setLockCount(0);
+			dao.updateLockCount(vo);
 		}
 
 		return vo;
@@ -160,12 +163,12 @@ public class HumanInfo {
 
 		if (me != null && you != null) {
 			me.setMatchedId(you.getId());
-			me.setInvited(false);
-			me.setLock(true);
+			me.setInvited(0);
+			me.setMatchLock(1);
 
 			you.setMatchedId(me.getId());
-			you.setInvited(true);
-			you.setLock(true);
+			you.setInvited(1);
+			you.setMatchLock(1);
 
 			flag = true;
 		}
@@ -181,7 +184,7 @@ public class HumanInfo {
 		Human you = humanMap.get(yourId);
 		boolean flagT = false;
 
-		if (me.isInvited() && !me.isSuccess()) {
+		if (me.getInvited()==1 && me.getSuccess()!=1) {
 			int gradeIndex = me.getGradeIndex();
 
 			int fee = (gradeIndex == 0) ? 100000
@@ -194,9 +197,9 @@ public class HumanInfo {
 			if (flag) { // 매칭의사 yes
 				if (you.getCash() - fee >= 0) { // 매칭이 성사
 					you.setCash(you.getCash() - fee);
-					you.setInvited(true);
-					you.setSuccess(true);
-					me.setSuccess(true);
+					you.setInvited(1);
+					you.setSuccess(1);
+					me.setSuccess(1);
 
 					flagT = true;
 				} else { // 돈이 없어 매칭이 실패
@@ -223,13 +226,13 @@ public class HumanInfo {
 
 		if (me != null && you != null) {
 			me.setMatchedId(null);
-			me.setInvited(false);
-			me.setLock(false);
+			me.setInvited(0);
+			me.setMatchLock(0);
 			you.setMatchedId(null);
-			you.setInvited(false);
-			you.setLock(false);
-			you.setSuccess(false);
-			me.setSuccess(false);
+			you.setInvited(0);
+			you.setMatchLock(0);
+			you.setSuccess(0);
+			me.setSuccess(0);
 
 			flag = true;
 		}

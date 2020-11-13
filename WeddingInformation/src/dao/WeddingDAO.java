@@ -9,17 +9,16 @@ import vo.Human;
 
 public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper {
 	private SqlSessionFactory factory = MybatisConfig.getSqlSessionFactory();
-	
 
 	@Override
-	public int insertLockInfo(Human vo) {
+	public int initializeLockInfo(Human vo) {
 		SqlSession ss = null;
 		int count = 0;
 		
 		try {
 			ss = factory.openSession();
 			MatchAndLockMapper mapper = ss.getMapper(MatchAndLockMapper.class);
-			mapper.insertLockInfo(vo);
+			mapper.initializeLockInfo(vo);
 			count++;
 		} catch (Exception e) {
 			e.getStackTrace();
@@ -123,6 +122,22 @@ public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper
 			e.getStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public void updateLockCount(Human vo) {
+		SqlSession ss = null;
+		
+		try {
+			ss = factory.openSession();
+			MatchAndLockMapper mapper = ss.getMapper(MatchAndLockMapper.class);
+			mapper.updateLockCount(vo);
+			ss.commit();
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			if (ss != null) ss.close();
+		}
 	}
 	
 	// 회원정보를 저장하는 메소드

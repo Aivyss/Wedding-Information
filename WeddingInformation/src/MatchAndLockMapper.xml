@@ -5,7 +5,7 @@
 
 <mapper namespace="dao.MatchAndLockMapper">
 
-<insert id="insertLockInfo" parameterType="HumanVO">
+<insert id="initializeLockInfo" parameterType="HumanVO">
 insert into
     match_and_lock(
         id
@@ -16,7 +16,7 @@ insert into
         ,account_lock
         ,lock_count
     )values(
-        ,#{id}
+        #{id}
         ,#{matchedId}
         ,#{invited}
         ,#{matchLock}
@@ -25,5 +25,12 @@ insert into
         ,#{lockCount}
     )
 </insert>
+
+<update id="updateLockCount" parameterType="HumanVO">
+update match_and_lock
+	set lock_count=#{lockCount}
+where
+	id = #{id}
+</update>
 
 </mapper>

@@ -219,7 +219,7 @@ public class WeddingUI {
 		String grade = this.loggedIn.getGrade();
 		int cash = this.loggedIn.getCash();
 
-		if (loggedIn.isLock()) {
+		if (loggedIn.getMatchLock()==1) {
 			System.out.println("[에러] 매칭수락 대기중이거나 수락 여부를 판단할 대상이 있습니다.");
 		} else {
 			boolean choice = true;
@@ -272,7 +272,7 @@ public class WeddingUI {
 	 * 상대 매칭 확인 및 수락하는 메소드
 	 */
 	private void accept() {
-		if (loggedIn.isInvited() && !loggedIn.isSuccess()) {
+		if (loggedIn.getInvited()==1 && loggedIn.getSuccess()!=1) {
 			String matchedId = this.loggedIn.getMatchedId();
 			Human vo = manage.searchAccount(matchedId); // 상대의 정보(객체)
 
@@ -297,7 +297,7 @@ public class WeddingUI {
 	 * 매칭 성사 현황을 보여주는 메소드
 	 */
 	private void seeStatus() {
-		if (loggedIn.isSuccess()) {
+		if (loggedIn.getSuccess()==1) {
 			Human vo = manage.searchAccount(loggedIn.getMatchedId());
 
 			System.out.println("[알림] 매칭이 성사되었습니다.");
