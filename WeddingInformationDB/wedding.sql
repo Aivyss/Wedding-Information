@@ -5,6 +5,7 @@ create table member (
     ,password varchar2(50) constraint password_not_null not null
     ,name varchar2(50) constraint name_not_null not null
     ,age number(3) constraint age_not_null not null
+    ,sex number(1) constraint sex_not_null not null
     ,bmi number(6,3) constraint bmi_not_null not null
     ,height number(3) constraint height_not_null not null
     ,salary number(16) default 0 constraint salary_not_null not null

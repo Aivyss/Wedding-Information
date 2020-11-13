@@ -1,12 +1,15 @@
 package dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import vo.Human;
 
-public class WeddingDAO implements HumanMapper, MatchAndLockMapper, GradeMapper {
+public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper {
 	private SqlSessionFactory factory = MybatisConfig.getSqlSessionFactory();
+	
 
 	@Override
 	public int insertLockInfo(Human vo) {
@@ -29,19 +32,19 @@ public class WeddingDAO implements HumanMapper, MatchAndLockMapper, GradeMapper 
 	}
 
 	@Override
-	public int insertHumanTuple(Human vo) {
+	public int addAccount(Human vo) {
 		SqlSession ss = null;
 		int count = 0;
 		
 		try {
 			ss = factory.openSession();
-			HumanMapper mapper = ss.getMapper(HumanMapper.class);
-			mapper.insertHumanTuple(vo);
+			MemberMapper mapper = ss.getMapper(MemberMapper.class);
+			mapper.addAccount(vo);
 			count++;
+			ss.commit();
 		} catch (Exception e) {
 			e.getStackTrace();
 		} finally {
-			ss.commit();
 			if (ss != null) ss.close();
 		}
 		
@@ -63,7 +66,45 @@ public class WeddingDAO implements HumanMapper, MatchAndLockMapper, GradeMapper 
 			if (ss != null) ss.close();
 		}
 		
-		return null;
+		return output;
+	}
+
+	@Override
+	public List<Human> getList(Human vo) {
+		SqlSession ss = null;
+		List<Human> list = null;
+		
+		try {
+			ss = factory.openSession();
+			MemberMapper mapper = ss.getMapper(MemberMapper.class);
+			list = mapper.getList(vo);
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			if (ss != null) ss.close();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public int updateGrade(Human vo) {
+		SqlSession ss = null;
+		int count = 0;
+		
+		try {
+			ss = factory.openSession();
+			MemberMapper mapper = ss.getMapper(MemberMapper.class);
+			mapper.updateGrade(vo);
+			count++;
+			ss.commit();
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			if (ss != null) ss.close();
+		}
+		
+		return count;
 	}
 	
 	// 회원정보를 저장하는 메소드

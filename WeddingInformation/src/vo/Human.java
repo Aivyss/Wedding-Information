@@ -279,13 +279,22 @@ public class Human {
 		this.salary = salary;
 	}
 
-
-	public void setSex(boolean sex) {
-		this.sex = sex;
+	public void setSex(int sex) {
+		boolean flag = false;
+		
+		if (sex == 1) {
+			flag = true;
+		}
+		this.sex = flag;
 	}	
 	
-	public boolean isSex() {
-		return sex;
+	public int getSex() {
+		int num = 0;
+		
+		if (sex) {
+			num = 1;
+		}
+		return num;
 	}
 	
 	public boolean isLock() {

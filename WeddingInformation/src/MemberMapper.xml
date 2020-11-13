@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.MemberMapper">
+
+<!-- 회원을 추가하는 태그 -->
+<insert id="addAccount" parameterType="HumanVO">
+insert into
+    member(
+        ID
+        ,PASSWORD
+        ,NAME
+        ,AGE
+        ,SEX
+        ,BMI
+        ,HEIGHT
+        ,SALARY
+        ,LATEST_EDU
+        ,CASH
+        ,LATEST_EDU_INDEX
+        ,GRADE_INDEX
+        ,TOTAL_SCORE
+        ,NORMALIZED_TOTAL_SCORE
+    ) values (
+        #{id}
+        ,#{password}
+        ,#{name}
+        ,#{age}
+        ,#{sex}
+        ,#{bmi}
+        ,#{height}
+        ,#{salary}
+        ,#{latestEdu}
+        ,#{cash}
+        ,#{latestEduIndex}
+        ,#{gradeIndex}
+        ,#{totalScore}
+        ,#{normalizedTotalScore}
+    )
+</insert>
+
+<!-- 리스트 반출 랭크정렬 -->
+<select id="getList" parameterType="HumanVO" resultType="HumanVO">
+select
+	ID
+	,PASSWORD
+	,NAME
+	,AGE
+	,SEX
+	,BMI
+	,HEIGHT
+	,SALARY
+	,LATEST_EDU
+	,CASH
+	,LATEST_EDU_INDEX
+	,GRADE_INDEX
+	,TOTAL_SCORE
+	,NORMALIZED_TOTAL_SCORE
+from
+	member
+where
+	sex = #{sex}
+order by 
+	NORMALIZED_TOTAL_SCORE desc
+</select>
+
+<update id="updateGrade" parameterType="HumanVO">
+update member
+	set grade = #{grade}
+	set grade_index = #{gradeIndex}
+</update>
+
+<!-- param: id문자열 -->
+<delete id="removeAccount" parameterType="String">
+delete from
+	member
+where
+	id = #{id}
+</delete>
+
+</mapper>

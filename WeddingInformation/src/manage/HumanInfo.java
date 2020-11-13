@@ -11,9 +11,9 @@ import vo.Human;
 import vo.Male;
 
 public class HumanInfo {
-	private final Random rd;
-	private final Map<String, Human> humanMap; // <id, vo>
-	private static final HumanInfo humanInfo = new HumanInfo();
+	private Random rd;
+	private Map<String, Human> humanMap; // <id, vo>
+	private static HumanInfo humanInfo = new HumanInfo();
 
 	/**
 	 * 생성자
@@ -242,7 +242,7 @@ public class HumanInfo {
 			initialize(id); // 매칭 상대가 있다면 매칭 상대도 상태를 반영해야 하므로 시행
 			humanMap.remove(id);
 			Rank rank = Rank.getInstance();
-			rank.giveGrade(); // 삭제된 회원에따른 등급 재배치
+			rank.giveGrade(humanMap.get(id)); // 삭제된 회원에따른 등급 재배치
 			flag = true;
 		}
 
