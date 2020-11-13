@@ -68,22 +68,25 @@ order by
 
 <select id="getAll" resultType="HumanVO">
 select
-	ID	as id
-	,PASSWORD	as password
-	,NAME	as name
-	,AGE	as age
-	,SEX	as sex
-	,BMI	as bmi
-	,HEIGHT	as	height
-	,SALARY	as	salary
-	,LATEST_EDU	as	latestEdu
-	,CASH	as	cash
-	,LATEST_EDU_INDEX	as	latestEduIndex
-	,GRADE_INDEX	as	gradeIndex
-	,TOTAL_SCORE	as	totalScore
-	,NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
+	m.ID	as id
+	,m.PASSWORD	as password
+	,m.NAME	as name
+	,m.AGE	as age
+	,m.SEX	as sex
+	,m.BMI	as bmi
+	,m.HEIGHT	as	height
+	,m.SALARY	as	salary
+	,m.LATEST_EDU	as	latestEdu
+	,m.CASH	as	cash
+	,m.LATEST_EDU_INDEX	as	latestEduIndex
+	,m.GRADE_INDEX	as	gradeIndex
+	,g.grade 	as	grade
+	,m.TOTAL_SCORE	as	totalScore
+	,m.NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
 from
-	member
+	member m, grade g
+where
+	m.grade_index = g.grade_index
 </select>
 
 <update id="updateGrade" parameterType="HumanVO">
