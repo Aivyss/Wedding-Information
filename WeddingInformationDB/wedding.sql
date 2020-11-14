@@ -55,8 +55,8 @@ insert into grade(grade_index ,grade) values (6, '비브라늄');
 
 -- 충전금 테이블
 create table cash_table(
-    id  varchar2(50) constraint id_fk_cash_table references member(id)
-    ,cash number(16) default 0
+    id  varchar2(50) constraint id_fk_cash_table references member(id) 
+    ,cash number(16) default 0 constraint cash_ck check(cash between 0 and 9999999999)
 );
 
 -- 테이블 드랍
