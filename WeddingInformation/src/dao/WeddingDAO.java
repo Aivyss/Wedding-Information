@@ -9,7 +9,7 @@ import vo.Female;
 import vo.Human;
 import vo.Male;
 
-public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper, MaleTableMapper, FemaleTableMapper {
+public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper, MaleTableMapper, FemaleTableMapper, CashTableMapper {
 	private SqlSessionFactory factory = MybatisConfig.getSqlSessionFactory();
 
 	@Override
@@ -165,15 +165,59 @@ public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper
 	@Override
 	public int insertSurgery(Female vo) {
 		SqlSession ss = null;
+		int count = 0;
+		
 		try {
 			ss=factory.openSession();
 			FemaleTableMapper mapper = ss.getMapper(FemaleTableMapper.class);
 			mapper.insertSurgery(vo);
 			ss.commit();
+			count++;
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
-		return 0;
+		
+		return count;
+	}
+	
+	@Override
+	public int deposit(Human vo) {
+		SqlSession ss = null;
+		int count = 0;
+		
+		try {
+			ss = factory.openSession();
+			CashTableMapper mapper = ss.getMapper(CashTableMapper.class);
+			mapper.deposit(vo);
+			ss.commit();
+			count++;
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			if (ss!=null) ss.close();
+		}
+		
+		return count;
+	}
+
+	@Override
+	public int initializeCash(Human vo) {
+		SqlSession ss = null;
+		int count = 0;
+		
+		try {
+			ss = factory.openSession();
+			CashTableMapper mapper = ss.getMapper(CashTableMapper.class);
+			mapper.initializeCash(vo);
+			ss.commit();
+			count++;
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			if (ss!=null) ss.close();
+		}
+		
+		return count;
 	}
 	
 	// 회원정보를 저장하는 메소드

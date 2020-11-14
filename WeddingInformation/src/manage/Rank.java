@@ -39,6 +39,7 @@ public class Rank {
 			humanInfo.getHumanMap().put(vo.getId(), vo);
 			dao.addAccount(vo);
 			dao.initializeLockInfo(vo);
+			dao.initializeCash(vo);
 			giveGrade(vo);
 			
 			if (vo instanceof Male) { // 남성 전용 테이블에 값을 넣음

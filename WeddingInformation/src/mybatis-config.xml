@@ -33,6 +33,7 @@
 		<mapper resource="MatchAndLockMapper.xml"/>
 		<mapper resource="MaleTableMapper.xml"/>
 		<mapper resource="FemaleTableMapper.xml"/>
+		<mapper resource="CashTableMapper.xml"/>
 	</mappers>
 	
 </configuration>

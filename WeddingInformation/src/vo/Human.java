@@ -69,6 +69,7 @@ public class Human {
 		this.accountLock = false;
 		this.lockCount = 0;
 		this.gradeIndex = 0;
+		this.cash = 0;
 	}
 	
 	/**

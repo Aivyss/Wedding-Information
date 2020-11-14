@@ -9,7 +9,6 @@ create table member (
     ,height number(3) constraint height_not_null not null
     ,salary number(16) default 0 constraint salary_not_null not null
     ,latest_edu varchar2(50) constraint latest_edu_not_null not null
-    ,cash number(16) default 0 constraint cash_not_null not null
     ,latest_edu_index number(2) default 7 constraint latest_edu_index_ck check(latest_edu_index <=7 and latest_edu_index >=1)
     ,grade_index number(2) default 0 constraint grade_index_fk references grade(grade_index)
     ,total_score number(5) default 0 constraint total_score_not_null not null
@@ -42,7 +41,6 @@ create table grade(
     grade_index number(2) constraint grade_index_pk primary key
     ,grade varchar2(20) constraint grade_not_null not null
 );
-
 -- 등급 테이블 등급 분류
 insert into grade(grade_index ,grade) values (0, '언랭');
 insert into grade(grade_index ,grade) values (1, '브론즈');
@@ -51,12 +49,18 @@ insert into grade(grade_index ,grade) values (3, '골드');
 insert into grade(grade_index ,grade) values (4, '플래티넘');
 insert into grade(grade_index ,grade) values (5, '다이아');
 insert into grade(grade_index ,grade) values (6, '비브라늄');
+-- 충전금 테이블
+create table cash_table(
+    id  varchar2(50) constraint id_fk_cash_table references member(id)
+    ,cash number(16) default 0
+);
 
 -- 테이블 드랍
 drop table member;
 drop table male_table;
 drop table female_table;
 drop table match_and_lock;
+drop table cash_table;
 drop table grade;
 
 -- 제약사항을 확인하는 sql 구문
