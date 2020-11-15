@@ -8,24 +8,29 @@
 <!-- 회원을 찾아주는 태그 -->
 <select id="searchAccount" parameterType="String" resultType="vo.Human">
 select
-	ID	as	id
-	,PASSWORD	as	password
-	,NAME	as name
-	,AGE	as	age
-	,SEX	as	sex
-	,BMI	as	bmi
-	,HEIGHT	as	height
-	,SALARY	as	salary
-	,LATEST_EDU	as	latestEdu
-	,CASH	as	cash
-	,LATEST_EDU_INDEX	as	latestEduIndex
-	,GRADE_INDEX	as	gradeIndex
-	,TOTAL_SCORE	as	totalScore
-	,NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
+	m.ID	as	id
+	,m.PASSWORD	as	password
+	,m.NAME	as name
+	,m.AGE	as	age
+	,m.SEX	as	sex
+	,m.BMI	as	bmi
+	,m.HEIGHT	as	height
+	,m.SALARY	as	salary
+	,m.LATEST_EDU	as	latestEdu
+	,c.CASH	as	cash
+	,g.grade	as	grade
+	,m.LATEST_EDU_INDEX	as	latestEduIndex
+	,m.GRADE_INDEX	as	gradeIndex
+	,m.TOTAL_SCORE	as	totalScore
+	,m.NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
 from
-	member
+	member m, cash_table c, grade g
 where
-	id = #{id}
+	m.id = c.id
+	and
+	m.id = #{id}
+	and
+	g.grade_index = m.grade_index
 </select>
 
 <!-- 회원을 추가하는 태그 -->
@@ -76,18 +81,20 @@ select
 	,m.HEIGHT
 	,m.SALARY
 	,m.LATEST_EDU	as	latestEdu
-	,m.CASH
+	,c.CASH
 	,m.LATEST_EDU_INDEX	as	latestEduIndex
 	,m.GRADE_INDEX	as	gradeIndex
 	,m.TOTAL_SCORE	as	totalScore
 	,m.NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
 	,g.grade
 from
-	member m, grade g
+	member m, grade g, cash_table c
 where
-	sex = #{sex}
+	m.sex = #{sex}
 	and
 	m.grade_index = g.grade_index
+	and
+	m.id = c.id
 order by 
 	NORMALIZED_TOTAL_SCORE desc
 </select>
@@ -103,7 +110,7 @@ select
 	,m.HEIGHT	as	height
 	,m.SALARY	as	salary
 	,m.LATEST_EDU	as	latestEdu
-	,m.CASH	as	cash
+	,c.CASH	as	cash
 	,m.LATEST_EDU_INDEX	as	latestEduIndex
 	,m.GRADE_INDEX	as	gradeIndex
 	,g.grade 	as	grade
@@ -116,11 +123,13 @@ select
 	,account_lock	as	accountLock
 	,lock_count	as	lockCount
 from
-	member m, grade g, match_and_lock l
+	member m, grade g, match_and_lock l, cash_table c
 where
 	m.grade_index = g.grade_index
 	and
 	m.id = l.id
+	and
+	c.id = m.id
 </select>
 
 <update id="updateGrade" parameterType="HumanVO">

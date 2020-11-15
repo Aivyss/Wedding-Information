@@ -60,7 +60,6 @@ public class HumanInfo {
 			// 로그인에 성공한 경우 락카운트 초기화 및 등급이름 호출
 			vo.setLockCount(0);
 			dao.updateLockCount(vo);
-			vo.setGrade(dao.getGrade(vo.getGradeIndex()));
 		}
 
 		return vo;
@@ -92,6 +91,7 @@ public class HumanInfo {
 			dao.updateLockAndMatch(vo); //잠금초기화
 			ScoreRank.giveGrade(vo); // 등급부여
 			dao.updateGrade(vo); // 등급반영
+			dao.insertCashInfo(vo);
 			
 			if (vo instanceof Male) { // 남자면 탈모여부 등록
 				flag2 = dao.insertTaco((Male) vo);

@@ -5,6 +5,17 @@
 
 <mapper namespace="dao.CashTableMapper">
 
+<insert id="insertCashInfo" parameterType="vo.Human">
+insert into
+	cash_table (
+		id
+		,cash
+	) values (
+		#{id}
+		,#{cash}
+	)	
+</insert>
+
 <update id="updateCash" parameterType="HumanVO">
 update cash_table
 	set cash = #{cash}

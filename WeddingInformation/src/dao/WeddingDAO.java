@@ -233,6 +233,30 @@ public class WeddingDAO {
 		return vo;
 	}
 	
+	int insertCashInfoCount = 0;
+	/**
+	 * 충전테이블 정보를 추가하는 메소드
+	 */
+	public boolean insertCashInfo(Human vo) {
+		SqlSession ss = null;
+		boolean flag = false;
+		
+		try {
+			ss=factory.openSession();
+			CashTableMapper mapper = ss.getMapper(CashTableMapper.class);
+			
+			if(mapper.insertCashInfo(vo)==insertCashInfoCount+1) {
+				ss.commit();
+				flag = true;
+			}
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			if(ss!=null) ss.close();
+		}
+		
+		return flag;
+	}
 	int updateCashCount = 0;
 	/** (완료)
 	 * 충전금의 변동을 업데이트하는 메소드
