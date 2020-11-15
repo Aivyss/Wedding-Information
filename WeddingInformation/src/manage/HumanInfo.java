@@ -199,6 +199,7 @@ public class HumanInfo {
 					
 					dao.updateLockAndMatch(me);
 					dao.updateLockAndMatch(you);
+					dao.updateCash(you); // 상대의 돈 차감
 					
 					flagT = true;
 				} else { // 돈이 없어 매칭이 실패

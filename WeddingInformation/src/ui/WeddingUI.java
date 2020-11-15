@@ -4,19 +4,20 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import dao.WeddingDAO;
 import manage.HumanInfo;
 import vo.Female;
 import vo.Human;
 import vo.Male;
 
 public class WeddingUI {
-	
-	
 	// WeddingUI 객체
 	private static final WeddingUI ui = new WeddingUI();
 	// UI 클래스의 멤버변수
 	private final Scanner sc;
 	private final HumanInfo manage;
+	private final WeddingDAO dao;
+	private String id;
 	private Human loggedIn;
 	
 	public static WeddingUI getInstance() {
@@ -27,6 +28,7 @@ public class WeddingUI {
 	 * UI 객체 생성자. ui기능의 전반을 담당한다.
 	 */
 	private WeddingUI() {
+		dao = new WeddingDAO();
 		sc = new Scanner(System.in);
 		manage = HumanInfo.getInstance();
 		this.loggedIn = null;
@@ -49,6 +51,7 @@ public class WeddingUI {
 					}
 				} else { // 로그인 후
 					while (true) {
+						this.loggedIn = dao.searchAccount(id);
 						System.out.println("================================");
 						menu2();
 						int selector = inputInteger();
@@ -74,6 +77,8 @@ public class WeddingUI {
 							}
 						} else if (selector == 0) {
 							backToFirst();
+							id = null;
+							loggedIn = null;
 							break;
 						} else {
 							System.out.println("[에러] 잘못 입력하셨습니다.");
@@ -119,7 +124,7 @@ public class WeddingUI {
 	 */
 	private void signIn() {
 		System.out.print("아이디를 입력하세요: ");
-		String id = sc.nextLine();
+		id = sc.nextLine();
 		System.out.print("비밀번호를 입력하세요: ");
 		String pw = sc.nextLine();
 		this.loggedIn = manage.signIn(id, pw);
