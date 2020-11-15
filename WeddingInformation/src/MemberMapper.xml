@@ -23,12 +23,20 @@ select
 	,m.GRADE_INDEX	as	gradeIndex
 	,m.TOTAL_SCORE	as	totalScore
 	,m.NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore 
+	,l.MATCHED_ID as matchedId
+	,l.INVITED	as	invited
+	,l.MATCH_LOCK	as	matchLock
+	,SUCCESS	as	success
+	,ACCOUNT_LOCK	as	accountLock
+	,LOCK_COUNT	as	lockCount
 from
-	member m, cash_table c, grade g
+	member m, cash_table c, grade g, match_and_lock l
 where
 	m.id = #{parameter}
 	and
 	m.id = c.id
+	and
+	l.id = m.id
 	and
 	g.grade_index = m.grade_index
 </select>
