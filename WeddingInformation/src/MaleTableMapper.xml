@@ -5,7 +5,7 @@
 
 <mapper namespace="dao.MaleTableMapper">
 
-<insert id="insertTaco" parameterType="MaleVO">
+<insert id="insertTaco" parameterType="vo.Male">
 insert into male_table(
 		id
 		,taco

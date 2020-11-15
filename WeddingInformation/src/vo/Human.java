@@ -58,6 +58,7 @@ public class Human {
 		this.latestEduIndex = (Integer) info.get("latestEduIndex");
 		this.salary = (Integer) info.get("salary");
 		
+		this.totalScore = 0;
 		this.normalizedTotalScore = 0;
 		
 		this.matchedId = "";

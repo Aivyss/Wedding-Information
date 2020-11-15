@@ -8,14 +8,14 @@
 <!-- 회원을 찾아주는 태그 -->
 <select id="searchAccount" parameterType="String" resultType="vo.Human">
 select
-	ID	as	id
-	,PASSWORD	as	password
-	,NAME	as name
-	,AGE	as	age
-	,SEX	as	sex
-	,BMI	as	bmi
-	,HEIGHT	as	height
-	,SALARY	as	salary
+	m.ID	as	id
+	,m.PASSWORD	as	password
+	,m.NAME	as name
+	,m.AGE	as	age
+	,m.SEX	as	sex
+	,m.BMI	as	bmi
+	,m.HEIGHT	as	height
+	,m.SALARY	as	salary
 	,m.LATEST_EDU	as	latestEdu
 	,c.CASH	 as	cash
 	,g.grade	as	grade
@@ -26,7 +26,7 @@ select
 from
 	member m, cash_table c, grade g
 where
-	m.id = #{id}
+	m.id = #{parameter}
 	and
 	m.id = c.id
 	and
@@ -70,21 +70,21 @@ insert into
 <!-- 성별별 리스트 반출 랭크정렬 -->
 <select id="getList" parameterType="HumanVO" resultType="HumanVO">
 select
-	m.ID
-	,m.PASSWORD
-	,m.NAME
-	,m.AGE
-	,m.SEX
-	,m.BMI
-	,m.HEIGHT
-	,m.SALARY
+	m.ID	as	id
+	,m.PASSWORD	as	password
+	,m.NAME	as	name
+	,m.AGE	as	age
+	,m.SEX	as	sex
+	,m.BMI	as	bmi
+	,m.HEIGHT	as	height
+	,m.SALARY	as	salary
 	,m.LATEST_EDU	as	latestEdu
-	,c.CASH
+	,c.CASH	as	cash
 	,m.LATEST_EDU_INDEX	as	latestEduIndex
 	,m.GRADE_INDEX	as	gradeIndex
+	,g.grade	as	grade
 	,m.TOTAL_SCORE	as	totalScore
 	,m.NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
-	,g.grade
 from
 	member m, grade g, cash_table c
 where
@@ -130,7 +130,7 @@ where
 	c.id = m.id
 </select>
 
-<update id="updateGrade" parameterType="HumanVO">
+<update id="updateGrade" parameterType="vo.Human">
 update member
 	set grade_index = #{gradeIndex}
 where

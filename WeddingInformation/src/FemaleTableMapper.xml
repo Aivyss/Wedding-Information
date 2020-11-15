@@ -5,7 +5,7 @@
 
 <mapper namespace="dao.FemaleTableMapper">
 
-<insert id="insertSurgery" parameterType="FemaleVO">
+<insert id="insertSurgery" parameterType="vo.Female">
 insert into female_table(
 		id
 		,surgery

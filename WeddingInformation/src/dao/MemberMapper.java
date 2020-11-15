@@ -8,7 +8,7 @@ public interface MemberMapper {
 	/**
 	 * 계정생성
 	 */
-	public int addAccount(Human vo);
+	public boolean addAccount(Human vo);
 	
 	/**
 	 * 계정 검색
@@ -28,10 +28,10 @@ public interface MemberMapper {
 	/**
 	 * 고객의 등급 수정
 	 */
-	public int updateGrade(Human vo);
+	public boolean updateGrade(Human vo);
 	
 	/**
 	 * 회원탈퇴
 	 */
-	public int deleteAccount(Human vo);
+	public boolean deleteAccount(Human vo);
 }
