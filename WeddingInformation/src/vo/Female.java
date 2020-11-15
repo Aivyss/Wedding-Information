@@ -3,7 +3,6 @@ package vo;
 import java.util.HashMap;
 
 public class Female extends Human {
-	private int ageScore;
 	private int surgery;
 	
 	/**
@@ -45,16 +44,8 @@ public class Female extends Human {
 	}
 	
 	// Getter and Setter
-	public void setAgeScore(int ageScore) {
-		this.ageScore = ageScore;
-	}
-
 	public int getSurgery() {
 		return surgery;
-	}
-
-	public int getAgeScore() {
-		return ageScore;
 	}
 
 	public void setSurgery(int surgery) {

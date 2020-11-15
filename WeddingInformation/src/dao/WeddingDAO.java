@@ -9,50 +9,62 @@ import vo.Female;
 import vo.Human;
 import vo.Male;
 
-public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper, MaleTableMapper, FemaleTableMapper {
+public class WeddingDAO {
 	private SqlSessionFactory factory = MybatisConfig.getSqlSessionFactory();
-
-	@Override
-	public int initializeLockInfo(Human vo) {
+	
+	int updateLockAndMatchCount = 0;
+	/** (완료)
+	 * 잠금 정보를 초기화하는 메소드
+	 */
+	public boolean updateLockAndMatch(Human vo) {
 		SqlSession ss = null;
-		int count = 0;
+		boolean flag = false;
 		
 		try {
 			ss = factory.openSession();
 			MatchAndLockMapper mapper = ss.getMapper(MatchAndLockMapper.class);
-			mapper.initializeLockInfo(vo);
-			count++;
+			
+			if(mapper.updateLockAndMatch(vo) == updateLockAndMatchCount+1) {
+				ss.commit();
+				flag = true;
+			}
 		} catch (Exception e) {
 			e.getStackTrace();
 		} finally {
-			ss.commit();
 			if (ss != null) ss.close();
 		}
 		
-		return count;
+		return flag;
 	}
-
-	@Override
-	public int addAccount(Human vo) {
+	
+	int addAccountCount = 0;
+	/** (완료)
+	 * 회원추가
+	 */	
+	public boolean addAccount(Human vo) {
 		SqlSession ss = null;
-		int count = 0;
+		boolean flag = false;
 		
 		try {
 			ss = factory.openSession();
 			MemberMapper mapper = ss.getMapper(MemberMapper.class);
-			mapper.addAccount(vo);
-			count++;
-			ss.commit();
+			
+			if (mapper.addAccount(vo) == addAccountCount+1) {
+				ss.commit();
+				flag = true;
+			}
 		} catch (Exception e) {
 			e.getStackTrace();
 		} finally {
 			if (ss != null) ss.close();
 		}
 		
-		return count;
+		return flag;
 	}
-
-	@Override
+	
+	/** (완료)
+	 * gradeIndex에 따른 grade 실질값을 불러오는 메소드
+	 */
 	public String getGrade(int gradeIndex) {
 		SqlSession ss = null;
 		String output = null;
@@ -69,8 +81,10 @@ public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper
 		
 		return output;
 	}
-
-	@Override
+	
+	/** (완료)
+	 * vo와 일치하는 성별의 vo객체들의 리스트를 불러오는 메소드
+	 */
 	public List<Human> getList(Human vo) {
 		SqlSession ss = null;
 		List<Human> list = null;
@@ -87,31 +101,35 @@ public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper
 		
 		return list;
 	}
-
-	@Override
-	public int updateGrade(Human vo) {
+	
+	int updateGradeCount = 0;
+	/** (완료)
+	 * 등급을 업데이트하는 메소드
+	 */	
+	public boolean updateGrade(Human vo) {
 		SqlSession ss = null;
-		int count = 0;
+		boolean flag = false;
 		
 		try {
 			ss = factory.openSession();
 			MemberMapper mapper = ss.getMapper(MemberMapper.class);
-			mapper.updateGrade(vo);
-			count++;
-			ss.commit();
+			if(mapper.updateGrade(vo) == updateGradeCount+1) {
+				ss.commit();
+				flag = true;
+			}
 		} catch (Exception e) {
 			e.getStackTrace();
 		} finally {
 			if (ss != null) ss.close();
 		}
 		
-		return count;
+		return flag;
 	}
 	
 	/**
 	 * 전체 회원 정보를 불러 읽어오는 메소드
 	 */
-	@Override
+	
 	public List<Human> getAll() {
 		SqlSession ss = null;
 		List<Human> list = null;
@@ -125,56 +143,170 @@ public class WeddingDAO implements MemberMapper, MatchAndLockMapper, GradeMapper
 		}
 		return list;
 	}
-
-	@Override
-	public void updateLockCount(Human vo) {
+	
+	int lockCountCount = 0;
+	/** (완료)
+	 * 락카운트를 업데이트하는 메소드
+	 */
+	public boolean updateLockCount(Human vo) {
 		SqlSession ss = null;
+		boolean flag = false;
 		
 		try {
 			ss = factory.openSession();
 			MatchAndLockMapper mapper = ss.getMapper(MatchAndLockMapper.class);
-			mapper.updateLockCount(vo);
-			ss.commit();
+			if(mapper.updateLockCount(vo) == lockCountCount+1) {
+				ss.commit();
+				flag = true;
+			}
 		} catch (Exception e) {
 			e.getStackTrace();
 		} finally {
 			if (ss != null) ss.close();
 		}
+		
+		return flag;
 	}
 	
-	/**
+	int tacoCount = 0;
+	/** (완료)
 	 * 남성의 탈모여부를 남성테이블에 기록한다.
 	 */
-	@Override
-	public int insertTaco (Male vo) {
+	public boolean insertTaco (Male vo) {
 		SqlSession ss = null;
-		int count = 0;
+		boolean flag = false;
 		
 		try {
 			ss = factory.openSession();
 			MaleTableMapper mapper = ss.getMapper(MaleTableMapper.class);
-			mapper.insertTaco(vo);
-			ss.commit();
+			if(mapper.insertTaco(vo) == tacoCount+1) {
+				ss.commit();
+				flag = true;
+			}
 		} catch(Exception e) {
 			e.getStackTrace();
 		}
 		
-		return count;
+		return flag;
 	}
-
-	@Override
-	public int insertSurgery(Female vo) {
+	
+	
+	int insertSurgeryCount = 0;
+	/** (완료)
+	 * 여성고객의 성형정보를 저장하는 메소드
+	 */
+	public boolean insertSurgery(Female vo) {
 		SqlSession ss = null;
+		boolean flag = false;
+		
 		try {
 			ss=factory.openSession();
 			FemaleTableMapper mapper = ss.getMapper(FemaleTableMapper.class);
-			mapper.insertSurgery(vo);
-			ss.commit();
+
+			if (mapper.insertSurgery(vo) == insertSurgeryCount+1) {
+				ss.commit();
+				flag = true;
+			}
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
-		return 0;
+		return flag;
 	}
 	
-	// 회원정보를 저장하는 메소드
+	/** (완료)
+	 * 회원찾기
+	 */
+	public Human searchAccount(String id) {
+		SqlSession ss = null;
+		Human vo = null;
+		
+		try {
+			ss = factory.openSession();
+			MemberMapper mapper = ss.getMapper(MemberMapper.class);
+			vo = mapper.searchAccount(id);
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			if (ss!=null) ss.close();
+		}
+		
+		return vo;
+	}
+	
+	int updateCashCount = 0;
+	/** (완료)
+	 * 충전금의 변동을 업데이트하는 메소드
+	 */
+	public boolean updateCash(Human vo) {
+		SqlSession ss = null;
+		boolean flag = false;
+		
+		try {
+			ss = factory.openSession();
+			CashTableMapper mapper = ss.getMapper(CashTableMapper.class);
+			
+			if(mapper.updateCash(vo) == updateCashCount+1) {
+				ss.commit();
+				flag = true;
+			}
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			if(ss!=null) ss.close();
+		}
+		
+		return flag;
+	}
+	
+	int insertLAMCount = 0;
+	/** (완료)
+	 * 초기 잠금 정보를 입력하는 메소드 
+	 */
+	public boolean insertLockAndMatch(Human vo) {
+		SqlSession ss = null;
+		boolean flag = false;
+		
+		try {
+			ss = factory.openSession();
+			MatchAndLockMapper mapper = ss.getMapper(MatchAndLockMapper.class);
+			
+			if(mapper.insertLockAndMatch(vo) == insertLAMCount+1) {
+				ss.commit();
+				flag = true;
+			}
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			if (ss!=null) ss.close();
+		}
+		
+		return flag;
+	}
+	
+	private int deleteAccountCount = 0;
+	/**(완료)
+	 * 회원탈퇴를 진행하는 메소드
+	 * @param vo
+	 * @return
+	 */
+	public boolean deleteAccount(Human vo) {
+		SqlSession ss = null;
+		boolean flag = false;
+		
+		try {
+			ss = factory.openSession();
+			MemberMapper mapper = ss.getMapper(MemberMapper.class);
+			
+			if(mapper.deleteAccount(vo) == deleteAccountCount+1) {
+				ss.commit();
+				flag = true;
+			}
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			if (ss!=null) ss.close();
+		}
+		
+		return flag;
+	}
 }

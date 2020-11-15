@@ -21,9 +21,6 @@ public class Human {
 	// 점수
 	private int totalScore;
 	private double normalizedTotalScore;
-	private int latestEduScore;
-	private int salaryScore;
-	private int heightScore;
 	//충전금액
 	private int cash;
 	//매칭 억셉터
@@ -142,18 +139,6 @@ public class Human {
 		this.normalizedTotalScore = normalizedTotalScore;
 	}
 	
-	public int getLatestEduScore() {
-		return latestEduScore;
-	}
-	
-	public void setLatestEduScore(int latestEduScore) {
-		this.latestEduScore = latestEduScore;
-	}
-	
-	public void setSalaryScore(int salaryScore) {
-		this.salaryScore = salaryScore;
-	}
-	
 	public int getInvited() {
 		int result = 0;
 		
@@ -226,10 +211,6 @@ public class Human {
 		return height;
 	}
 
-	public void setHeightScore(int heightScore) {
-		this.heightScore = heightScore;
-	}
-
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
@@ -263,14 +244,6 @@ public class Human {
 
 	public int getTotalScore() {
 		return totalScore;
-	}
-
-	public int getSalaryScore() {
-		return salaryScore;
-	}
-
-	public int getHeightScore() {
-		return heightScore;
 	}
 
 	public String getLatestEdu() {

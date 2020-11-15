@@ -5,7 +5,7 @@
 
 <mapper namespace="dao.MatchAndLockMapper">
 
-<insert id="initializeLockInfo" parameterType="HumanVO">
+<insert id="insertLockAndMatch" parameterType="HumanVO">
 insert into
     match_and_lock(
         id

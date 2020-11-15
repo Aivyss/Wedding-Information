@@ -5,6 +5,29 @@
 
 <mapper namespace="dao.MemberMapper">
 
+<!-- 회원을 찾아주는 태그 -->
+<select id="searchAccount" parameterType="String" resultType="vo.Human">
+select
+	ID	as	id
+	,PASSWORD	as	password
+	,NAME	as name
+	,AGE	as	age
+	,SEX	as	sex
+	,BMI	as	bmi
+	,HEIGHT	as	height
+	,SALARY	as	salary
+	,LATEST_EDU	as	latestEdu
+	,CASH	as	cash
+	,LATEST_EDU_INDEX	as	latestEduIndex
+	,GRADE_INDEX	as	gradeIndex
+	,TOTAL_SCORE	as	totalScore
+	,NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
+from
+	member
+where
+	id = #{id}
+</select>
+
 <!-- 회원을 추가하는 태그 -->
 <insert id="addAccount" parameterType="HumanVO">
 insert into
@@ -44,24 +67,27 @@ insert into
 <!-- 성별별 리스트 반출 랭크정렬 -->
 <select id="getList" parameterType="HumanVO" resultType="HumanVO">
 select
-	ID
-	,PASSWORD
-	,NAME
-	,AGE
-	,SEX
-	,BMI
-	,HEIGHT
-	,SALARY
-	,LATEST_EDU
-	,CASH
-	,LATEST_EDU_INDEX
-	,GRADE_INDEX
-	,TOTAL_SCORE
-	,NORMALIZED_TOTAL_SCORE
+	m.ID
+	,m.PASSWORD
+	,m.NAME
+	,m.AGE
+	,m.SEX
+	,m.BMI
+	,m.HEIGHT
+	,m.SALARY
+	,m.LATEST_EDU	as	latestEdu
+	,m.CASH
+	,m.LATEST_EDU_INDEX	as	latestEduIndex
+	,m.GRADE_INDEX	as	gradeIndex
+	,m.TOTAL_SCORE	as	totalScore
+	,m.NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
+	,g.grade
 from
-	member
+	member m, grade g
 where
 	sex = #{sex}
+	and
+	m.grade_index = g.grade_index
 order by 
 	NORMALIZED_TOTAL_SCORE desc
 </select>
@@ -105,7 +131,7 @@ where
 </update>
 
 <!-- param: id문자열 -->
-<delete id="removeAccount" parameterType="String">
+<delete id="deleteAccount" parameterType="vo.Human">
 delete from
 	member
 where

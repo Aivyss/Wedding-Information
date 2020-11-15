@@ -7,23 +7,8 @@ import vo.Female;
 import vo.Human;
 import vo.Male;
 
-public class Rank {
-	private static final Rank rank = new Rank();
-	private HumanInfo humanInfo = HumanInfo.getInstance();
-	private final WeddingDAO dao = new WeddingDAO();
-	
-	/**
-	 * 생성자
-	 */
-	private Rank() {
-		
-	}
-	/**
-	 * Rank 객체를 얻는 메소드
-	 */
-	public static Rank getInstance() {
-		return rank;
-	}
+public class ScoreRank {
+	private static WeddingDAO dao = new WeddingDAO();
 	
 	/**
 	 * 새로운 가입자의 정보를 회원목록에 추가하는 메소드
@@ -31,35 +16,11 @@ public class Rank {
 	 * @param vo
 	 * @return 가입이 정상적으로 처리되면 true를 반환
 	 */
-	public boolean addAccount(Human vo) {
-		boolean flag = false;
-
-		if (vo != null) {
-			giveScore(vo);
-			humanInfo.getHumanMap().put(vo.getId(), vo);
-			dao.addAccount(vo);
-			dao.initializeLockInfo(vo);
-			giveGrade(vo);
-			
-			if (vo instanceof Male) { // 남성 전용 테이블에 값을 넣음
-				dao.insertTaco((Male) vo);
-			} else { // 여성 전용 테이블에 값을 넣음
-				dao.insertSurgery((Female) vo);
-			}
-			
-			// 제대로 값이 들어갔는지 확인하는 조건문
-			if (humanInfo.getHumanMap().get(vo.getId()) != null ) {  // && vo.getGrade() != null
-				flag = true;
-			}
-		}
-
-		return flag;
-	}
 	
 	/**
-	 * 회원의 점수를 매기는 메소드
+	 * 회원가입 당시 점수를 매기는 메소드
 	 */
-	private void giveScore(Human vo) {
+	public static void giveScore(Human vo) {
 		// 공통 점수를 매기는 프로세스
 		int latestEduScore = (vo.getLatestEduIndex() == 1) ? 60
 						: (vo.getLatestEduIndex() == 2) ? 57
@@ -79,10 +40,6 @@ public class Rank {
 						: (vo.getHeight() >= 160) ? 52 
 						: (vo.getHeight() >= 150) ? 50 : 48;
 		
-		vo.setLatestEduScore(latestEduScore);
-		vo.setSalaryScore(salaryScore);
-		vo.setHeightScore(heightScore);
-		
 		// 가중 환산점수로 바꾸는 프로세스
 		int totalScore = latestEduScore + salaryScore + heightScore;
 		double normalizedScore = 0;
@@ -91,7 +48,6 @@ public class Rank {
 			int ageScore = (voF.getAge() >= 35) ? 72 
 						: (voF.getAge() >= 30) ? 76 
 						: (voF.getAge() >= 25) ? 78 : 80;
-			voF.setAgeScore(ageScore);
 			
 			totalScore += ageScore;
 			normalizedScore = totalScore;
@@ -102,9 +58,7 @@ public class Rank {
 			vo = voF;
 		} else { // 남성인 경우
 			Male voM = (Male) vo;
-			totalScore = latestEduScore + salaryScore + heightScore;
 			normalizedScore = totalScore;
-			
 			normalizedScore *= (voM.getTaco()==1) ? 0.5 : 1.0;
 			
 			vo = voM;
@@ -120,7 +74,7 @@ public class Rank {
 	/**
 	 * 등급을 부여하는 메소드
 	 */	
-	public void giveGrade(Human vo) {
+	public static void giveGrade(Human vo) {
 		List<Human> list = dao.getList(vo);
 		
 		// 정렬된 것에 따라 랭크를 부여하는 프로세스
@@ -132,18 +86,6 @@ public class Rank {
 						: (((j + 1) * 1.0) / (list.size() * 1.0) > 0.28) ? 4 // 플래티넘
 						: (((j + 1) * 1.0) / (list.size() * 1.0) > 0.14) ? 5 : 6; // 다이아: 비브라늄
 			list.get(j).setGradeIndex(level);
-			
-			
-			String grade = (list.get(j).getGradeIndex() == 0) ? "언랭"
-							: (list.get(j).getGradeIndex() == 1) ? "브론즈"
-							: (list.get(j).getGradeIndex() == 2) ? "실버"
-							: (list.get(j).getGradeIndex() == 3) ? "골드"
-							: (list.get(j).getGradeIndex() == 4) ? "플래티넘"
-							: (list.get(j).getGradeIndex() == 5) ? "다이아" : "비브라늄";
-			list.get(j).setGrade(grade);
-			
-			dao.updateGrade(list.get(j));
-			
 		}
 	}
 }

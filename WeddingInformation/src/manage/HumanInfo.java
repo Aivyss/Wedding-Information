@@ -14,22 +14,14 @@ import vo.Male;
 public class HumanInfo {
 	private Random rd;
 	private WeddingDAO dao;
-	private Map<String, Human> humanMap; // <id, vo>
 	private static HumanInfo humanInfo = new HumanInfo();
 
 	/**
 	 * 생성자
 	 */
 	private HumanInfo() {
-		humanMap = new HashMap<>();
 		rd = new Random();
 		dao = new WeddingDAO();
-		
-		if (dao.getAll() != null && !dao.getAll().isEmpty()) {
-			for (Human vo : dao.getAll()) {
-				humanMap.put(vo.getId(), vo);
-			}
-		}
 	}
 	
 	/**
@@ -39,7 +31,7 @@ public class HumanInfo {
 		return humanInfo;
 	}
 
-	/**
+	/** (완료)
 	 * 로그인을 수행하는 메소드이다.
 	 * 
 	 * @param id
@@ -65,22 +57,23 @@ public class HumanInfo {
 		}
 
 		if (vo != null) { 
-			// 로그인에 성공한 경우 락카운트 초기화
+			// 로그인에 성공한 경우 락카운트 초기화 및 등급이름 호출
 			vo.setLockCount(0);
 			dao.updateLockCount(vo);
+			vo.setGrade(dao.getGrade(vo.getGradeIndex()));
 		}
 
 		return vo;
 	}
 
-	/**
+	/** (완료)
 	 * id로 회원을 찾아서 vo객체를 반환하는 메소드
 	 * 
 	 * @param id
 	 * @return 회원을 찾지 못할시에는 null을 반환함
 	 */
 	public Human searchAccount(String id) {
-		return humanMap.get(id);
+		return dao.searchAccount(id);
 	}
 
 	/**
@@ -90,66 +83,82 @@ public class HumanInfo {
 	 * @return 가입이 정상적으로 처리되면 true를 반환
 	 */
 	public boolean addAccount(Human vo) {
-		Rank rank = Rank.getInstance();
-
-		return rank.addAccount(vo);
+		boolean flag1 = false;
+		boolean flag2 = false;
+		
+		if (dao.searchAccount(vo.getId())==null) {
+			ScoreRank.giveScore(vo); // 최초점수부여
+			flag1 = dao.addAccount(vo); // 계정추가
+			dao.updateLockAndMatch(vo); //잠금초기화
+			ScoreRank.giveGrade(vo); // 등급부여
+			dao.updateGrade(vo); // 등급반영
+			
+			if (vo instanceof Male) { // 남자면 탈모여부 등록
+				flag2 = dao.insertTaco((Male) vo);
+			} else { // 여자면 성형여부 등록
+				flag2 = dao.insertSurgery((Female) vo);
+			}
+		}
+		return flag1&&flag2;
 	}
 
-	/**
+	/** (완료)
 	 * 로그인한 고객이 금액을 충전할 수 있도록 수행하는 메소드
 	 * 
 	 * @param vo
 	 * @param pw
 	 * @param cash
-	 * @return
+	 * @return 입금성공여부
 	 */
 	public boolean deposit(Human vo, String pw, int cash) {
 		boolean flag = false;
-		String id = vo.getId();
 
 		if (pw.equals(vo.getPassword())) {
-			searchAccount(id).setCash(searchAccount(id).getCash() + cash);
-			flag = true;
+			vo.setCash(vo.getCash() + cash);
+			dao.updateCash(vo);
+			
+			flag = true; // 입금처리 성공
 		}
 
 		return flag;
 	}
 
-	/**
+	/** (완료)
 	 * 지정한 레벨인 대상자를 랜덤으로 뽑아내는 메소드 리스트로 해당자만 담아서 그 안에서 랜덤으로 추출한다.
 	 * 
 	 * @param level
 	 * @return
 	 */
-	public Human searchMatch(int level, Human vo) {
-		List<Human> list = new ArrayList<>();
-		Human matched = null;
-
-		if (vo instanceof Male) {
-			for (String id : humanMap.keySet()) {
-				if (humanMap.get(id) instanceof Female) {
-					list.add(humanMap.get(id));
-				}
-			}
+	public Human searchMatch(int gradeIndex, Human vo) {
+		List<Human> list = null;
+		List<Human> candidate = new ArrayList<Human>();
+		Human matched = new Human();
+		
+		if (vo.getSex() == 1) {
+			matched.setSex(0);
 		} else {
-			for (String id : humanMap.keySet()) {
-				if (humanMap.get(id) instanceof Male) {
-					list.add(humanMap.get(id));
-				}
+			matched.setSex(1);
+		}
+		
+		list = dao.getList(matched); // 이성을 골라냄
+		
+		for (Human vvo : list) {
+			if(vvo.getGradeIndex() == vo.getGradeIndex()) {
+				candidate.add(vvo); // 같은 등급만 골라냄
 			}
 		}
 
-		if (list.size() == 0) {
+		if (candidate.size() == 0) {
 			matched = null;
 		} else { // 사이즈 1 이상
-			int index = rd.nextInt(list.size());
-			matched = list.get(index);
+			int index = rd.nextInt(candidate.size());
+			matched = candidate.get(index);
 		}
 
 		return matched;
 	}
 
-	/**
+	/** (완료)
 	 * 매칭요청을 수행하는 메소드
 	 * 
 	 * @param me
@@ -158,17 +167,19 @@ public class HumanInfo {
 	 */
 	public boolean match(String myId, String yourId) {
 		boolean flag = false;
-		Human me = humanMap.get(myId);
-		Human you = humanMap.get(yourId);
+		Human me = dao.searchAccount(myId);
+		Human you = dao.searchAccount(yourId);
 
 		if (me != null && you != null) {
 			me.setMatchedId(you.getId());
 			me.setInvited(0);
 			me.setMatchLock(1);
+			dao.updateLockAndMatch(me);
 
 			you.setMatchedId(me.getId());
 			you.setInvited(1);
 			you.setMatchLock(1);
+			dao.updateLockAndMatch(you);
 
 			flag = true;
 		}
@@ -180,8 +191,8 @@ public class HumanInfo {
 	 * 상대의 매칭을 수락/거부하는 메소드
 	 */
 	public boolean accept(String myId, String yourId, boolean flag) {
-		Human me = humanMap.get(myId);
-		Human you = humanMap.get(yourId);
+		Human me = dao.searchAccount(myId);
+		Human you = dao.searchAccount(yourId);
 		boolean flagT = false;
 
 		if (me.getInvited()==1 && me.getSuccess()!=1) {
@@ -213,7 +224,7 @@ public class HumanInfo {
 		return flagT;
 	}
 
-	/**
+	/** (완료)
 	 * 매칭 정보를 초기화 해주는 메소드. 다시 만남을 가질 수 있도록 해준다.
 	 * 
 	 * @param id
@@ -233,6 +244,9 @@ public class HumanInfo {
 			you.setMatchLock(0);
 			you.setSuccess(0);
 			me.setSuccess(0);
+			
+			dao.updateLockAndMatch(me);
+			dao.updateLockAndMatch(you);
 
 			flag = true;
 		}
@@ -240,7 +254,7 @@ public class HumanInfo {
 		return flag;
 	}
 
-	/**
+	/** (완료)
 	 * 회원 탈퇴를 진행하는 메소드 회원탈퇴가 성공하면 true 실패하면 false
 	 * 
 	 * @param id
@@ -248,20 +262,18 @@ public class HumanInfo {
 	 */
 	public boolean removeAccount(String id, String pw) {
 		boolean flag = false;
-
-		if (pw.equals(humanMap.get(id).getPassword())) {
+		
+		Human vo = dao.searchAccount(id);
+		if (pw.equals(vo.getPassword())) {
 			initialize(id); // 매칭 상대가 있다면 매칭 상대도 상태를 반영해야 하므로 시행
-			humanMap.remove(id);
-			Rank rank = Rank.getInstance();
-			rank.giveGrade(humanMap.get(id)); // 삭제된 회원에따른 등급 재배치
-			flag = true;
+			flag = dao.deleteAccount(vo);
+			
+			if (flag) {
+				ScoreRank.giveGrade(dao.searchAccount(id)); // 삭제된 회원에따른 등급 재배치
+			}
+			
 		}
 
 		return flag;
 	}
-
-	public Map<String, Human> getHumanMap() {
-		return humanMap;
-	}
-
 }
