@@ -82,24 +82,11 @@ public class HumanInfo {
 	 * @return 가입이 정상적으로 처리되면 true를 반환
 	 */
 	public boolean addAccount(Human vo) {
-		boolean flag1 = false;
-		boolean flag2 = false;
+		boolean flag = false;
 		
-		if (dao.searchAccount(vo.getId())==null) {
-			ScoreRank.giveScore(vo); // 최초점수부여
-			flag1 = dao.addAccount(vo); // 계정추가
-			dao.updateLockAndMatch(vo); //잠금초기화
-			ScoreRank.giveGrade(vo); // 등급부여
-			dao.updateGrade(vo); // 등급반영
-			dao.insertCashInfo(vo);
-			
-			if (vo instanceof Male) { // 남자면 탈모여부 등록
-				flag2 = dao.insertTaco((Male) vo);
-			} else { // 여자면 성형여부 등록
-				flag2 = dao.insertSurgery((Female) vo);
-			}
-		}
-		return flag1&&flag2;
+		flag = (dao.searchAccount(vo.getId())==null) ? dao.addAccount(vo) : false;
+
+		return flag;
 	}
 
 	/** (완료)

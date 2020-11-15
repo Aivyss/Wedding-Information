@@ -33,4 +33,16 @@ where
 	id = #{id}
 </update>
 
+<update id="updateLockAndMatch" parameterType="vo.Human">
+update match_and_lock
+	set matched_id = #{matchedId}
+        ,invited = #{invited}
+        ,match_lock = #{matchLock}
+        ,success = #{success}
+        ,account_lock = #{accountLock}
+        ,lock_count = #{lockCount}
+where 
+	id = #{id}
+</update>
+
 </mapper>

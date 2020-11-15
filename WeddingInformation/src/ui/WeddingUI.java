@@ -10,6 +10,8 @@ import vo.Human;
 import vo.Male;
 
 public class WeddingUI {
+	
+	
 	// WeddingUI 객체
 	private static final WeddingUI ui = new WeddingUI();
 	// UI 클래스의 멤버변수
@@ -28,7 +30,6 @@ public class WeddingUI {
 		sc = new Scanner(System.in);
 		manage = HumanInfo.getInstance();
 		this.loggedIn = null;
-
 		while (true) {
 			try {
 				if (this.loggedIn == null) { // 로그인 전
@@ -145,8 +146,8 @@ public class WeddingUI {
 		
 		System.out.print("이용할 아이디 입력: ");
 		String id = sc.nextLine();
-
 		vo = manage.searchAccount(id);
+		
 		if (vo == null) {
 			info.put("id", id);
 			System.out.print("비밀번호 입력: ");

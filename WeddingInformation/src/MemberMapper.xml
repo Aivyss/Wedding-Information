@@ -8,33 +8,33 @@
 <!-- 회원을 찾아주는 태그 -->
 <select id="searchAccount" parameterType="String" resultType="vo.Human">
 select
-	m.ID	as	id
-	,m.PASSWORD	as	password
-	,m.NAME	as name
-	,m.AGE	as	age
-	,m.SEX	as	sex
-	,m.BMI	as	bmi
-	,m.HEIGHT	as	height
-	,m.SALARY	as	salary
+	ID	as	id
+	,PASSWORD	as	password
+	,NAME	as name
+	,AGE	as	age
+	,SEX	as	sex
+	,BMI	as	bmi
+	,HEIGHT	as	height
+	,SALARY	as	salary
 	,m.LATEST_EDU	as	latestEdu
-	,c.CASH	as	cash
+	,c.CASH	 as	cash
 	,g.grade	as	grade
 	,m.LATEST_EDU_INDEX	as	latestEduIndex
 	,m.GRADE_INDEX	as	gradeIndex
 	,m.TOTAL_SCORE	as	totalScore
-	,m.NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore
+	,m.NORMALIZED_TOTAL_SCORE	as	normalizedTotalScore 
 from
 	member m, cash_table c, grade g
 where
-	m.id = c.id
-	and
 	m.id = #{id}
+	and
+	m.id = c.id
 	and
 	g.grade_index = m.grade_index
 </select>
 
 <!-- 회원을 추가하는 태그 -->
-<insert id="addAccount" parameterType="HumanVO">
+<insert id="addAccount" parameterType="vo.Human">
 insert into
     member(
         ID
@@ -46,7 +46,6 @@ insert into
         ,HEIGHT
         ,SALARY
         ,LATEST_EDU
-        ,CASH
         ,LATEST_EDU_INDEX
         ,GRADE_INDEX
         ,TOTAL_SCORE
@@ -61,7 +60,6 @@ insert into
         ,#{height}
         ,#{salary}
         ,#{latestEdu}
-        ,#{cash}
         ,#{latestEduIndex}
         ,#{gradeIndex}
         ,#{totalScore}
