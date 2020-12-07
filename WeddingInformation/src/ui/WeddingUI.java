@@ -226,7 +226,7 @@ public class WeddingUI {
 		int cash = this.loggedIn.getCash();
 
 		if (loggedIn.getMatchLock()==1) {
-			System.out.println("[에러] 매칭수락 대기중이거나 수락 여부를 판단할 대상이 있습니다.");
+			System.out.println("[에러] 매칭수락 대기, 판단할 대상이 있거나 이미 성사된 내역이 있습니다.");
 		} else {
 			boolean choice = true;
 
@@ -243,7 +243,7 @@ public class WeddingUI {
 					Human another = manage.searchMatch(selector, this.loggedIn);
 
 					if (another == null) {
-						System.out.println("[에러] 등급에 인원이 없습니다.");
+						System.out.println("[에러] 해당등급에 인원이 없습니다.");
 						break;
 					}
 					System.out.println(another.toString()); // 상대 정보 출력

@@ -126,7 +126,7 @@ public class HumanInfo {
 		list = dao.getList(matched); // 이성을 골라냄
 
 		for (Human vvo : list) {
-			if (vvo.getGradeIndex() == vo.getGradeIndex()) {
+			if (vvo.getGradeIndex() == gradeIndex) {
 				candidate.add(vvo); // 같은 등급만 골라냄
 			}
 		}

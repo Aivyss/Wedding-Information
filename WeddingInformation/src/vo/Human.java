@@ -83,11 +83,11 @@ public class Human {
 		buf.append(this.name + ", ");
 		buf.append("나이: ");
 		buf.append(this.age);
-		buf.append("학벌");
+		buf.append("학벌: ");
 		buf.append(latestEdu+ ", ");
-		buf.append("연봉");
+		buf.append("연봉: ");
 		buf.append(Integer.toString(salary) + ", ");
-		buf.append("BMI");
+		buf.append("BMI: ");
 		buf.append(Double.toString(bmi));
 		buf.append("충전금: ");
 		buf.append(Integer.toString(cash)+"원, ");
