@@ -10,24 +10,24 @@ create table member (
     ,salary number(16) default 0 constraint salary_not_null not null
     ,latest_edu varchar2(50) constraint latest_edu_not_null not null
     ,latest_edu_index number(2) default 7 constraint latest_edu_index_ck check(latest_edu_index <=7 and latest_edu_index >=1)
-    ,grade_index number(2) default 0 constraint grade_index_fk references grade(grade_index)
+    ,grade_index number(2) default 0 constraint grade_index_fk references grade(grade_index) on delete cascade
     ,total_score number(5) default 0 constraint total_score_not_null not null
     ,normalized_total_score number(7,3) default 0 constraint norm_total_score_not_null not null
 );
 
 create table male_table(
-    id  varchar2(50) constraint id_fk_male_table references member(id)
+    id  varchar2(50) constraint id_fk_male_table references member(id) on delete cascade
     ,taco number(1) default 0 constraint taco_not_null not null 
 );
 
 create table female_table(
-    id  varchar2(50) constraint id_fk_female_table references member(id)
+    id  varchar2(50) constraint id_fk_female_table references member(id) on delete cascade
     ,surgery number(1) default 4 constraint surgery_not_null not null
 );
 
 -- 매칭과 계정블럭 테이블
 create table match_and_lock(
-    id varchar2(50) constraint id_match_and_lock_fk references member(id)
+    id varchar2(50) constraint id_match_and_lock_fk references member(id) on delete cascade
     ,matched_id varchar2(50)
     ,invited number(1) default 0 constraint invited_not_null not null
     ,match_lock number(1) default 0 constraint match_lock_not_null not null
@@ -41,6 +41,7 @@ create table grade(
     grade_index number(2) constraint grade_index_pk primary key
     ,grade varchar2(20) constraint grade_not_null not null
 );
+
 -- 등급 테이블 등급 분류
 insert into grade(grade_index ,grade) values (0, '언랭');
 insert into grade(grade_index ,grade) values (1, '브론즈');
@@ -49,9 +50,10 @@ insert into grade(grade_index ,grade) values (3, '골드');
 insert into grade(grade_index ,grade) values (4, '플래티넘');
 insert into grade(grade_index ,grade) values (5, '다이아');
 insert into grade(grade_index ,grade) values (6, '비브라늄');
+
 -- 충전금 테이블
 create table cash_table(
-    id  varchar2(50) constraint id_fk_cash_table references member(id)
+    id  varchar2(50) constraint id_fk_cash_table references member(id) on delete cascade
     ,cash number(16) default 0
 );
 
