@@ -127,7 +127,7 @@ public class HumanInfo {
 
 		for (Human vvo : list) {
 			if (vvo.getGradeIndex() == gradeIndex) {
-				candidate.add(vvo); // 같은 등급만 골라냄
+				candidate.add(vvo); // 선택한 등급만 골라냄
 			}
 		}
 

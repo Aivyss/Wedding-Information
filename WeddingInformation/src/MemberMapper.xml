@@ -27,7 +27,6 @@ select
 	,l.INVITED	as	invited
 	,l.MATCH_LOCK	as	matchLock
 	,SUCCESS	as	success
-	,ACCOUNT_LOCK	as	accountLock
 	,LOCK_COUNT	as	lockCount
 from
 	member m, cash_table c, grade g, match_and_lock l
@@ -126,7 +125,6 @@ select
 	,invited	as	invited
 	,match_lock	as	matchedLock
 	,success	as	success
-	,account_lock	as	accountLock
 	,lock_count	as	lockCount
 from
 	member m, grade g, match_and_lock l, cash_table c

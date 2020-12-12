@@ -13,7 +13,6 @@ insert into
         ,invited
         ,match_lock
         ,success
-        ,account_lock
         ,lock_count
     )values(
         #{id}
@@ -21,7 +20,6 @@ insert into
         ,#{invited}
         ,#{matchLock}
         ,#{success}
-        ,#{accountLock}
         ,#{lockCount}
     )
 </insert>
@@ -39,7 +37,6 @@ update match_and_lock
         ,invited = #{invited}
         ,match_lock = #{matchLock}
         ,success = #{success}
-        ,account_lock = #{accountLock}
         ,lock_count = #{lockCount}
 where 
 	id = #{id}

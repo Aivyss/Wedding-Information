@@ -30,7 +30,6 @@ public class Human {
 	private boolean matchLock;
 	private boolean success;
 	// 어카운트 락 (계정을 3회 이상 실패시 로그인을 불가능하게 함)
-	private boolean accountLock;
 	private int lockCount;
 	
 	/**
@@ -64,7 +63,6 @@ public class Human {
 		this.matchedId = "";
 		this.matchLock = false;
 		this.success = false;
-		this.accountLock = false;
 		this.lockCount = 0;
 		this.gradeIndex = 0;
 		this.cash = 0;
@@ -224,7 +222,6 @@ public class Human {
 			flag = true;
 		}
 		
-		this.accountLock = flag;
 	}
 
 
@@ -312,15 +309,5 @@ public class Human {
 			lock = 1;
 		}
 		return lock;
-	}
-	
-	public int getAccountLock() {
-		int result = 0;
-		
-		if(this.accountLock) {
-			result = 1;
-		}
-		
-		return result;
 	}
 }
