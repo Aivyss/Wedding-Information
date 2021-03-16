@@ -4,5 +4,5 @@ Hangyeol Lee & Tayeong Kim have studied Java, Oracle Database, Mybatis Framework
 
 ## Contribute
 
-- Hangyeol Lee : MVC logic, Design Database and data structure, Writing Documents
+- Hangyeol Lee : logic, Design Database and data structure, Writing Documents
 - Tayeong Kim: Brilliant idea, Standard of User score, Writing documents
